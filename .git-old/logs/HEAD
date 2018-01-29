@@ -1,0 +1,9 @@
+0000000000000000000000000000000000000000 018a3a42f88b0acefe1dcf12c77b32c6ff5dd260 Nnamdi Okeke <nahorr@gmail.com> 1515708669 -0700	commit (initial): first commit
+018a3a42f88b0acefe1dcf12c77b32c6ff5dd260 58397d268a4e192f829645ff96fb5f2e6c3d235d Nnamdi Okeke <nahorr@gmail.com> 1515712704 -0700	commit: add school year
+58397d268a4e192f829645ff96fb5f2e6c3d235d 941cc0df1b1c8074dd44e190d1b00d21daed6de7 Nnamdi Okeke <nahorr@gmail.com> 1516144817 -0700	commit: re-work some tables
+941cc0df1b1c8074dd44e190d1b00d21daed6de7 f9fe037ec6c50010be9ffda65709227911e86c5d Nnamdi Okeke <nahorr@gmail.com> 1516144985 -0700	commit: re-work some tables
+f9fe037ec6c50010be9ffda65709227911e86c5d c552742619686c2eec20630e875d8c051a9fd4e6 Nnamdi Okeke <nahorr@gmail.com> 1516214498 -0700	pull origin master: Fast-forward
+c552742619686c2eec20630e875d8c051a9fd4e6 095edc681372681c039411fd3f333d0cfa4a2cbc Nnamdi Okeke <nahorr@gmail.com> 1516231158 -0700	commit: refactoring with school year-superadmin
+095edc681372681c039411fd3f333d0cfa4a2cbc 9a2a26c8e1cacbbba2c6c29d6dcef104575a9e19 Nnamdi Okeke <nahorr@gmail.com> 1516288162 -0700	pull: Fast-forward
+9a2a26c8e1cacbbba2c6c29d6dcef104575a9e19 6e52cfed4831aef0b027dbc850b2d4f58cfd863f Nnamdi Okeke <nahorr@gmail.com> 1516317156 -0700	commit: refactoring continued
+6e52cfed4831aef0b027dbc850b2d4f58cfd863f 94007c6bb42a984f571244ddc86eb017e0e9366a Nnamdi Okeke <nahorr@gmail.com> 1516404010 -0700	commit: refactoring still
