@@ -286,7 +286,49 @@ class SetUpController extends Controller
          }
 
 
-         public function importStudents(Request $request, $group_id)
+        public function importRegisterStudents(Request $request, $group_id, $current_school_year_id)
+        {
+           
+            $group = Group::find($group_id);
+            $current_school_year = School_year::find($current_school_year_id);
+            
+            if($request->hasFile('import_file')){
+                $path = $request->file('import_file')->getRealPath();
+
+                $data = Excel::load($path, function($reader) {})->get();
+
+                if(!empty($data) && $data->count()){
+
+                    foreach ($data->toArray() as $key => $value) {
+                        if(!empty($value)){
+                            foreach ($value as $v) {        
+                                $insert[] = [
+
+                                    'student_id' => $v['student_id'],                                  
+                                    'group_id' => $group->id,
+                                    'school_year_id' => $current_school_year->id,
+                                    'created_at' => date('Y-m-d H:i:s'),
+                                    'updated_at' => date('Y-m-d H:i:s'),
+                                    
+                                    ];
+                            }
+                        }
+                    }
+
+                    
+                    if(!empty($insert)){
+                        StudentRegistration::insert($insert);
+                        return back()->with('success','Insert Record successfully.');
+                    }
+
+                }
+
+            }
+
+            return back()->with('error','Please Check your file, Something is wrong there.');
+        }
+
+        public function importStudents(Request $request, $group_id)
         {
            // Get current data from items table
             $students = Student::pluck('registration_code')->toArray();

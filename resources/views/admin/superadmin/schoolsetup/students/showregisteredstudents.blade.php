@@ -5,7 +5,7 @@
 
                         <div class="page-header">
                             <h1>
-                               Upload & Register Students in Bulk.
+                               Register {{$group->name}} Students in Bulk for {{$current_school_year->school_year}} school year.
                                <hr>
                                @include('flash::message')
                                <hr>
@@ -24,9 +24,9 @@
                                 @endif
 
                                 <h3> <i class="ace-icon fa fa-cloud-upload fa-2x"></i>
-                                 Upload and Students in {{$group->name}} for {{$current_school_year->school_year}}
+                                 Upload and Register Students into {{$group->name}} for {{$current_school_year->school_year}} school year.
                                 </h3>
-                               <form style="border: 4px solid #a1a1a1;margin-top: 15px;padding: 20px;" action="{{ URL::to('/schoolsetup/students/importstudents', [$group->id]) }}" class="form-horizontal" method="post" enctype="multipart/form-data">
+                               <form style="border: 4px solid #a1a1a1;margin-top: 15px;padding: 20px;" action="{{ URL::to('/schoolsetup/students/importregisterstudents', [$group->id, $current_school_year->id]) }}" class="form-horizontal" method="post" enctype="multipart/form-data">
 
                                     <input type="file" name="import_file" />
                                     {{ csrf_field() }}
@@ -48,7 +48,7 @@
                             <div class="row">
                                   <div class="col-md-12">
                                   <div class="alert alert-info">
-                                    <h5 style=""><strong>Download sample file to use as template to upload <strong style="color: #FF0000;">{{@$group->name}}</strong> students. </strong><a href="{{ URL::to( '/sample-files/sample-students-upload.ods')  }}" target="_blank"><i class="fa fa-hand-o-right fa-2x" aria-hidden="true"></i><strong style="color: #FF0000">Sample Student File</strong></a></h5>
+                                    <h5 style=""><strong>Download sample file to use as template to upload and register <strong style="color: #FF0000;">{{@$group->name}}</strong> students for {{$current_school_year->school_year}} school year. </strong><a href="{{ URL::to( '/sample-files/sample-studentsregistration-upload.ods')  }}" target="_blank"><i class="fa fa-hand-o-right fa-2x" aria-hidden="true"></i><strong style="color: #FF0000">Sample Bulk Student Registration File</strong></a></h5>
                                     Please use <strong style="color: #FF0000;">open office</strong> for best result. Excel may throw some errors due to white spaces.
                                   </div>
                                   </div>
@@ -60,7 +60,7 @@
                             <div class="col-sm-12">
                                 <div class="widget-box">
                                     <div class="widget-header">
-                                        <h4 class="widget-title">Showing all students in {{$group->name}} </h4>
+                                        <h4 class="widget-title">Showing all students in {{$group->name}} this school year, {{$current_school_year->school_year}}.  </h4>
                                         <span class="widget-toolbar">
                                             <a href="">
                                                 <i class="ace-icon fa fa-users"></i>
@@ -92,15 +92,18 @@
                                                 </thead>
                                                 <tbody>
                                                     @foreach ($registered_students->where('group_id', '=', $group->id) as $key=>$registered_student)
+                                                        @foreach($students as $student)
 
                                                     <tr>
                                                         <td>{{ $key+1 }}</td>
                                                         <td>
-                                                            <strong><a href="{{asset('/schoolsetup/students/studentdetails/'.$student->id) }}">
-                                                                {{ $registered_student->student->student_number }}
-                                                            </a></strong>
+                                                            @if($registered_student->id == $student->id )
+                                                                <strong><a href="{{asset('/schoolsetup/students/studentdetails/'.$student->id) }}">
+                                                                    {{ $registered_student->student->student_number }}
+                                                                </a></strong>
+                                                            @endif
                                                         </td>
-                                                        <td>{{ $registered_student->student->registration_code }}</td>
+                                                        
                                                         <td>{{ $registered_student->student->first_name }}</td>
                                                         <td>{{ $registered_student->student->last_name }}</td>
                                                         <td>{{ $registered_student->student->gender }}</td>
@@ -126,6 +129,7 @@
                                                         </i></a></strong>
                                                         </td>
                                                    </tr>
+                                                    @endforeach
                                                  @endforeach
                                                     
                                                 </tbody>

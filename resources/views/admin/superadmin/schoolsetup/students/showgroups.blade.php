@@ -15,10 +15,10 @@
     </div><!-- /.page-header -->
 
     <div class="row">
-        <div class="col-sm-4">
+        <div class="col-sm-6">
             <div class="widget-box">
                 <div class="widget-header">
-                    <h4 class="widget-title">Showing {{ $current_school_year->school_year}} Groups for Registration</h4>
+                    <h4 class="widget-title">Select a Group to Register Students for {{ $current_school_year->school_year}} school year.</h4>
                     
                 </div>
 

@@ -253,6 +253,7 @@ Route::group(['middleware' => 'superadmin'], function () {
     Route::post('/schoolsetup/postassigncourse/{course}/{group}/{term}', 'AdminAuth\Courses\AssignUnassignController@postAssignCourse');
     Route::post('/schoolsetup/postunassigncourse/{course}', 'AdminAuth\Courses\AssignUnassignController@postUnassignCourse');
 
+    //students setup
     Route::get('/schoolsetup/students/showgroups', 'AdminAuth\Students\SetUpController@showGroups');
     Route::get('/schoolsetup/students/showregisteredstudents/{group}', 'AdminAuth\Students\SetUpController@showStudents')->name('showstudents');
     Route::get('/schoolsetup/students/addstudent/{group}', 'AdminAuth\Students\SetUpController@addStudent');
@@ -268,8 +269,11 @@ Route::group(['middleware' => 'superadmin'], function () {
     Route::get('/schoolsetup/students/editstudent/{group}/{student}', 'AdminAuth\Students\SetUpController@editStudent');
     Route::post('/schoolsetup/students/poststudentupdate/{group}/{student}', 'AdminAuth\Students\SetUpController@postStudentUpdate');
     Route::get('/schoolsetup/students/poststudentdelete/{student}', 'AdminAuth\Students\SetUpController@deleteStudent');
+
+    Route::post('/schoolsetup/students/importregisterstudents/{group}/{currentschoolyear}', 'AdminAuth\Students\SetUpController@importRegisterStudents');
     Route::post('/schoolsetup/students/importstudents/{group}', 'AdminAuth\Students\SetUpController@importStudents');
 
+    //staff setup
     Route::get('/schoolsetup/staffers/showstaffers', 'AdminAuth\Staffers\SetUpController@showStaffers')->name('showstaffers');
     Route::get('/schoolsetup/staffers/addstaffer', 'AdminAuth\Staffers\SetUpController@addStaffer');
     Route::post('/schoolsetup/staffers/poststaffer', 'AdminAuth\Staffers\SetUpController@postStaffer');
