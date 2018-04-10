@@ -234,12 +234,11 @@ class SetUpController extends Controller
 
              $this->validate(request(), [
 
-                
-            'group_id' => 'required',
-            'registration_code' => 'required',
-            'first_name' => 'required',
-            'last_name' => 'required',
-            'email' => 'required',
+                'group_id' => 'required',
+                'registration_code' => 'required',
+                'first_name' => 'required',
+                'last_name' => 'required',
+                'email' => 'required',
                 
                 ]);
 
@@ -291,6 +290,12 @@ class SetUpController extends Controller
            
             $group = Group::find($group_id);
             $current_school_year = School_year::find($current_school_year_id);
+
+            $this->validate(request(), [
+
+                'student_id' => 'unique:student_registrations',
+                                
+                ]);
             
             if($request->hasFile('import_file')){
                 $path = $request->file('import_file')->getRealPath();
