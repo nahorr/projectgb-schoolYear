@@ -61,6 +61,8 @@ Class AdminNavComposer {
         //get all students registered in teachers current group in the current school year. 
         $students_in_teacher_current_group = StudentRegistration::where('school_year_id', '=', $current_school_year->id)->where('group_id', '=', $current_registration_teacher->group_id)->get();
 
+        //dd($students_in_teacher_current_group);
+
         //get all users                      
         $all_users = User::get();
         

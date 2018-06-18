@@ -49,7 +49,7 @@
                             </thead>
                             <tbody>
                             
-                                @foreach ($students_in_teacher_current_group as $key => $student)
+                                @foreach ($students_in_teacher_current_group as $key => $students)
 
                                   @foreach ($terms as $term)
 
@@ -63,36 +63,47 @@
                                         
                                         @foreach ($all_users as $st_user)
 
-                                         @if ($st_user->registration_code == $student->registration_code)
+                                         @if ($st_user->registration_code == $students->student->registration_code)
                                            <img class="avatar border-white" src="{{asset('assets/img/students/'.$st_user->avatar) }}" alt="..."/>
                                         
                                           @endif
                                         @endforeach 
 
                                          </td>
-                                        <td>{{$student->first_name}}</td>
-                                        <td>{{$student->last_name}}</td>
+                                        <td>{{$students->student->first_name}}</td>
+                                        <td>{{$students->student->last_name}}</td>
                                         <td>
-                                        @foreach ($comment_current_term as $comments)
+                                        @foreach ($comments as $comment)
+                                            
 
-                                              @if ($comments->student_id == $student->id)
-                                                  {{$comments->comment_teacher}}
+                                              @if ($comment->student_id == $students->student->id)
+                                                  {{$comment->comment_teacher}}
+                                             
                                               @endif
                                           @endforeach
                                         </td>
                                                                                 
                                       <td>
                                       
-                                      <strong><a href="{{asset('/addComment/'.Crypt::encrypt($student->id)) }}/{{Crypt::encrypt($term->id)}}"><i class="fa fa-plus fa-2x" aria-hidden="true"></i>{{$term->id}}</a>&nbsp;
-                                      @foreach ($comment_current_term as $comments)
+                                      <strong>
+                                        <a href="{{asset('/addComment/'.Crypt::encrypt($students->student->id)) }}/{{Crypt::encrypt($term->id)}}"><i class="fa fa-plus fa-2x" aria-hidden="true"></i>{{$term->id}}</a>&nbsp;
 
-                                              @if ($comments->student_id == $student->id)
-                                      <a href="{{asset('/editComment/'.Crypt::encrypt($student->id)) }}/{{Crypt::encrypt($term->id)}}"><i class="fa fa-pencil-square-o fa-2x" aria-hidden="true"></i></a>&nbsp;
-                                      <a href="{{asset('/postcommentdelete/'.Crypt::encrypt($comments->id)) }}" onclick="return confirm('Are you sure you want to Delete this record?')"><i class="fa fa-trash-o fa-2x" aria-hidden="true"></i></a>&nbsp;
-                                              @endif
-                                      @endforeach
+                                         @foreach ($comments as $comment)
+                                            
+
+                                              @if ($comment->student_id == $students->id)
+                                         
+                                            <a href="{{asset('/editComment/'.Crypt::encrypt($students->id)) }}/{{Crypt::encrypt($term->id)}}">
+                                              <i class="fa fa-pencil-square-o fa-2x" aria-hidden="true"></i>
+                                            </a>&nbsp;
+
+                                            <a href="{{asset('/postcommentdelete/'.Crypt::encrypt($comments->id)) }}" onclick="return confirm('Are you sure you want to Delete this record?')"><i class="fa fa-trash-o fa-2x" aria-hidden="true"></i>
+                                            </a>&nbsp;
+                                         @endif    
+                                  @endforeach  
+                                      </strong>
                                       </td>
-                                      <td>{{@$student->registration_code}} <a href="{{asset('/admin/printregcode/'.$student->id)}}"><i class="fa fa-print" aria-hidden="true"></i>print</a>
+                                      <td>{{@$student->student->registration_code}} <a href="{{asset('/admin/printregcode/'.$students->student->id)}}"><i class="fa fa-print" aria-hidden="true"></i>print</a>
                                       </td>
                                     @endif    
                                   @endforeach     

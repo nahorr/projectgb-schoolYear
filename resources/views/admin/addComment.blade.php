@@ -9,7 +9,7 @@
         <div class="col-md-12">
           <div class="card">
             <div class="header">
-              <h4 class="title"><strong>Add Comment for {{ $student->first_name }} {{ $student->last_name }}</strong> <a class="pull-right"> {{ $group->name }}- {{$term->term}} </a></h4> 
+              <h4 class="title"><strong>Add Comment for {{ $student->first_name }} {{ $student->last_name }}</strong> <a class="pull-right"> {{ $current_registration_teacher->group->name }}- {{$term->term}} </a></h4> 
             </div>
             <hr style="border-color: #fff;">
 

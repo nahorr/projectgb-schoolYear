@@ -18,6 +18,7 @@
 
             'admin/includes/headdashboardtop',
             'admin/home',
+            'admin.addComment',
             
             ], 
             

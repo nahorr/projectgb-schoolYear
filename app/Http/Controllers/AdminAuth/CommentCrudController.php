@@ -37,13 +37,13 @@ class CommentCrudController extends Controller
 
         $term =Term::find(Crypt::decrypt($term_id));
 
-        $group = Group::where('id', '=', $student->group_id)->first();
+        //$group = Group::where('id', '=', $student->group_id)->first();
 
         $all_user = User::get();
 
         
 
-    	return view('/admin.addComment', compact('today','student', 'term','group', 'all_user'));
+    	return view('admin.addComment', compact('today','student', 'term','group', 'all_user'));
     }
 
     public function postComment(Request $r) 

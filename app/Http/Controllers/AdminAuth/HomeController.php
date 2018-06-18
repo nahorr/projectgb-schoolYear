@@ -34,7 +34,11 @@ class HomeController extends Controller
     public function index()
     {
 
-     return view('admin.home');
+        $comments = Comment::get();
+
+        
+
+        return view('admin.home', compact('comments'));
     }
 
     public function printRegCode ($student_id)

@@ -28,31 +28,13 @@ class SetUpController extends Controller
     {
     	
 
-    	$staffers_groups= Group::join('staffers', 'groups.id', '=', 'staffers.group_id')->get();
-
-
-
-    	$staffers_count = Staffer::count();
-
-    	$groups = Group::get();
-
-
-        //get current date
-        $today = Carbon::today();
-
-        $schoolyear = School_year::first();
-
-        
-      
-
-        return view('/admin.superadmin.schoolsetup.staffers.showstaffers', compact('staffers_groups','today',
-        	'schoolyear', 'staffers_count', 'groups'));
+        return view('admin.superadmin.schoolsetup.staffers.showstaffers');
     }
 
     public function addStaffer()
     {
 
-    	$staffers_groups= Group::join('staffers', 'groups.id', '=', 'staffers.group_id')->get();
+    	//$staffers_groups= Group::join('staffers', 'groups.id', '=', 'staffers.group_id')->get();
 
 
 
@@ -72,7 +54,7 @@ class SetUpController extends Controller
 
       
 
-        return view('/admin.superadmin.schoolsetup.staffers.addstaffer', compact('staffers_groups','today',
+        return view('admin.superadmin.schoolsetup.staffers.addstaffer', compact('staffers_groups','today',
         	'schoolyear', 'staffers_count', 'groups'));
      }
 
@@ -82,7 +64,8 @@ class SetUpController extends Controller
 
         $this->validate(request(), [
 
-            'group_id' => 'required',
+            //'group_id' => 'required',
+            'staffer_number' => 'required|unique:staffers',
             'registration_code' => 'required|unique:staffers',
             'first_name' => 'required',
             'last_name' => 'required',
@@ -102,7 +85,8 @@ class SetUpController extends Controller
 
         Staffer::insert([
 
-            'group_id'=>$r->group_id,
+            //'group_id'=>$r->group_id,
+            'staffer_number'=>$r->staffer_number,
             'registration_code'=>$r->registration_code,
             'title'=>$r->title,
             'first_name'=>$r->first_name,
@@ -129,27 +113,11 @@ class SetUpController extends Controller
 
     public function editStaffer($staffer_id)
     {
-
+        //get staffer with this staffer id
         $staffer = Staffer::find($staffer_id);
-
-        $staffers_groups= Group::join('staffers', 'groups.id', '=', 'staffers.group_id')->get();
-
-
-
-    	$staffers_count = Staffer::count();
-
-    	$groups = Group::pluck('name', 'id');
-        
-        //get current date
-        $today = Carbon::today();
-
-        $schoolyear = School_year::first();
-
-        
-        
       
 
-        return view('/admin.superadmin.schoolsetup.staffers.editstaffer', compact('staffer', 'staffers_groups','today', 'schoolyear', 'staffers_count', 'groups'));
+        return view('admin.superadmin.schoolsetup.staffers.editstaffer', compact('staffer'));
 
         
     }
@@ -158,40 +126,18 @@ class SetUpController extends Controller
 
         {
         
-        $staffer = Staffer::find($staffer_id);
+            $staffer = Staffer::find($staffer_id);
 
-        $staffers_groups= Group::join('staffers', 'groups.id', '=', 'staffers.group_id')->get();
-
-
-
-    	$staffers_count = Staffer::count();
-
-    	$groups = Group::get();
-        
-        //get current date
-        $today = Carbon::today();
-
-        $schoolyear = School_year::first();
-
-        
-        //get logged in user
-        $teacher_logged_in = Auth::guard('web_admin')->user();
-
-        
-        $reg_code = $teacher_logged_in->registration_code;
-
-        $teacher = Staffer::where('registration_code', '=', $reg_code)->first();
-
-
-             $this->validate(request(), [
-
+                   
+            $this->validate(request(), [
                 
-            'group_id' => 'required',
+            //'group_id' => 'required',
+            'staffer_number' => 'required',
             'registration_code' => 'required',
             'first_name' => 'required',
             'last_name' => 'required',
                 
-                ]);
+            ]);
 
 
                                 
@@ -199,7 +145,8 @@ class SetUpController extends Controller
 
 
             
-            $staffer_edit->group_id= $r->group_id;
+            //$staffer_edit->group_id= $r->group_id;
+            $staffer_edit->staffer_number= $r->staffer_number;
             $staffer_edit->registration_code= $r->registration_code;
             $staffer_edit->title= $r->title;
             $staffer_edit->first_name= $r->first_name;
@@ -251,7 +198,7 @@ class SetUpController extends Controller
                                 $insert[] = [
 
                                     
-                                    
+                                    'staffer_number' => $v['staffer_number'],
                                     'registration_code' => $v['registration_code'],
                                     'title' => $v['title'],
                                     'first_name'=>$v['first_name'],
@@ -265,7 +212,6 @@ class SetUpController extends Controller
                                     'phone'=>$v['phone'],
                                     'state'=>$v['state'],
                                     'current_address'=>$v['current_address'],
-                                    'group_id' => $v['group_id'],
                                     
                                     
                                     ];
