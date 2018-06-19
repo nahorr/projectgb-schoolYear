@@ -35,9 +35,7 @@ class HomeController extends Controller
     {
 
         $comments = Comment::get();
-
         
-
         return view('admin.home', compact('comments'));
     }
 

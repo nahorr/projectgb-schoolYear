@@ -76,26 +76,13 @@ class CommentCrudController extends Controller
     	return redirect()->route('adminhome');
     }
 
-    public function editComment($student_id, $term_id)
+    public function editComment($comment_id)
     {
 
-         //get current date
-        $today = Carbon::today();
+        $comment = Comment::find(Crypt::decrypt($comment_id));
 
-        $student = Student::find(Crypt::decrypt($student_id));
-
-        $term =Term::find(Crypt::decrypt($term_id));
-
-        $group = Group::where('id', '=', $student->group_id)->first();
-
-        $all_user = User::get();
-
-        $student_comment = Comment::where('student_id', '=', $student->id)
-                                 ->where('term_id', '=', $term->id)
-                                 ->first();
         
-
-        return view('/admin.editComment', compact('today','student', 'term','group', 'student_comment', 'all_user'));
+        return view('admin.editComment', compact('comment'));
     }
 
 

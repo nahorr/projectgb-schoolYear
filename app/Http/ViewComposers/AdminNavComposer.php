@@ -47,7 +47,8 @@ Class AdminNavComposer {
 
         //get current school year
         $current_school_year = School_year::where([['start_date', '<=', $today], ['end_date', '>=', $today]])->first();
-        
+
+
         //get logged in teacher/admin/staffer
         $teacher = Staffer::where('registration_code', '=', Auth::guard('web_admin')->user()->registration_code)->first();
 
@@ -60,14 +61,16 @@ Class AdminNavComposer {
         
         //get all students registered in teachers current group in the current school year. 
         $students_in_teacher_current_group = StudentRegistration::where('school_year_id', '=', $current_school_year->id)->where('group_id', '=', $current_registration_teacher->group_id)->get();
-
-        //dd($students_in_teacher_current_group);
-
+        
         //get all users                      
         $all_users = User::get();
         
         //get terms
         $terms = Term::get();
+
+        $current_term = Term::where([['start_date', '<=', $today], ['end_date', '>=', $today]])->first();
+
+        //dd($current_term);
 
         //put variables in views
         $view
@@ -80,7 +83,8 @@ Class AdminNavComposer {
         ->with('current_registration_teacher', $current_registration_teacher)
         ->with('students_in_teacher_current_group', $students_in_teacher_current_group)
         ->with('all_users', $all_users)
-        ->with('terms', $terms);
+        ->with('terms', $terms)
+        ->with('current_term', $current_term);
        
     }
 }
