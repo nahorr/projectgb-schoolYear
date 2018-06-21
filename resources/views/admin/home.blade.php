@@ -28,7 +28,16 @@
                         <div class="card">
                             <div class="header">
                                 <h4 class="title">Students in Your class</h4>
-                                <p class="category">You have {{ $students_in_teacher_current_group->count() }} students in your class</p>
+                                <p class="category">You have 
+                                @if($registrations_students->contains('school_year_id', '=', $current_school_year->id) && $registrations_students->contains('group_id', '=', $current_registration_teacher->group_id))
+
+                                          {{ $registrations_students->where('school_year_id', '=', $current_school_year->id)->where('group_id', '=', $current_registration_teacher->group_id)->count() }}
+                                     
+                                  @else
+                                    0
+                                  @endif 
+
+                                students in your class this term</p>
                             </div>
                             <div class="content">
                             <div class="table-responsive">
@@ -47,67 +56,67 @@
 
                               </tr>
                             </thead>
-                            <tbody>
-                            
-                                @foreach ($students_in_teacher_current_group as $key => $students)
-
-                                  @foreach ($terms->where('id', '=', $current_term->id) as $term)
-
-                                    
-
+                            <tbody> 
+                                
+                                @foreach ($registrations_students as $key => $reg_student)
+                                
+                                     @if($registrations_students->contains('school_year_id', '=', $current_school_year->id) && $registrations_students->contains('group_id', '=', $current_registration_teacher->group_id))                                
+                                                                             
                                     <tr>
 
-                                        <td>{{$key+1}}</td>
-                                        
-                                        <td>
-                                        
-                                        @foreach ($all_users as $st_user)
+                                      <td>{{$key+1}}</td>
+                                      
+                                      <td>
+          
+                                     
+                                      @foreach ($all_users as $st_user)
+                                        @if ($st_user->registration_code == $reg_student->student->registration_code)
 
-                                         @if ($st_user->registration_code == $students->student->registration_code)
-                                           <img class="avatar border-white" src="{{asset('assets/img/students/'.$st_user->avatar) }}" alt="..."/>
-                                        
-                                          @endif
-                                        @endforeach 
+                                          <img class="avatar border-white" src="{{asset('assets/img/students/'.$st_user->avatar) }}" alt="..."/>
+                                      
+                                        @endif
+                                      @endforeach
 
-                                         </td>
-                                        <td>{{$students->student->first_name}}</td>
-                                        <td>{{$students->student->last_name}}</td>
-                                        <td>
-                                        @foreach ($comments as $comment)                                       
-                                              @if ($comment->student_id == $students->student->id)
+                                       </td>
+                                      <td>{{$reg_student->student->first_name}}</td>
+                                      <td>{{$reg_student->student->last_name}}</td>
+                                      <td>
+                                        @foreach ($comments as $comment) 
+                                          @if ($comment->student_id == $reg_student->student->id && $comment->term_id == $current_term->id) 
                                                   
                                                   {{$comment->comment_teacher}}
-                                             
-                                              @endif
-                                        @endforeach
-                                        </td>
-                                                                                
-                                      <td>
-                                      
-                                      <strong>
-                                        <a href="{{asset('/addComment/'.Crypt::encrypt($students->student->id)) }}/{{Crypt::encrypt($term->id)}}"><i class="fa fa-plus fa-2x" aria-hidden="true"></i>{{$term->id}}</a>&nbsp;
-
-                                        
-                                        @foreach ($comments as $comment)                                       
-                                             
-                                          @if ($comment->student_id == $students->student->id && $comment->term_id == $current_term->id)
-
-                                            <a href="{{asset('/editComment/'.Crypt::encrypt($comment->id)) }}">
-                                              <i class="fa fa-pencil-square-o fa-2x" aria-hidden="true"></i>
-                                            </a>&nbsp;
-
-                                            <a href="{{asset('/postcommentdelete/'.Crypt::encrypt($comment->id)) }}" onclick="return confirm('Are you sure you want to Delete this record?')"><i class="fa fa-trash-o fa-2x" aria-hidden="true"></i>
-                                            </a>&nbsp;
-                                            
                                           @endif
-                                        @endforeach
-                                      </strong>
+                                        @endforeach 
+                                           
                                       </td>
-                                      <td>{{@$student->student->registration_code}} <a href="{{asset('/admin/printregcode/'.$students->student->id)}}"><i class="fa fa-print" aria-hidden="true"></i>print</a>
-                                      </td>
+                                                                              
+                                    <td>
+                                    
+                                    <strong>
+                                      <a href="{{asset('/addComment/'.Crypt::encrypt($reg_student->student->id)) }}/{{Crypt::encrypt($current_term->id)}}"><i class="fa fa-plus fa-2x" aria-hidden="true"></i>{{$current_term->id}}</a>&nbsp;
+
                                       
-                                  @endforeach     
-                                @endforeach
+                                      @foreach ($comments as $comment)                                       
+                                           
+                                        @if ($comment->student_id == $reg_student->student->id && $comment->term_id == $current_term->id)
+
+                                          <a href="{{asset('/editComment/'.Crypt::encrypt($comment->id)) }}">
+                                            <i class="fa fa-pencil-square-o fa-2x" aria-hidden="true"></i>
+                                          </a>&nbsp;
+
+                                          <a href="{{asset('/postcommentdelete/'.Crypt::encrypt($comment->id)) }}" onclick="return confirm('Are you sure you want to Delete this record?')"><i class="fa fa-trash-o fa-2x" aria-hidden="true"></i>
+                                          </a>&nbsp;
+                                          
+                                        @endif
+                                      @endforeach
+                                    </strong>
+                                    </td>
+                                    <td>{{@$reg_student->student->registration_code}} <a href="{{asset('/admin/printregcode/'.$reg_student->student->id)}}"><i class="fa fa-print" aria-hidden="true"></i>print</a>
+                                    </td>   
+                                
+                                @endif      
+                            @endforeach
+                          
                            
                             </tbody>
                           </table>

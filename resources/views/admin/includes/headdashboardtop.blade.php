@@ -10,14 +10,30 @@
                                     <div class="col-xs-7">
                                         <div class="numbers">
                                             <p>Class size</p>
-                                            {{ $students_in_teacher_current_group->count() }}
+                                            @if($registrations_students->contains('school_year_id', '=', $current_school_year->id) && $registrations_students->contains('group_id', '=', $current_registration_teacher->group_id))
+
+                                                    {{ $registrations_students->where('school_year_id', '=', $current_school_year->id)->where('group_id', '=', $current_registration_teacher->group_id)->count() }}
+                                                
+                                             @else
+                                                0
+                                            @endif 
                                         </div>
                                     </div>
                                 </div>
                                 <div class="footer">
                                     <hr />
                                     <div class="stats">
-                                        <i class="ti-reload"></i>{{ $students_in_teacher_current_group->count() }} students in your class
+                                        <i class="ti-reload"></i>
+                                            @if($registrations_students->contains('school_year_id', '=', $current_school_year->id) && $registrations_students->contains('group_id', '=', $current_registration_teacher->group_id))
+
+                                                    {{ $registrations_students->where('school_year_id', '=', $current_school_year->id)->where('group_id', '=', $current_registration_teacher->group_id)->count() }}
+                                                
+                                                @else
+                                                   0
+                                                @endif
+                                           
+
+                                          students in your class this term
                                     </div>
                                 </div>
                             </div>
@@ -35,14 +51,14 @@
                                     <div class="col-xs-7">
                                         <div class="numbers">
                                             <p>Class</p>
-                                           <p> {{ $current_registration_teacher->group->name }} </>
+                                           <p> {{ @$current_registration_teacher->group->name }} </>
                                         </div>
                                     </div>
                                 </div>
                                 <div class="footer">
                                     <hr />
                                     <div class="stats">
-                                        <i class="ti-calendar"></i> {{ $current_registration_teacher->group->name }}
+                                        <i class="ti-calendar"></i> {{ @$current_registration_teacher->group->name }}
                                     </div>
                                 </div>
                             </div>
