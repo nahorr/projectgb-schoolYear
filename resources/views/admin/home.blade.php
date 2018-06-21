@@ -57,10 +57,10 @@
                               </tr>
                             </thead>
                             <tbody> 
-                                
+                                                          
                                 @foreach ($registrations_students as $key => $reg_student)
-                                
-                                     @if($registrations_students->contains('school_year_id', '=', $current_school_year->id) && $registrations_students->contains('group_id', '=', $current_registration_teacher->group_id))                                
+
+                                  @if($reg_student->school_year_id == $current_school_year->id && $reg_student->group_id == $current_registration_teacher->group_id)                             
                                                                              
                                     <tr>
 
@@ -106,18 +106,18 @@
 
                                           <a href="{{asset('/postcommentdelete/'.Crypt::encrypt($comment->id)) }}" onclick="return confirm('Are you sure you want to Delete this record?')"><i class="fa fa-trash-o fa-2x" aria-hidden="true"></i>
                                           </a>&nbsp;
-                                          
-                                        @endif
+                                          @endif
                                       @endforeach
+
                                     </strong>
                                     </td>
                                     <td>{{@$reg_student->student->registration_code}} <a href="{{asset('/admin/printregcode/'.$reg_student->student->id)}}"><i class="fa fa-print" aria-hidden="true"></i>print</a>
                                     </td>   
                                 
-                                @endif      
+                                 @endif    
                             @endforeach
                           
-                           
+                            
                             </tbody>
                           </table>
                         </div>
