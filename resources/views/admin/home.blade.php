@@ -50,7 +50,7 @@
                                 <th>Last Name</th>
                                 <th>Teacher's Comment - {{ @$current_term->term }}</th>
                                 <th>Add/Edit/Delete</th>
-                                <th>Reg Code <a href="{{asset('/admin/printallregcode/')}}"><br><i class="fa fa-print" aria-hidden="true"></i>Print All</a> </th>
+                                <th>Reg Code <a href="{{asset('/admin/printallregcode/')}}" target="_blank" ><br><i class="fa fa-print" aria-hidden="true"></i>Print All</a> </th>
                                
                                 
 
@@ -100,7 +100,7 @@
                                            
                                         @if ($comment->student_id == $reg_student->student->id && $comment->term_id == $current_term->id)
 
-                                          <a href="{{asset('/editComment/'.Crypt::encrypt($comment->id)) }}">
+                                          <a href="{{asset('/editComment/'.Crypt::encrypt($comment->id))}}/{{Crypt::encrypt($comment->student_id)}}">
                                             <i class="fa fa-pencil-square-o fa-2x" aria-hidden="true"></i>
                                           </a>&nbsp;
 
@@ -111,7 +111,7 @@
 
                                     </strong>
                                     </td>
-                                    <td>{{@$reg_student->student->registration_code}} <a href="{{asset('/admin/printregcode/'.$reg_student->student->id)}}"><i class="fa fa-print" aria-hidden="true"></i>print</a>
+                                    <td>{{@$reg_student->student->registration_code}} <a href="{{asset('/admin/printregcode/'.$reg_student->student->id)}}" target="_blank" ><i class="fa fa-print" aria-hidden="true"></i>print</a>
                                     </td>   
                                 
                                  @endif    

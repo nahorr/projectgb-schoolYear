@@ -17,8 +17,8 @@
                             </div>
                             <div class="content">
                                 <div class="author">
-                                  <img class="avatar border-white" src="{{asset('/assets/img/staffers/'.$admin_user->avatar) }}" alt="..."/>
-                                  <h4 class="title">{{ $admin_user->name }}<br />
+                                  <img class="avatar border-white" src="{{asset('/assets/img/staffers/'.Auth::guard('web_admin')->user()->avatar) }}" alt="..."/>
+                                  <h4 class="title">{{ $teacher->name }}<br />
                                      
                                   </h4>
                                   <form enctype="multipart/form-data" action="/admin/profile" method="POST">
@@ -48,8 +48,8 @@
                                     <div class="row">
                                         <div class="col-md-5">
                                             <div class="form-group">
-                                                <label>Class</label>
-                                                <input type="text" class="form-control border-input" disabled value="{{$group_teacher->name}}">
+                                                <label>Current Class</label>
+                                                <input type="text" class="form-control border-input" disabled value="{{$current_registration_teacher->group->name}}">
                                             </div>
                                         </div>
                                         <div class="col-md-3">
@@ -61,7 +61,7 @@
                                         <div class="col-md-4">
                                             <div class="form-group">
                                                 <label for="exampleInputEmail1">Email address</label>
-                                                <input type="email" class="form-control border-input" disabled value="{{$admin_user->email}}">
+                                                <input type="email" class="form-control border-input" disabled value="{{Auth::guard('web_admin')->user()->email}}">
                                             </div>
                                         </div>
                                     </div>

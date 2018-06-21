@@ -29,27 +29,16 @@ class CommentCrudController extends Controller
     public function addComment($student_id, $term_id)
     {
 
-    	
-    	//get current date
-        $today = Carbon::today();
-
         $student = Student::find(Crypt::decrypt($student_id));
 
         $term =Term::find(Crypt::decrypt($term_id));
 
-        //$group = Group::where('id', '=', $student->group_id)->first();
 
-        $all_user = User::get();
-
-        
-
-    	return view('admin.addComment', compact('today','student', 'term','group', 'all_user'));
+    	return view('admin.addComment', compact('student', 'term'));
     }
 
     public function postComment(Request $r) 
-    {
-
-               
+    {           
 
     	$this->validate(request(), [
 
@@ -76,17 +65,17 @@ class CommentCrudController extends Controller
     	return redirect()->route('adminhome');
     }
 
-    public function editComment($comment_id)
+    public function editComment($comment_id, $student_id)
     {
 
         $comment = Comment::find(Crypt::decrypt($comment_id));
-
+        $student = Student::find(Crypt::decrypt($student_id));
         
-        return view('admin.editComment', compact('comment'));
+        return view('admin.editComment', compact('comment', 'student'));
     }
 
 
-    public function postCommentUpdate(Request $r, $student_id, $term_id)
+    public function postCommentUpdate(Request $r, $comment_id)
 
     {
          $this->validate(request(), [
@@ -97,28 +86,14 @@ class CommentCrudController extends Controller
             ]);
 
 
-         $student = Student::find(Crypt::decrypt($student_id));
+        $student_comment =Comment::find(Crypt::decrypt($comment_id));
 
-        $term =Term::find(Crypt::decrypt($term_id));
-
-         $student_comment = Comment::where('student_id', '=', $student->id)
-                                 ->where('term_id', '=', $term->id)
-                                 ->first();
-
-
-                 
-
-            $student_comment->comment_teacher= $r->comment_teacher;
+  
+        $student_comment->comment_teacher= $r->comment_teacher;
             
-                       
-            
+        $student_comment->save();
 
-            //$student_grades->total = $r->total;
-            
-
-            $student_comment->save();
-
-            return redirect()->route('adminhome');
+        return redirect()->route('adminhome');
 
      }
 

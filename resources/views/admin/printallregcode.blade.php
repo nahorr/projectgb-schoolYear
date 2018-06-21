@@ -45,11 +45,11 @@
     </tr>
     <tr>
       <th scope="row">School Year:</th>
-      <td>{{@$school_year->school_year}}</td>
+      <td>{{@$current_school_year->school_year}}</td>
     </tr>
     <tr>
-      <th scope="row">Class:</th>
-      <td>{{@$class->name}}</td>
+      <th scope="row">Current Class:</th>
+      <td>{{@$current_registration_teacher->group->name}}</td>
     </tr>
     <tr>
       <th scope="row">Firstname:</th>

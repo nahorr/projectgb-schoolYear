@@ -34,64 +34,31 @@ class HomeController extends Controller
     public function index()
     {
 
-        $comments = Comment::get();
-        
-        return view('admin.home', compact('comments'));
+                
+        return view('admin.home');
     }
 
     public function printRegCode ($student_id)
     {
 
-        //get current date
-        $today = Carbon::today();
-
         $student =  Student::find($student_id);
-        $school = School::first();
-
-        $school_year = School_year::first();
-        //get teacher's section and group
-        $teacher = Auth::guard('web_admin')->user();
-
-        $reg_code = $teacher->registration_code;
-
-        $teacher = Staffer::where('registration_code', '=', $reg_code)->first();
-
-        $class = Group::where('id', '=', $teacher->group_id)->first();
 
 
-        $term_tuitions = Fee::where('group_id', '=',$teacher->group_id )->get();
+        $term_tuitions = Fee::get();
 
-        $terms = Term::get();
+        
+        $pdf = PDF::loadView('admin.printregcode',compact('student', 'term_tuitions'));
 
-         $pdf = PDF::loadView('admin.printregcode',compact('today', 'student', 'school', 'school_year', 'class', 'term_tuitions', 'terms'));
-
-         return $pdf->inline();
+        return $pdf->inline();
 
     }
 
     public function printAllRegCode ()
     {
 
-         //get current date
-        $today = Carbon::today();
-        $school = School::first();
-
-        $school_year = School_year::first();
-        //get teacher's section and group
-        $teacher = Auth::guard('web_admin')->user();
-
-        $reg_code = $teacher->registration_code;
-
-        $teacher = Staffer::where('registration_code', '=', $reg_code)->first();
-
-        $class = Group::where('id', '=', $teacher->group_id)->first();
-        $term_tuitions = Fee::where('group_id', '=',$teacher->group_id )->get();
-        $terms = Term::get();
-
-        //get students in group_section
-        $students = Student::where('group_id', '=', $teacher->group_id)->get();
-
-        $pdf = PDF::loadView('admin.printallregcode',compact('today', 'students', 'school', 'school_year', 'class', 'term_tuitions','terms'));
+        $term_tuitions = Fee::get();
+       
+        $pdf = PDF::loadView('admin.printallregcode',compact('term_tuitions'));
 
         return $pdf->inline();
 

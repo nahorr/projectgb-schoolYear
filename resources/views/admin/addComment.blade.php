@@ -17,14 +17,14 @@
           					{{ csrf_field() }}
           				<table class="table text-center table-responsive">
                     <thead>
-                        <th class="text-center"><strong>Student Name</strong></th>
+                        <th class="text-center"><strong>Student Name: {{ $student->first_name }} {{ $student->last_name }}</strong></th>
                         <th class="text-center"><strong>{{$term->term}} Comment</strong></th>
                     </thead>
                     <tbody>
                       <tr>
                       	<td>
                           	<label>
-                              @foreach ($all_user as $st_user)
+                              @foreach ($all_users as $st_user)
 
                                 @if ($st_user->registration_code == $student->registration_code)
 

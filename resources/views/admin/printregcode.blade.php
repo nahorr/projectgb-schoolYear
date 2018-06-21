@@ -1,7 +1,7 @@
 <!DOCTYPE html>
 <html lang="en">
 <head>
-  <title>Totalgrades - Registration Information</title>
+  <title>Totalgrades - {{@$student->first_name}} {{@$student->last_name}} Registration Information</title>
   <meta charset="utf-8">
   <meta name="viewport" content="width=device-width, initial-scale=1">
   <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/css/bootstrap.min.css">
@@ -45,11 +45,11 @@
     </tr>
     <tr>
       <th scope="row">School Year:</th>
-      <td>{{@$school_year->school_year}}</td>
+      <td>{{@$current_school_year->school_year}}</td>
     </tr>
     <tr>
-      <th scope="row">Class:</th>
-      <td>{{@$class->name}}</td>
+      <th scope="row">Current Class:</th>
+      <td>{{@$current_registration_teacher->group->name}}</td>
     </tr>
     <tr>
       <th scope="row">Firstname:</th>

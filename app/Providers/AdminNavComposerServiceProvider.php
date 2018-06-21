@@ -20,6 +20,9 @@
             'admin/home',
             'admin/addComment',
             'admin/editComment',
+            'admin/printregcode',
+            'admin/printallregcode',
+            'admin/profile',
             
             ], 
             

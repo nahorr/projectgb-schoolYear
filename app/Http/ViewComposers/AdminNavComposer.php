@@ -79,6 +79,8 @@ Class AdminNavComposer {
         $current_term = Term::where([['start_date', '<=', $today], ['end_date', '>=', $today]])->first();
 
         //dd($current_term);
+        //get comments
+        $comments = Comment::get();
 
         //put variables in views
         $view
@@ -95,7 +97,8 @@ Class AdminNavComposer {
         ->with('registrations_students', $registrations_students)
         ->with('all_users', $all_users)
         ->with('terms', $terms)
-        ->with('current_term', $current_term);
+        ->with('current_term', $current_term)
+        ->with('comments', $comments);
        
     }
 }
