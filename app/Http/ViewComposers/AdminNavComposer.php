@@ -26,6 +26,8 @@ use App\FeeType;
 use App\Fee;
 use App\StafferRegistration;
 use App\StudentRegistration;
+use App\Attendance;
+use App\AttendanceCode;
 
 
 
@@ -35,7 +37,9 @@ Class AdminNavComposer {
 	
 	public function compose (View $view)
     {
-        
+        //initialize number for irregular table numbering
+        $number_init = 1;
+
     	//get current date
         $today = Carbon::today();
 
@@ -78,12 +82,24 @@ Class AdminNavComposer {
 
         $current_term = Term::where([['start_date', '<=', $today], ['end_date', '>=', $today]])->first();
 
-        //dd($current_term);
         //get comments
         $comments = Comment::get();
 
+        //get attendance codes
+        $attendancecodes = AttendanceCode::get();
+
+        ////get Attendance Records
+        $attendances = Attendance::join('students', 'attendances.student_id', '=', 'students.id')
+                                ->join('terms', 'attendances.term_id', '=', 'terms.id')
+                                ->join('attendance_codes', 'attendances.attendance_code_id', '=', 'attendance_codes.id')
+                                ->select('attendances.*', 'terms.term', 'students.first_name', 'students.last_name', 'attendance_codes.code_name')
+                                ->get();
+
+        //dd($current_registration_teacher);
+
         //put variables in views
         $view
+        ->with('number_init', $number_init )
         ->with('today', $today )
         ->with('school', $school)
         ->with('school_years', $school_years)
@@ -98,7 +114,9 @@ Class AdminNavComposer {
         ->with('all_users', $all_users)
         ->with('terms', $terms)
         ->with('current_term', $current_term)
-        ->with('comments', $comments);
+        ->with('comments', $comments)
+        ->with('attendancecodes', $attendancecodes)
+        ->with('attendances', $attendances);
        
     }
 }

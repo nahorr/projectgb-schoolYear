@@ -29,13 +29,13 @@
                             <div class="header">
                                 <h4 class="title">Students in Your class</h4>
                                 <p class="category">You have 
-                                @if($registrations_students->contains('school_year_id', '=', $current_school_year->id) && $registrations_students->contains('group_id', '=', $current_registration_teacher->group_id))
+                              @if( $current_registration_teacher)
 
-                                          {{ $registrations_students->where('school_year_id', '=', $current_school_year->id)->where('group_id', '=', $current_registration_teacher->group_id)->count() }}
+                                  {{ $registrations_students->where('school_year_id', '=', $current_school_year->id)->where('group_id', '=', $current_registration_teacher->group_id)->count() }}
                                      
-                                  @else
-                                    0
-                                  @endif 
+                              @else
+                                0
+                              @endif 
 
                                 students in your class this term</p>
                             </div>
@@ -60,17 +60,19 @@
                                                           
                                 @foreach ($registrations_students as $key => $reg_student)
 
+                                  @if( $current_registration_teacher)
+
                                   @if($reg_student->school_year_id == $current_school_year->id && $reg_student->group_id == $current_registration_teacher->group_id)                             
                                                                              
                                     <tr>
 
-                                      <td>{{$key+1}}</td>
+                                      <td>{{$number_init++}}</td>
                                       
                                       <td>
           
                                      
                                       @foreach ($all_users as $st_user)
-                                        @if ($st_user->registration_code == $reg_student->student->registration_code)
+                                        @if($st_user->registration_code == $reg_student->student->registration_code)
 
                                           <img class="avatar border-white" src="{{asset('assets/img/students/'.$st_user->avatar) }}" alt="..."/>
                                       
@@ -114,7 +116,8 @@
                                     <td>{{@$reg_student->student->registration_code}} <a href="{{asset('/admin/printregcode/'.$reg_student->student->id)}}" target="_blank" ><i class="fa fa-print" aria-hidden="true"></i>print</a>
                                     </td>   
                                 
-                                 @endif    
+                                 @endif
+                              @endif   
                             @endforeach
                           
                             

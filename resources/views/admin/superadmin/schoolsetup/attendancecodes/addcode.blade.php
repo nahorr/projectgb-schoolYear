@@ -41,7 +41,7 @@
                                                             <div class="col-xs-8 col-sm-11">
                                                                 <div class="input-group">
                                                                     
-                                                                    <input class="form-control" id="code_name" type="text" name="code_name" placeholder="Present, Absent , or Late"  required="" />
+                                                                    <input class="form-control" id="code_name" type="text" name="code_name" placeholder="Present, Absent , and Late"  required="" />
                                                                     
                                                                 </div>
                                                             </div>

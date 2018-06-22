@@ -23,6 +23,9 @@
             'admin/printregcode',
             'admin/printallregcode',
             'admin/profile',
+            'admin.attendances.showstudents',
+            'admin.attendances.addattendance',
+            'admin.attendances.editattendance',
             
             ], 
             

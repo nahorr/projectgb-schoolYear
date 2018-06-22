@@ -19,7 +19,12 @@
 </head>
 <body>
 
-@foreach($students as $student)
+@foreach ($registrations_students as $key => $reg_student)
+
+  @if( $current_registration_teacher)
+
+    @if($reg_student->school_year_id == $current_school_year->id && $reg_student->group_id == $current_registration_teacher->group_id)
+
 <div class="page">
   <div class="bg-danger text-white"><h2>Registration Information for {{@$student->first_name}} {{@$student->last_name}} </h2></div>
   <p>To be able to use the gradebook portable, you need to register.</p>
@@ -113,6 +118,8 @@
   </tbody>
 </table>
 </div>
+@endif
+@endif
 @endforeach
 
 </body>

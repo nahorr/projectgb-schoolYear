@@ -161,8 +161,8 @@ Route::get('/attendances/showterms', 'AdminAuth\Attendances\CrudeController@show
 Route::get('/attendances/showstudents', 'AdminAuth\Attendances\CrudeController@showStudents')->name('showstudentsattendance');
 Route::get('/attendances/addattendance/{student}', 'AdminAuth\Attendances\CrudeController@addAttendance');
 Route::post('/attendances/postattendance/{student}', 'AdminAuth\Attendances\CrudeController@postAttendance');
-Route::get('/attendances/editattendance/{student}', 'AdminAuth\Attendances\CrudeController@editAttendance');
-Route::post('/attendances/postattendanceupdate/{student}', 'AdminAuth\Attendances\CrudeController@postAttendanceUpdate');
+Route::get('/attendances/editattendance/{attendance}', 'AdminAuth\Attendances\CrudeController@editAttendance');
+Route::post('/attendances/postattendanceupdate/{attendance}', 'AdminAuth\Attendances\CrudeController@postAttendanceUpdate');
 Route::get('/attendances/postattendancedelete/{attendance}', 'AdminAuth\Attendances\CrudeController@deleteAttendance');
 
 //Group Events

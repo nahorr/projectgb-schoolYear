@@ -10,7 +10,8 @@
                                     <div class="col-xs-7">
                                         <div class="numbers">
                                             <p>Class size</p>
-                                            @if($registrations_students->contains('school_year_id', '=', $current_school_year->id) && $registrations_students->contains('group_id', '=', $current_registration_teacher->group_id))
+
+                                            @if( $current_registration_teacher)
 
                                                     {{ $registrations_students->where('school_year_id', '=', $current_school_year->id)->where('group_id', '=', $current_registration_teacher->group_id)->count() }}
                                                 
@@ -24,7 +25,7 @@
                                     <hr />
                                     <div class="stats">
                                         <i class="ti-reload"></i>
-                                            @if($registrations_students->contains('school_year_id', '=', $current_school_year->id) && $registrations_students->contains('group_id', '=', $current_registration_teacher->group_id))
+                                            @if( $current_registration_teacher)
 
                                                     {{ $registrations_students->where('school_year_id', '=', $current_school_year->id)->where('group_id', '=', $current_registration_teacher->group_id)->count() }}
                                                 
@@ -58,7 +59,7 @@
                                 <div class="footer">
                                     <hr />
                                     <div class="stats">
-                                        <i class="ti-calendar"></i> {{ @$current_registration_teacher->group->name }}
+                                        <i class="ti-calendar"></i> You are assigned to {{ @$current_registration_teacher->group->name }} this school year.
                                     </div>
                                 </div>
                             </div>
@@ -77,12 +78,7 @@
                                     <div class="col-xs-7">
                                         <div class="numbers">
                                             <p>Term</p>
-                                            <p>@foreach ($terms as $term)
-
-                                                @if($today->between($term->start_date, $term->show_until))
-                                                    {{@$term->term}}
-                                                @endif
-                                            @endforeach</p>
+                                            <p> {{@$current_term->term}} </p>
                                         </div>
                                     </div>
                                 </div>
@@ -90,12 +86,8 @@
                                     <hr />
                                     <div class="stats">
                                         <i class="ti-timer"></i> 
-                                        @foreach ($terms as $term)
-
-                                                @if($today->between($term->start_date, $term->show_until))
-                                                   Ends:  {{ @$term->end_date->toFormatteddateString() }}
-                                                @endif
-                                            @endforeach 
+                                        Ends:  {{ @$current_term->end_date->toFormatteddateString() }}
+                                               
                                     </div>
                                 </div>
                             </div>

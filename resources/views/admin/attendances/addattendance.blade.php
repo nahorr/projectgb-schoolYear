@@ -26,7 +26,7 @@
                                           <div class="col-md-6">
                                               <div class="form-group">
                                                   <label>
-                                                    @foreach ($all_user as $st_user)
+                                                    @foreach ($all_users as $st_user)
 
                                                       @if ($st_user->registration_code == $student->registration_code)
 
@@ -41,17 +41,14 @@
                                                   <input type="hidden" class="form-control border-input" name="student_id" value="{{$student->id}}">
                                               </div>
                                           </div>
-                                          @foreach ($terms as $term)
-
-                                            @if($today->between($term->start_date, $term->show_until))
+                                          
                                           <div class="col-md-3">
                                               <div class="form-group">
-                                                  <label><strong>{{$term->term}}</strong></label>
-                                                  <input type="hidden" class="form-control border-input" name="term_id" value="{{$term->id}}" >
+                                                  <label><strong>{{$current_term->term }}</strong></label>
+                                                  <input type="hidden" class="form-control border-input" name="term_id" value="{{$current_term->id}}" >
                                               </div>
                                           </div>
-                                              @endif
-                                          @endforeach
+                                              
                                           <div class="col-md-3">
                                               <div class="form-group">
                                                   <label><strong>{{$today->toFormattedDateString()}}</strong></label>
@@ -72,8 +69,8 @@
                                                       <option selected disabled>Please select one option</option>
                                                             @foreach($attendancecodes as $key => $attendancecode)
 
-                                                                <option value="{{ $key }}" >
-                                                                    {{ $attendancecode }}
+                                                                <option value="{{ $attendancecode->id }}" >
+                                                                    {{ $attendancecode->code_name }}
                                                                 </option>
 
                                                             @endforeach

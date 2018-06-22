@@ -16,42 +16,39 @@
                         <div class="card">
                             <div class="header">
                                 <h4 class="title">Adding Attendance</h4>
-                                <p class="category">for {{$student->first_name}} {{$student->last_name}}</p>
+                                <p class="category">for {{$attendance->student->first_name}} {{$attendance->student->last_name}}</p>
                             </div>
                               <hr>
                             <div class="content">
-                              <form class="form-group" action="{{ url('/attendances/postattendanceupdate', [Crypt::encrypt($student->id)]) }}" method="POST">
+                              <form class="form-group" action="{{ url('/attendances/postattendanceupdate', [Crypt::encrypt($attendance->id)]) }}" method="POST">
                               {{ csrf_field() }}
                                       <div class="row">
                                           <div class="col-md-6">
                                               <div class="form-group">
                                                   <label>
-                                                    @foreach ($all_user as $st_user)
+                                                    @foreach ($all_users as $st_user)
 
-                                                      @if ($st_user->registration_code == $student->registration_code)
+                                                      @if ($st_user->registration_code == $attendance->student->registration_code)
 
                                                         
                                                           <strong>
                                                           <img class="avatar border-white" src="{{asset('assets/img/students/'.$st_user->avatar) }}" alt="..."/>
-                                                          {{$student->first_name}} {{$student->last_name}} 
+                                                          {{$attendance->student->first_name}} {{$attendance->student->last_name}} 
                                                           </strong>
                                                       @endif
                                                     @endforeach
                                                   </label>
-                                                  <input type="hidden" class="form-control border-input" name="student_id" value="{{$student->id}}">
+                                                  <input type="hidden" class="form-control border-input" name="student_id" value="{{$attendance->student_id}}">
                                               </div>
                                           </div>
-                                          @foreach ($terms as $term)
-
-                                            @if($today->between($term->start_date, $term->show_until))
+                                          
                                           <div class="col-md-3">
                                               <div class="form-group">
-                                                  <label><strong>{{$term->term}}</strong></label>
-                                                  <input type="hidden" class="form-control border-input" name="term_id" value="{{$term->id}}" >
+                                                  <label><strong>{{$current_term->term}}</strong></label>
+                                                  <input type="hidden" class="form-control border-input" name="term_id" value="{{$current_term->id}}" >
                                               </div>
                                           </div>
-                                          @endif
-                                          @endforeach
+                                         
                                           <div class="col-md-3">
                                               <div class="form-group">
                                                   <label><strong>{{$today->toFormattedDateString()}}</strong></label>
@@ -76,8 +73,8 @@
                                                       <option selected disabled>Please select one option</option>
                                                             @foreach($attendancecodes as $key => $attendancecode)
 
-                                                                <option value="{{ $key }}" >
-                                                                    {{ $attendancecode }}
+                                                                <option value="{{ $attendancecode->id }}" >
+                                                                    {{ $attendancecode->code_name }}
                                                                 </option>
 
                                                             @endforeach
@@ -95,10 +92,10 @@
                                             <div class="well">
 
                                               <h4> Current Teacher's comment</h4>
-                                              {{$attendance_student->teacher_comment}}
+                                              {{$attendance->teacher_comment}}
                                               
                                             </div>
-                                            <label for="exampleTextarea">Update Attendance Comment for {{ $student->first_name }} {{ $student->last_name }}</label>
+                                            <label for="exampleTextarea">Update Attendance Comment for {{ $attendance->student->first_name }} {{ $attendance->student->last_name }}</label>
                                             <textarea class="form-control" name="teacher_comment" id="teacher_comment" rows="3"></textarea>
                                           </div>
                                                                                     
