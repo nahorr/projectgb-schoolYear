@@ -32,7 +32,9 @@
             'admin.superadmin.schoolsetup.courses.assign',
             'admin.showstudentcoursesgrades',
             'admin.addGrades',
-            
+            'admin.reportcards.terms',
+            'admin/reportcards/students',
+            'admin.reportcards.print',
             ], 
             
             'App\Http\ViewComposers\AdminNavComposer'

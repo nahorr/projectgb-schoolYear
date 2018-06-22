@@ -33,131 +33,35 @@ use App\LearningAndAccademic;
 class CrudeController extends Controller
 {
     public function Terms()
-    {
+    {           
+              
 
-        //get current date
-        $today = Carbon::today();
-
-        //get teacher's section and group
-        $teacher = Auth::guard('web_admin')->user();
-
-        $reg_code = $teacher->registration_code;
-
-        $teacher = Staffer::where('registration_code', '=', $reg_code)->first();
-
-
-        //get students in group_section
-        $students_in_group = Student::where('group_id', '=', $teacher->group_id)
-        ->get();
-
-               
-       $all_user = User::get();
-
-             
-        
-        $count = 0;
-        foreach ($students_in_group as $students) {
-            $count = $count+1;
-        }
-
-        $group_teacher = Group::where('id', '=', $teacher->group_id)->first();
-        
-
-        //get terms
-        $terms = Term::get();
-
-        foreach ($terms as $t){
-            if ($today->between($t->start_date, $t->show_until )){
-                $current_term =  $t->term;
-
-            }
-                                                         
-        }
-
-        //get school school
-        $schoolyear = School_year::first();
-
-        
-
-        return view('/admin.reportcards.terms', compact('today', 'count', 'group_teacher', 'current_term', 
-            'schoolyear', 'students_in_group', 'all_user', 'st_user',  'terms','t'));
+        return view('admin.reportcards.terms');
    
     }
 
     public function Students($term_id)
     {
 
-
         $term = Term::find(Crypt::decrypt($term_id));
-        //get current date
-        $today = Carbon::today();
-
-        //get teacher's section and group
-        $teacher = Auth::guard('web_admin')->user();
-
-        $reg_code = $teacher->registration_code;
-
-        $teacher = Staffer::where('registration_code', '=', $reg_code)->first();
-
-
-        //get students in group_section
-        $students_in_group = Student::where('group_id', '=', $teacher->group_id)
-        ->get();
-
-            
-        $all_user = User::get();
-
-                
-        $count = 0;
-        foreach ($students_in_group as $students) {
-            $count = $count+1;
-        }
-
-        $group_teacher = Group::where('id', '=', $teacher->group_id)->first();
-
-        //get terms
-        $terms = Term::get();
-
-        foreach ($terms as $t){
-            if ($today->between($t->start_date, $t->show_until )){
-                $current_term =  $t->term;
-
-            }
-                                                         
-        }
-        
-
                
-        //get school school
-        $schoolyear = School_year::first();
 
-        
-
-        return view('/admin/reportcards/students', compact('today', 'count', 'teacher', 'group_teacher', 'current_term', 
-            'schoolyear', 'students_in_group', 'all_user', 'st_user', 'terms', 'term'));
+        return view('admin/reportcards/students', compact('term'));
     }
 
    
 
     public function Print($student_id, $term_id )
             {
-
-                //get current date
-                $today = Carbon::today();
-
-                $term = Term::find($term_id);
-                $next_term = Term::find($term->id+1);
-                $terms = Term::get();
                 $student = Student::find($student_id);
 
-                $student_user = User::where('registration_code', '=', $student->registration_code)->first();
-                $students = Student::where('group_id', '=', $student->group_id)->get();
-                $school = School::first();
-                $school_year = School_year::first();
+                $term = Term::find($term_id);
 
-                //teacher
-                $teacher = Staffer::where('group_id', '=', $student->group_id)->first();
-                $student_group = Group::where('id', '=', $student->group_id)->first();
+                $next_term = Term::find($term->id+1);
+               
+
+                $student_user = User::where('registration_code', '=', $student->registration_code)->first();
+                
 
                 $course_grade = Course::join('grades', 'courses.id', '=', 'grades.course_id')
                 ->where('student_id', '=', $student->id)
@@ -216,15 +120,15 @@ class CrudeController extends Controller
                 $pluck_course_id_avg = $mgb_avg->pluck('course_id')->toArray(); 
 
 
-                $course_grade_all_students = Course::join('grades', 'courses.id', '=', 'grades.course_id')
-                ->where('courses.group_id', '=', $student->group_id)
-                ->where('courses.term_id', '=', $term->id)
-                ->get();
+                //$course_grade_all_students = Course::join('grades', 'courses.id', '=', 'grades.course_id')
+                //->where('courses.group_id', '=', $student->group_id)
+                //->where('courses.term_id', '=', $term->id)
+                //->get();
 
                            
-                $sorted = $course_grade_all_students->sortByDesc('total');
+                //$sorted = $course_grade_all_students->sortByDesc('total');
 
-                $sorted_grouped = $course_grade_all_students->sortByDesc('total')->groupBy('course_id');
+                //$sorted_grouped = $course_grade_all_students->sortByDesc('total')->groupBy('course_id');
 
                 
 
