@@ -28,9 +28,6 @@ class GradesCrudController extends Controller
     {
 
     	
-    	//get current date
-        $today = Carbon::today();
-
         $student = Student::find(Crypt::decrypt($student_id));
 
         $course = Course::find(Crypt::decrypt($course_id));
@@ -40,15 +37,7 @@ class GradesCrudController extends Controller
         $group = Group::where('id', '=', $course->group_id)->first();
 
 
-    	$students = Student::where('group_id', '=', $course->group_id)->get();
-
-
-
-    	return view('/admin.addGrades', compact('student',
-
-    		'students', 'today', 'course', 'term', 'group'
-
-    		));
+    	return view('admin.addGrades', compact('student','course', 'term', 'group'));
     }
 
     public function postGrades(Request $r, $student_id, $course_id) 

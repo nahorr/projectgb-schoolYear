@@ -30,10 +30,6 @@ class StudentCoursesGradesController extends Controller
     public function showCourseGrades($id)
     {
 
-    	
-    	//get current date
-        $today = Carbon::today();
-
         $course = Course::find(Crypt::decrypt($id));
 
 
@@ -43,14 +39,7 @@ class StudentCoursesGradesController extends Controller
         $group = Group::where('id', '=', $course->group_id)->first();
 
 
-    	$students = Student::where('group_id', '=', $course->group_id)->get();
-
-
-
-        $all_user = User::get();
-
-
-
+    
     	$student_grades= Student::join('grades', 'students.id', '=', 'grades.student_id')
     	->where('grades.course_id', '=', $course->id)
         ->orderBy('total', 'desc')
@@ -81,9 +70,9 @@ class StudentCoursesGradesController extends Controller
     	
 
 
-    	return view('/admin.showstudentcoursesgrades', compact(
+    	return view('admin.showstudentcoursesgrades', compact(
 
-    		'students', 'today', 'course', 'term', 'group', 'student_grades', 'grades',
+    		'course', 'term', 'group', 'student_grades', 'grades',
             'class_highest', 'class_lowest', 'class_average', 'positions', 'all_user'
 
 

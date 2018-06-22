@@ -76,18 +76,18 @@
                             <tbody>
 
                             
-                                     @foreach ($students as $key => $student)
+                                     @foreach ($registrations_students as $key => $reg_students)
 
-                                        
+                                        @if($reg_students->school_year_id == $term->school_year_id && $reg_students->group_id == $current_registration_teacher->group_id) 
                                   
 
                                       <tr>
-                                        <td class="text-center">{{$key+1}}</td>
+                                        <td class="text-center">{{$key++}}</td>
 
                                         <td class="text-center"> 
-                                        @foreach ($all_user as $st_user)
+                                        @foreach ($all_users as $st_user)
 
-                                            @if ($st_user->registration_code == $student->registration_code)                         
+                                            @if ($st_user->registration_code == $reg_students->student->registration_code)                         
 
                                         <img class="avatar border-white" src="{{asset('/assets/img/students/'.$st_user->avatar) }}" alt="..."/>
 
@@ -96,46 +96,46 @@
                                         @endforeach
                                         </td>
 
-                                        <td class="text-center">{{$student->last_name}}</td>
+                                        <td class="text-center">{{$reg_students->student->last_name}}</td>
 
                                         <td class="text-center">
                                         @foreach ($grades as $grade)
-                                            @if ($grade->registration_code == $student->registration_code) 
+                                            @if ($grade->registration_code == $reg_students->student->registration_code) 
                                           {{$grade->first_ca}}
                                           @endif
                                         @endforeach
                                         </td>
                                         <td>
                                         @foreach ($grades as $grade)
-                                            @if ($grade->registration_code == $student->registration_code) 
+                                            @if ($grade->registration_code == $reg_students->student->registration_code) 
                                           {{$grade->second_ca}}
                                           @endif
                                         @endforeach
                                         </td>
                                         <td>
                                         @foreach ($grades as $grade)
-                                            @if ($grade->registration_code == $student->registration_code) 
+                                            @if ($grade->registration_code == $reg_students->student->registration_code) 
                                           {{$grade->third_ca}}
                                           @endif
                                         @endforeach
                                         </td>
                                         <td>
                                         @foreach ($grades as $grade)
-                                         @if ($grade->registration_code == $student->registration_code) 
+                                         @if ($grade->registration_code == $reg_students->student->registration_code) 
                                           {{$grade->fourth_ca}}
                                           @endif
                                          @endforeach
                                         </td>
                                         <td>
                                         @foreach ($grades as $grade)
-                                            @if ($grade->registration_code == $student->registration_code) 
+                                            @if ($grade->registration_code == $reg_students->student->registration_code) 
                                           {{$grade->exam}}
                                           @endif
                                         @endforeach
                                         </td>
                                         <td>
                                         @foreach ($grades as $grade)
-                                            @if ($grade->registration_code == $student->registration_code) 
+                                            @if ($grade->registration_code == $reg_students->student->registration_code) 
                                           {{$grade->total}}
                                           @endif
                                         @endforeach
@@ -146,7 +146,7 @@
                                         <td class="text-center">{{number_format($class_average, 1)}}</td>
                                         <td class="text-center">
                                         @foreach ($grades as $grade)
-                                            @if ($grade->registration_code == $student->registration_code)
+                                            @if ($grade->registration_code == $reg_students->student->registration_code)
 
                                         @if (array_search($grade->student_id, $positions) + 1 == 1)
 
@@ -182,7 +182,7 @@
                                         </td>
                                         <td class="text-center">
                                         @foreach ($grades as $grade)
-                                            @if ($grade->registration_code == $student->registration_code)
+                                            @if ($grade->registration_code == $reg_students->student->registration_code)
                                             
 
                                             @if ($grade->total < 65)
@@ -217,14 +217,14 @@
                                         </td>
                                         <td class="text-center">
                                        
-                                        <a href="{{ url('/addGrades', [Crypt::encrypt($student->id), Crypt::encrypt($course->id)] ) }}"> <i class="fa fa-plus fa-2x" aria-hidden="true"></i>&nbsp;&nbsp;Add 
+                                        <a href="{{ url('/addGrades', [Crypt::encrypt($reg_students->student->id), Crypt::encrypt($course->id)] ) }}"> <i class="fa fa-plus fa-2x" aria-hidden="true"></i>&nbsp;&nbsp;Add 
                                         </a>
                                         
                                         </td>
 
                                         <td class="text-center">
                                         @foreach ($grades as $grade)
-                                            @if ($grade->registration_code == $student->registration_code)
+                                            @if ($grade->registration_code == $reg_students->student->registration_code)
                                         <a href="{{ url('/editGrades', [Crypt::encrypt($grade->student_id), Crypt::encrypt($course->id)] ) }}"> <i class="fa fa-pencil-square-o fa-2x" aria-hidden="true"></i>&nbsp;&nbsp;Edit 
                                         </a>
                                         @endif
@@ -232,7 +232,7 @@
                                         </td>
                                         <td class="text-center">
                                         @foreach ($grades as $grade)
-                                            @if ($grade->registration_code == $student->registration_code)                                        
+                                            @if ($grade->registration_code == $reg_students->student->registration_code)                                        
                                         <a href="{{ url('/deletegrade/'.Crypt::encrypt($grade->id) ) }}" onclick="return confirm('Are you sure you want to Delete this record?')"> <i class="fa fa-trash fa-2x" aria-hidden="true"></i>&nbsp;&nbsp;Delete
                                         </a>
                                         @endif
@@ -240,7 +240,7 @@
                                         </td>
                                       
                                       </tr>
-                                      
+                                    @endif  
                                 @endforeach
                            
                             </tbody>

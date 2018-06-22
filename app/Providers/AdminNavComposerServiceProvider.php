@@ -30,6 +30,8 @@
             'admin.admincourses',
             'admin.showadmincourses',
             'admin.superadmin.schoolsetup.courses.assign',
+            'admin.showstudentcoursesgrades',
+            'admin.addGrades',
             
             ], 
             
