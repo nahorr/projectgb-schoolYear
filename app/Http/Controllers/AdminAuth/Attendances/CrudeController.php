@@ -27,46 +27,9 @@ class CrudeController extends Controller
 {
 	public function showTerms()
     {
+      
 
-    	//get current date
-        $today = Carbon::today();
-
-        //get teacher's section and group
-        $teacher = Auth::guard('web_admin')->user();
-
-        $reg_code = $teacher->registration_code;
-
-        $teacher = Staffer::where('registration_code', '=', $reg_code)->first();
-
-
-        //get students in group_section
-        $students_in_group = Student::where('group_id', '=', $teacher->group_id)
-        ->get();
-
-               
-       $all_user = User::get();
-
-             
-        
-        $count = 0;
-        foreach ($students_in_group as $students) {
-        	$count = $count+1;
-        }
-
-        $group_teacher = Group::where('id', '=', $teacher->group_id)->first();
-        
-
-        //get terms
-        $terms = Term::get();
-
-
-        //get school school
-        $schoolyear = School_year::first();
-
-        
-
-        return view('/admin.attendances.showterms', compact('today', 'count', 'group_teacher', 'current_term', 
-            'schoolyear', 'students_in_group', 'all_user', 'st_user',  'terms'));
+        return view('admin.attendances.showterms');
    
     }
 
@@ -142,11 +105,11 @@ class CrudeController extends Controller
 
     }
 
-     public function postAttendanceUpdate(Request $r, $student_id)
+     public function postAttendanceUpdate(Request $r, $attendance_id)
 
         {
         
-        $student = Student::find(Crypt::decrypt($student_id));
+        $attendance_edit = Attendance::find(Crypt::decrypt($attendance_id));
 
         $this->validate(request(), [
 
@@ -158,25 +121,10 @@ class CrudeController extends Controller
                 
                 ]);
 
-      
-        //get current date
-        $today = Carbon::today();
-
-                
-                                        
-        $attendance_edit = Attendance::where('student_id', '=', $student->id)
-                                        ->where('day', '=', $today)
-                                        ->first();
-
-
-                    
+                          
         $attendance_edit->attendance_code_id= $r->attendance_code_id;
         $attendance_edit->teacher_comment= $r->teacher_comment;
-                   
-            
-
-           
-
+                          
         $attendance_edit->save();
 
         flash('Attendance Updated Successfully')->success();

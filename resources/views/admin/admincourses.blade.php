@@ -14,8 +14,8 @@
                             <div class="header">
                                 <h4 class="title" style="color: #68B3C8;"><i class="fa fa-edit"></i><strong>Enter Grades</strong></h4>
                                 <h4 class="title">Please select a term to continue</h4>
-                                <p class="category"> <i class="fa fa-circle text-info"></i><strong>School Year:</strong> {{ $schoolyear->school_year }}</p>
-                                <p class="category"> <i class="fa fa-circle text-info"></i><strong>Group:</strong> {{ @$group_teacher->name }}</p>
+                                <p class="category"> <i class="fa fa-circle text-info"></i><strong>School Year:</strong> {{ $current_school_year->school_year }}</p>
+                                <!--<p class="category"> <i class="fa fa-circle text-info"></i><strong>Group:</strong> {{ @$current_registration_teacher->group->name }}</p>-->
                                 
                             </div>
 
@@ -28,11 +28,11 @@
 
                                         </thead>
                                         <tbody>
-                                            @foreach ($terms as $key => $term)
+                                            @foreach ($terms->where('school_year_id', '=', $current_school_year->id) as $key => $term)
 
                                             <tr>
                                                 <td>
-                                                {{$key+1}}
+                                                {{$number_init++}}
                                                 <br>
                                                 @if($today->between($term->start_date, $term->show_until))
                                                 <i class="fa fa-circle text-info"></i>Current

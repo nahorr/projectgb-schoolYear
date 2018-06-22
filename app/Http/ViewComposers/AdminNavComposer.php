@@ -94,6 +94,7 @@ Class AdminNavComposer {
                                 ->join('attendance_codes', 'attendances.attendance_code_id', '=', 'attendance_codes.id')
                                 ->select('attendances.*', 'terms.term', 'students.first_name', 'students.last_name', 'attendance_codes.code_name')
                                 ->get();
+        $groups = Group::get();
 
         //dd($current_registration_teacher);
 
@@ -116,7 +117,8 @@ Class AdminNavComposer {
         ->with('current_term', $current_term)
         ->with('comments', $comments)
         ->with('attendancecodes', $attendancecodes)
-        ->with('attendances', $attendances);
+        ->with('attendances', $attendances)
+        ->with('groups', '$groups');
        
     }
 }

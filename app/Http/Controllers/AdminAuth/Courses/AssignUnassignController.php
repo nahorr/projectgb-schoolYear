@@ -23,37 +23,26 @@ use Excel;
 
 class AssignUnassignController extends Controller
 {
-    public function assignCourse($course_id, $group_id, $term_id)
+    public function assignCourse($schoolyear_id, $course_id, $group_id, $term_id)
     {
+        $schoolyear = School_year::find($schoolyear_id);
 
-       
         $course = Course::find($course_id);
 
         $group = Group::find($group_id);
+
         $term = Term::find($term_id);
         
-        $today = Carbon::today();
-
-        $schoolyear = School_year::first();
-
-        //get all teachers
-        $staffers = Staffer::get();
-
-        //get logged in user
-        $teacher_logged_in = Auth::guard('web_admin')->user();
-
         
-        $reg_code = $teacher_logged_in->registration_code;
-
-        $teacher = Staffer::where('registration_code', '=', $reg_code)->first();
-
-        return view('/admin.superadmin.schoolsetup.courses.assign', compact('today', 'teacher', 'teacher_logged_in', 'schoolyear','group', 'term', 'course', 'staffers'));
+        return view('admin.superadmin.schoolsetup.courses.assign', compact( 'schoolyear', 'course','group', 'term'));
     }
 
-    public function postAssignCourse(Request $r, $course_id, $group_id, $term_id)
+    public function postAssignCourse(Request $r, $schoolyear_id, $course_id, $group_id, $term_id)
     {
-
-       $course = Course::find($course_id);
+        $schoolyear = School_year::find($schoolyear_id);
+        $course = Course::find($course_id);
+        $group = Group::find($group_id);
+        $term = Term::find($term_id);
 
 
 		$this->validate(request(), [
@@ -66,15 +55,12 @@ class AssignUnassignController extends Controller
 		$assign_staffer = Course::where('id', '=', $course->id)->first();
        	$assign_staffer->staffer_id = $r->staffer_id;
             
-	    $assign_staffer->save();
-
-	    $group = Group::find($group_id);
-        $term = Term::find($term_id);
+	    $assign_staffer->save(); 
 
 
 		flash('Instructor has been assigned successfully')->success();
 
-        return redirect()->route('showcourses', ['group_id' => $group->id, 'term_id' => $term->id ]);
+        return redirect()->route('showcourses', [ 'schoolyear_id' => $schoolyear->id, 'term_id' => $term->id , 'group_id' => $group->id, ]);
 
 		
         

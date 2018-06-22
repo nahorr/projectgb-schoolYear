@@ -249,8 +249,8 @@ Route::group(['middleware' => 'superadmin'], function () {
     Route::post('/schoolsetup/importcourses/{term}/{group}', 'AdminAuth\CourseSetUpController@importCourses');
 
     //Assign and unAssign courses to instructors
-    Route::get('/schoolsetup/assigncourse/{course}/{group}/{term}', 'AdminAuth\Courses\AssignUnassignController@assignCourse');
-    Route::post('/schoolsetup/postassigncourse/{course}/{group}/{term}', 'AdminAuth\Courses\AssignUnassignController@postAssignCourse');
+    Route::get('/schoolsetup/assigncourse/{schoolyear}/{course}/{group}/{term}', 'AdminAuth\Courses\AssignUnassignController@assignCourse');
+    Route::post('/schoolsetup/postassigncourse/{schoolyear}/{course}/{group}/{term}', 'AdminAuth\Courses\AssignUnassignController@postAssignCourse');
     Route::post('/schoolsetup/postunassigncourse/{course}', 'AdminAuth\Courses\AssignUnassignController@postUnassignCourse');
 
     //students setup

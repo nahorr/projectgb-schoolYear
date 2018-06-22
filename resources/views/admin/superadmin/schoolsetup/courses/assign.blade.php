@@ -46,7 +46,7 @@
 								<div class="widget-body">
 									<div class="widget-main">
 										
-									<form class="form-group" action="{{ url('/schoolsetup/postassigncourse', [$course->id, $course->group_id, $course->term_id] )}}" method="POST">
+									<form class="form-group" action="{{ url('/schoolsetup/postassigncourse', [$schoolyear->id, $course->id, $course->group_id, $course->term_id] )}}" method="POST">
                       						{{ csrf_field() }}
                       					
 
@@ -78,10 +78,10 @@
 											<br />
 											<select name="staffer_id" class="chosen-select form-control" id="form-field-select-3" data-placeholder="Select an Instructor...">
 												<option selected disabled>Please select one option</option>
-                                                    @foreach($staffers as $key => $staffer)
+                                                    @foreach($teachers as $key => $teacher)
 
-                                                        <option value="{{ $key+1 }}" >
-                                                            {{ $staffer->first_name }} {{ $staffer->last_name }}
+                                                        <option value="{{ $teacher->id }}" >
+                                                            {{ $teacher->first_name }} {{ $teacher->last_name }}
                                                         </option>
 
                                                     @endforeach

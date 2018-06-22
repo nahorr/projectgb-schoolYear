@@ -14,7 +14,7 @@
                         <div class="card">
                             <div class="header">
                                 <h4 class="title"><strong>{{ strtoupper($term->term) }} COURSES</strong></h4>
-                                <p class="category"> <i class="fa fa-circle text-danger"></i> <strong>My Class:</strong> {{ $group_teacher->name }}</p>
+                                <p class="category"> <i class="fa fa-circle text-danger"></i> <strong>My Assigned Class:</strong> {{ $current_registration_teacher->group->name }}</p>
                             </div>
 
                                 <div class="content">
@@ -26,7 +26,7 @@
 
                                         </thead>
                                         <tbody>
-                                            @foreach ($term_courses as $course)
+                                            @foreach ($term_courses->where('group_id', '=', $current_registration_teacher->group_id) as $course)
 
                                             <tr>
                                                 
@@ -78,17 +78,13 @@
                                         <tbody>
                                             @foreach ($assigned_term_courses as $course)
 
+                                                @if($course->staffer_id == $teacher->id)
+
                                             <tr>
                                                 
                                                 <td>{{ $course->course_code }}</td>
                                                 <td class="success">{{ $course->name }}</td>
-                                                <td class="success">
-                                                    @foreach($groups as $group)
-                                                        @if($course->group_id == $group->id)
-                                                            {{ $group->name}}
-                                                        @endif
-                                                    @endforeach
-                                                </td>
+                                                <td class="success">{{$course->group->name}}</td>
                                                 <td>
                                                     <strong>
                                                         <a href="{{asset('/showstudentcoursesgrades/'.Crypt::encrypt($course->id)) }}"><i class="fa fa-pencil-square-o fa-2x" aria-hidden="true"></i>&nbsp;&nbsp;Add/Edit Grades</a>
@@ -96,6 +92,7 @@
                                                 </td>
                                                
                                             </tr>
+                                            @endif
                                          @endforeach
                                             
                                         </tbody>

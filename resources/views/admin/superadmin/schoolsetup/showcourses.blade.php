@@ -9,7 +9,7 @@
            <hr>
             <strong>
                 <i class="ace-icon fa fa-university fa-2x"></i>
-                School Year: {{$schoolyear->school_year}}
+                School Year: {{$current_school_year->school_year}}
             </strong>
             @include('flash::message')
             @if ($message = Session::get('success'))
@@ -101,7 +101,7 @@
                                     </td>
                                     <td>
                                         @if($course->staffer_id == null)
-                                            <a href="{{asset('/schoolsetup/assigncourse/'.$course->id) }}/{{$course->group_id}}/{{$course->term_id}}" class="btn btn-info" role="button"><strong>Assign To an Instructor</strong></a>
+                                            <a href="{{asset('/schoolsetup/assigncourse/'.$schoolyear->id) }}/{{$course->id}}/{{$course->group_id}}/{{$course->term_id}}" class="btn btn-info" role="button"><strong>Assign To an Instructor</strong></a>
                                         @else
                                         <form class="form-group" action="{{ url('/schoolsetup/postunassigncourse', [$course->id] )}}" method="POST">
                                           {{ csrf_field() }}

@@ -26,6 +26,10 @@
             'admin.attendances.showstudents',
             'admin.attendances.addattendance',
             'admin.attendances.editattendance',
+            'admin.attendances.showterms',
+            'admin.admincourses',
+            'admin.showadmincourses',
+            'admin.superadmin.schoolsetup.courses.assign',
             
             ], 
             
