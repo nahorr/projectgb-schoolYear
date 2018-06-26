@@ -16,6 +16,7 @@
         View::composer(
             [
 
+            'admin.selectSchoolyear',
             'admin/includes/headdashboardtop',
             'admin/home',
             'admin/addComment',

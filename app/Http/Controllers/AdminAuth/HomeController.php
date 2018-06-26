@@ -31,12 +31,21 @@ use App\StudentRegistration;
 class HomeController extends Controller
 {
     
-    public function index()
+    public function selectSchoolyear()
     {
 
-                
-        return view('admin.home');
+        
+        return view('admin.selectSchoolyear');
     }
+
+    public function index($schoolyear)
+    {
+
+        $schoolyear = School_year::find($schoolyear);
+
+        return view('admin.home', compact('schoolyear'));
+    }
+
 
     public function printRegCode ($student_id)
     {

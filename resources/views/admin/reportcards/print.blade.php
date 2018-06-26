@@ -70,7 +70,7 @@
                     <p class="noil">{{@$school->address}}, {{@$school->city}}, {{@$school->state}} {{@$school->postal_code}}</p> 
                     <p class="noil">Phone:&nbsp; {{@$school->phone}} &nbsp; Email:&nbsp; {{@$school->email}}</p> 
                     <p class="noil">END OF TERM REPORT</p> 
-                    <p class="noil">{{ @$term->school_year->school_year}} &nbsp; SESSION</p>
+                    <p class="noil">{{ $term->school_years->school_year }} &nbsp; SESSION</p>
                     <p class="noil">{{ @$term->term }}</p> 
                  
                   </div>

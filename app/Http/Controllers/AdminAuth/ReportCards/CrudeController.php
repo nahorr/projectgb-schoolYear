@@ -32,11 +32,12 @@ use App\LearningAndAccademic;
 
 class CrudeController extends Controller
 {
-    public function Terms()
+    public function Terms($schoolyear_id)
     {           
               
+        $schoolyear = School_year::find($schoolyear_id)
 
-        return view('admin.reportcards.terms');
+        return view('admin.reportcards.terms', compact('schoolyear'));
    
     }
 
@@ -120,15 +121,15 @@ class CrudeController extends Controller
                 $pluck_course_id_avg = $mgb_avg->pluck('course_id')->toArray(); 
 
 
-                //$course_grade_all_students = Course::join('grades', 'courses.id', '=', 'grades.course_id')
-                //->where('courses.group_id', '=', $student->group_id)
-                //->where('courses.term_id', '=', $term->id)
-                //->get();
+                $course_grade_all_students = Course::join('grades', 'courses.id', '=', 'grades.course_id')
+                ->where('courses.group_id', '=', $student->group_id)
+                ->where('courses.term_id', '=', $term->id)
+                ->get();
 
                            
-                //$sorted = $course_grade_all_students->sortByDesc('total');
+                $sorted = $course_grade_all_students->sortByDesc('total');
 
-                //$sorted_grouped = $course_grade_all_students->sortByDesc('total')->groupBy('course_id');
+                $sorted_grouped = $course_grade_all_students->sortByDesc('total')->groupBy('course_id');
 
                 
 

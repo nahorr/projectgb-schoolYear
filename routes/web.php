@@ -69,14 +69,17 @@ Route::group(['middleware' => 'admin_auth'], function(){
 
 Route::post('/admin_logout', 'AdminAuth\LoginController@logout');
 
-Route::get('/admin_home', 'AdminAuth\HomeController@index')->name('adminhome');
+//select school year page
+Route::get('/select_schoolyear', 'AdminAuth\HomeController@selectSchoolyear')->name('selectSchoolyear');
+Route::get('/admin_home/{schoolyear}', 'AdminAuth\HomeController@index')->name('adminhomeSchoolyear');
+
 Route::get('/admin/printregcode/{student}', 'AdminAuth\HomeController@printRegCode');
 Route::get('/admin/printallregcode', 'AdminAuth\HomeController@printAllRegCode');
 Route::get('/admin/observationsonconduct', 'AdminAuth\HomeController@observationsOnConduct');
 //Route::get('/admin/emailcode', 'AdminAuth\HomeController@emailCode');
 
 //Print Students Report Cards
-Route::get('/admin/reportcards/terms', 'AdminAuth\ReportCards\CrudeController@Terms');
+Route::get('/admin/reportcards/terms/{schoolyear}', 'AdminAuth\ReportCards\CrudeController@Terms');
 Route::get('/admin/reportcards/students/{term}', 'AdminAuth\ReportCards\CrudeController@Students');
 Route::get('/admin/reportcards/print/{student}/{term}', 'AdminAuth\ReportCards\CrudeController@Print');
 Route::get('/admin/reportcards/printall/{term}', 'AdminAuth\ReportCards\CrudeController@PrintAll')->where(['students'=>'.*']);
