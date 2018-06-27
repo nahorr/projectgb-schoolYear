@@ -37,9 +37,9 @@
 
 <div class="wrapper">
 
- @include('admin.includes.sidebar-select-schoolyear')
 
-    <div class="main-panel">
+
+    <div class="main-panel" style="float: none; width: calc(100%);">
         <nav class="navbar navbar-default">
             <div class="container-fluid">
                 <div class="navbar-header">
@@ -119,8 +119,68 @@
             </div>
         </nav>
 
+        <div class="content">
 
-        @yield('content')
+        
+           
+           
+              <div class="row" style="margin-left: 25%; margin-right: 25%;">
+
+               
+                @foreach($school_years as $schoolyear)
+                <div class="col-lg-6 col-sm-6">
+                  <a href="{{ url('/admin_home/'.$schoolyear->id)}}">
+                    <div class="card">
+                        <div class="content">
+                            <div class="row">
+                                <div class="col-xs-5">
+                                  @if( $schoolyear->id == $current_school_year->id)
+                                    <div class="icon-big icon-success text-center">
+                                        <i class="fa fa-university" aria-hidden="true"></i>
+                                    </div>
+                                    @else
+                                    <div class="icon-big icon-warning text-center">
+                                        <i class="fa fa-university" aria-hidden="true"></i>
+                                    </div>
+                                    @endif
+                                </div>
+                                <div class="col-xs-7">
+                                    <div class="numbers">
+                                      @if( $schoolyear->id == $current_school_year->id)
+                                        <p class="text-success">Current School Year</p>
+                                        <p class="text-success">{{$schoolyear->school_year}}</p>
+                                        @else
+                                        <p>School Year</p>
+                                        <p>{{$schoolyear->school_year}}</p>
+                                        @endif
+                                    </div>
+                                </div>
+                            </div>
+                            <div class="footer">
+                                <hr />
+                                <div class="stats">
+                                  @if( $schoolyear->id == $current_school_year->id)
+                                    
+                                    <span class="text-success"> <i class="ti-calendar icon-success"></i> Start Date: {{$schoolyear->start_date->toFormatteddateString()}} <i class="ti-calendar icon-success"></i> End Date: {{$schoolyear->end_date->toFormatteddateString()}}</span>
+                                  @else
+                                  <span> <i class="ti-calendar icon-warning"></i> Start Date: {{$schoolyear->start_date->toFormatteddateString()}} <i class="ti-calendar icon-warning"></i> End Date: {{$schoolyear->end_date->toFormatteddateString()}}</span>
+                                  @endif
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                  </a>
+                </div>
+             @endforeach 
+
+              </div>
+            
+
+
+            </div>
+
+         
+                 
 
 
         @include('admin.includes.footer')

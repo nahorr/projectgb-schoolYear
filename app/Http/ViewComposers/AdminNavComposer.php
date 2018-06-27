@@ -47,7 +47,7 @@ Class AdminNavComposer {
         $school = School::first();
 
         //get school years
-        $school_years = School_year::get();
+        $school_years = School_year::orderBy('start_date', 'desc')->get();
 
         //get current school year
         $current_school_year = School_year::where([['start_date', '<=', $today], ['end_date', '>=', $today]])->first();
