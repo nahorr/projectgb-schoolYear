@@ -43,7 +43,11 @@ class HomeController extends Controller
 
         $schoolyear = School_year::find($schoolyear);
 
-        return view('admin.home', compact('schoolyear'));
+        $reg_teacher = StafferRegistration::where('school_year_id', '=', $schoolyear->id)->first();
+
+        //$regs_students = StudentRegistration::where('school_year_id', '=', $schoolyear->id)->where('group_id', '=', $reg_teacher->group_id);
+
+        return view('admin.home', compact('schoolyear', 'reg_teacher'));
     }
 
 

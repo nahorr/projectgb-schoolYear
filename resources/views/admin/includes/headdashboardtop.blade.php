@@ -11,9 +11,10 @@
                                         <div class="numbers">
                                             <p>Class size</p>
 
-                                            @if( $current_registration_teacher)
+                                            @if( $reg_teacher )
 
-                                                    {{ $registrations_students->where('school_year_id', '=', $current_school_year->id)->where('group_id', '=', $current_registration_teacher->group_id)->count() }}
+
+                                                    {{ @$registrations_students->where('school_year_id', '=', $schoolyear->id)->where('group_id', '=', $reg_teacher->group_id)->count() }}
                                                 
                                              @else
                                                 0
@@ -25,13 +26,14 @@
                                     <hr />
                                     <div class="stats">
                                         <i class="ti-reload"></i>
-                                            @if( $current_registration_teacher)
+                                           @if( $reg_teacher )
 
-                                                    {{ $registrations_students->where('school_year_id', '=', $current_school_year->id)->where('group_id', '=', $current_registration_teacher->group_id)->count() }}
+
+                                                    {{ @$registrations_students->where('school_year_id', '=', $schoolyear->id)->where('group_id', '=', $reg_teacher->group_id)->count() }}
                                                 
-                                                @else
-                                                   0
-                                                @endif
+                                             @else
+                                                0
+                                            @endif 
                                            
 
                                           students in your class this term
@@ -59,7 +61,7 @@
                                 <div class="footer">
                                     <hr />
                                     <div class="stats">
-                                        <i class="ti-calendar"></i> You are assigned to {{ @$current_registration_teacher->group->name }} this school year.
+                                        <i class="ti-calendar"></i> You are assigned to {{ @$current_registration_teacher->group->name }} this term.
                                     </div>
                                 </div>
                             </div>

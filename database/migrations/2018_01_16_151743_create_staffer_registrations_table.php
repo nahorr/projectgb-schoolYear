@@ -19,6 +19,8 @@ class CreateStafferRegistrationsTable extends Migration
             $table->foreign('staffer_id')->references('id')->on('staffers')->onDelete('cascade');
             $table->integer('school_year_id')->unsigned();
             $table->foreign('school_year_id')->references('id')->on('school_years')->onDelete('cascade');
+            $table->integer('term_id')->unsigned();
+            $table->foreign('term_id')->references('id')->on('terms')->onDelete('cascade');
             $table->integer('group_id')->unsigned();
             $table->foreign('group_id')->references('id')->on('groups')->onDelete('cascade');
             $table->timestamps();
