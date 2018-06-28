@@ -38,16 +38,23 @@ class HomeController extends Controller
         return view('admin.selectSchoolyear');
     }
 
-    public function index($schoolyear)
+    public function selectTerm()
+    {
+
+        return view('admin.selectTerm');
+    }
+
+    public function index($schoolyear, $term)
     {
 
         $schoolyear = School_year::find($schoolyear);
 
+        $term = Term::find($sterm);
+
         $reg_teacher = StafferRegistration::where('school_year_id', '=', $schoolyear->id)->first();
 
-        //$regs_students = StudentRegistration::where('school_year_id', '=', $schoolyear->id)->where('group_id', '=', $reg_teacher->group_id);
-
-        return view('admin.home', compact('schoolyear', 'reg_teacher'));
+       
+        return view('admin.home', compact('schoolyear', 'term', 'reg_teacher'));
     }
 
 

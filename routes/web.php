@@ -70,8 +70,9 @@ Route::group(['middleware' => 'admin_auth'], function(){
 Route::post('/admin_logout', 'AdminAuth\LoginController@logout');
 
 //select school year page
-Route::get('/admin_home', 'AdminAuth\HomeController@selectSchoolyear')->name('selectSchoolyear');
-Route::get('/admin_home/{schoolyear}', 'AdminAuth\HomeController@index')->name('adminhomeSchoolyear');
+Route::get('/admin_home', 'AdminAuth\HomeController@selectTerm')->name('selectTerm');
+//Route::get('/admin_home/selectterm', 'AdminAuth\HomeController@selectTerm')->name('selectTerm');
+Route::get('/admin_home/{schoolyear}/{term}', 'AdminAuth\HomeController@index')->name('adminhomeSchoolyearTerm');
 
 Route::get('/admin/printregcode/{student}', 'AdminAuth\HomeController@printRegCode');
 Route::get('/admin/printallregcode', 'AdminAuth\HomeController@printAllRegCode');
