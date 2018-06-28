@@ -150,11 +150,15 @@
                                         <td class="text-center">{{$schoolyear->end_date->toFormattedDateString()}}</td>
                                         <td class="text-center">
                                             @foreach ($terms->where('school_year_id', '=', $schoolyear->id) as $term)
-                                                <a href="{{asset('/admin_home/'. $schoolyear->id)}}/{{$term->id}}" target="_blank" >
+                                                <a href="{{asset('/admin_home/'. $schoolyear->id)}}/{{$term->id}}">
                                                     @if($schoolyear->id == $current_school_year->id)
-                                                    <button type="button" class="btn btn-success btn-sm">{{strtoupper($term->term)}}</button>
+                                                        @if($term->id == $current_term->id)
+                                                            <button type="button" class="btn btn-success btn-sm">{{strtoupper($term->term)}}<br><mark style="color: green;">Current Term</mark></button>
+                                                        @else
+                                                            <button type="button" class="btn btn-success btn-sm">{{strtoupper($term->term)}}</button>
+                                                        @endif
                                                     @else
-                                                    <button type="button" class="btn btn-primary btn-sm">{{strtoupper($term->term)}}</button>
+                                                            <button type="button" class="btn btn-primary btn-sm">{{strtoupper($term->term)}}</button>
                                                     @endif
                                                 </a>
                                                 <br>

@@ -30,14 +30,6 @@ use App\StudentRegistration;
 
 class HomeController extends Controller
 {
-    
-    public function selectSchoolyear()
-    {
-
-        
-        return view('admin.selectSchoolyear');
-    }
-
     public function selectTerm()
     {
 
@@ -49,12 +41,17 @@ class HomeController extends Controller
 
         $schoolyear = School_year::find($schoolyear);
 
-        $term = Term::find($sterm);
+        $term = Term::find($term);
 
-        $reg_teacher = StafferRegistration::where('school_year_id', '=', $schoolyear->id)->first();
+        $reg_teacher = StafferRegistration::where('school_year_id', '=', $schoolyear->id)->where('term_id', '=', $term->id)->first();
 
+        $regs_students = StafferRegistration::where('school_year_id', '=', $schoolyear->id)->where('term_id', '=', $term->id)->get();
+
+        $regs_students_first = StafferRegistration::where('school_year_id', '=', $schoolyear->id)->where('term_id', '=', $term->id)->first();
+
+        //dd($reg_teacher->group_id);
        
-        return view('admin.home', compact('schoolyear', 'term', 'reg_teacher'));
+        return view('admin.home', compact('schoolyear', 'term', 'reg_teacher', 'regs_students', 'regs_students_first'));
     }
 
 

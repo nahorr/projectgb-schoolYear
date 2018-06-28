@@ -61,7 +61,7 @@ Class AdminNavComposer {
 
         //get all students
         $students = Student::get();
-
+        
         //get all admin/staffer/teacher's registrations.  
         //note also that a teacher schould have one registration for the current school year and like wise for every school year.
         $registrations_teacher = StafferRegistration::where('staffer_id', '=', $teacher->id)->get();
