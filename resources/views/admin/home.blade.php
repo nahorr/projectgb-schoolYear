@@ -61,9 +61,9 @@
                             </thead>
                             <tbody> 
                                                           
-                                @foreach (@$regs_students->where('group_id', '=', $reg_teacher->group_id) as $key => $reg_student)
+                                @foreach ($join_students_regs->where('term_id', $term->id) as $key => $reg_student)
 
-                                          @foreach ($students as $student)   
+
                                                                              
                                     <tr>
 
@@ -74,19 +74,19 @@
                                      
                                       @foreach ($all_users as $st_user)
 
-                                        
+                                      
 
-                                          @if($st_user->registration_code == $student->where('id', '=', $reg_student->student_id)->registration_code)
+                                          @if($st_user->registration_code == $reg_student->registration_code)
 
                                           <img class="avatar border-white" src="{{asset('assets/img/students/'.$st_user->avatar) }}" alt="..."/>
                                       
                                           @endif
-                                        
+                                      
                                       @endforeach
 
                                        </td>
-                                      <td>{{@$reg_student->student->first_name}}</td>
-                                      <td>{{@$reg_student->student->last_name}}</td>
+                                      <td>{{$reg_student->first_name}}</td>
+                                      <td>{{$reg_student->last_name}}</td>
                                       <td>
                                         @foreach ($comments as $comment) 
                                           @if (@$comment->student_id == @$reg_student->student->id && $comment->term_id == $term->id) 
@@ -120,7 +120,7 @@
                                     </td>
                                     <td>{{@$reg_student->student->registration_code}} <a href="{{asset('/admin/printregcode/'.@$reg_student->student->id)}}" target="_blank" ><i class="fa fa-print" aria-hidden="true"></i>print</a>
                                     </td>   
-                                @endforeach
+                        
                             @endforeach
                           
                             
