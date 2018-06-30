@@ -43,7 +43,7 @@
                                     <div class="col-xs-7">
                                         <div class="numbers">
                                             <p>Class</p>
-                                           <p> {{ @$reg_teacher->group->name }} </>
+                                           <p> {{ $join_teacher_regs->where('term_id', $term->id)->find('name') }} </>
                                         </div>
                                     </div>
                                 </div>
