@@ -66,6 +66,10 @@ Class AdminNavComposer {
         //note also that a teacher schould have one registration for the current school year and like wise for every school year.
         $registrations_teacher = StafferRegistration::where('staffer_id', '=', $teacher->id)->get();
 
+        $join_teacher_regs = StafferRegistration::join('staffers', 'staffer_registrations.staffer_id', '=', 'staffers.id')->join('school_years', 'staffer_registrations.school_year_id', '=', 'school_years.id')->join('terms', 'staffer_registrations.term_id', '=', 'terms.id')
+                                ->join('groups', 'staffer_registrations.group_id', '=', 'groups.id')
+                                ->get();
+
         //get current registration for admin/staffer/teacher. The idea is to get the current group_id from it.
         $current_registration_teacher = StafferRegistration::where('school_year_id', '=', $current_school_year->id)->where('staffer_id', '=', $teacher->id)->first();
         
@@ -73,6 +77,10 @@ Class AdminNavComposer {
         /*$students_in_teacher_current_group = StudentRegistration::where('school_year_id', '=', $current_school_year->id)->where('group_id', '=', $current_registration_teacher->group_id)->get();*/
 
         $registrations_students = StudentRegistration::get();
+
+        $join_students_regs = StudentRegistration::join('students', 'student_registrations.student_id', '=', 'students.id')->join('school_years', 'student_registrations.school_year_id', '=', 'school_years.id')->join('terms', 'student_registrations.term_id', '=', 'terms.id')
+                                ->join('groups', 'student_registrations.group_id', '=', 'groups.id')
+                                ->get();
         
         //get all users                      
         $all_users = User::get();
@@ -96,7 +104,7 @@ Class AdminNavComposer {
                                 ->get();
         $groups = Group::get();
 
-        //dd($current_registration_teacher);
+        //dd($join_students_regs);
 
         //put variables in views
         $view
@@ -118,7 +126,9 @@ Class AdminNavComposer {
         ->with('comments', $comments)
         ->with('attendancecodes', $attendancecodes)
         ->with('attendances', $attendances)
-        ->with('groups', '$groups');
+        ->with('groups', '$groups')
+        ->with('join_students_regs', $join_students_regs)
+        ->with('join_teacher_regs', $join_teacher_regs);
        
     }
 }

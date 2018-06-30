@@ -11,13 +11,11 @@
                                         <div class="numbers">
                                             <p>Class size</p>
 
-                                            @if( @$regs_students_first->group_id == @$reg_teacher->group_id )
+                                
 
-                                      {{ $regs_students->count() }}
+                                      {{ $join_teacher_regs->where('term_id', $term->id)->count() }}
                                   
-                                @else
-                                  0
-                                @endif 
+                               
                                         </div>
                                     </div>
                                 </div>
@@ -25,13 +23,7 @@
                                     <hr />
                                     <div class="stats">
                                         <i class="ti-reload"></i>
-                                          @if( @$regs_students_first->group_id == @$reg_teacher->group_id )
-
-                                      {{ $regs_students->count() }}
-                                  
-                                @else
-                                  0
-                                @endif 
+                                          {{ $join_teacher_regs->where('term_id', $term->id)->count() }}
 
                                           students in your class this term
                                     </div>

@@ -49,13 +49,8 @@ class HomeController extends Controller
 
         $regs_students_first = StafferRegistration::where('school_year_id', '=', $schoolyear->id)->where('term_id', '=', $term->id)->first();
 
-        $join_students_regs = StudentRegistration::join('students', 'student_registrations.student_id', '=', 'students.id')->join('school_years', 'student_registrations.school_year_id', '=', 'school_years.id')->join('terms', 'student_registrations.term_id', '=', 'terms.id')
-                                ->join('groups', 'student_registrations.group_id', '=', 'groups.id')
-                                ->get();
-
-        //dd($join_students_regs);
        
-        return view('admin.home', compact('schoolyear', 'term', 'reg_teacher', 'regs_students', 'regs_students_first', 'join_students_regs'));
+        return view('admin.home', compact('schoolyear', 'term', 'reg_teacher', 'regs_students', 'regs_students_first'));
     }
 
 
