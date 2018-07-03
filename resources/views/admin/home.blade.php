@@ -41,6 +41,9 @@
                              
 
                                 students in your class this term</p>
+                                <p>School Year: {{$schoolyear->school_year}}</p>
+                                <p>Term: {{$term->term}}</p>
+                                <p>Class: {{$reg_teacher->group->name}}</p>
                             </div>
                             <div class="content">
                             <div class="table-responsive">
@@ -100,14 +103,14 @@
                                     <td>
                                     
                                     <strong>
-                                      <a href="{{asset('/addComment/'.Crypt::encrypt(@$reg_student->student->id)) }}/{{Crypt::encrypt($term->id)}}"><i class="fa fa-plus fa-2x" aria-hidden="true"></i>{{$term->id}}</a>&nbsp;
+                                      <a href="{{asset('/addComment/'.Crypt::encrypt(@$reg_student->student->id)) }}/{{$schoolyear->id}}/{{Crypt::encrypt($term->id)}}"><i class="fa fa-plus fa-2x" aria-hidden="true"></i>{{$term->id}}</a>&nbsp;
 
                                       
                                       @foreach ($comments as $comment)                                       
                                            
                                         @if (@$comment->student_id == @$reg_student->student->id && @$comment->term_id == @$term->id)
 
-                                          <a href="{{asset('/editComment/'.Crypt::encrypt($comment->id))}}/{{Crypt::encrypt($comment->student_id)}}">
+                                          <a href="{{asset('/editComment/'.Crypt::encrypt($comment->id))}}/{{$reg_student->student->id}}/{{$schoolyear->id}}/{{$term->id}}">
                                             <i class="fa fa-pencil-square-o fa-2x" aria-hidden="true"></i>
                                           </a>&nbsp;
 

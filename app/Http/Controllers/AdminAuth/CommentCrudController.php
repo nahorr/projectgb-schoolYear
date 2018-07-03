@@ -26,19 +26,24 @@ use \Crypt;
 
 class CommentCrudController extends Controller
 {
-    public function addComment($student_id, $term_id)
+    public function addComment($student_id, $schoolyear_id, $term_id)
     {
 
         $student = Student::find(Crypt::decrypt($student_id));
 
+        $schoolyear = School_year::find($schoolyear_id);
+
         $term =Term::find(Crypt::decrypt($term_id));
 
 
-    	return view('admin.addComment', compact('student', 'term'));
+    	return view('admin.addComment', compact('student', 'schoolyear', 'term'));
     }
 
-    public function postComment(Request $r) 
+    public function postComment(Request $r , $schoolyear_id, $term_id) 
     {           
+        $schoolyear = School_year::find($schoolyear_id);
+
+        $term =Term::find($term_id);
 
     	$this->validate(request(), [
 
@@ -62,14 +67,16 @@ class CommentCrudController extends Controller
 
        
 
-    	return redirect()->route('adminhome');
+    	return redirect()->route('adminhomeSchoolyearTerm', [ 'schoolyear_id' => $schoolyear->id, 'term_id' => $term->id]);;
     }
 
-    public function editComment($comment_id, $student_id)
+    public function editComment($comment_id, $student_id, $schoolyear_id, $term_id)
     {
 
         $comment = Comment::find(Crypt::decrypt($comment_id));
-        $student = Student::find(Crypt::decrypt($student_id));
+        $student = Student::find($student_id);
+        $schoolyear = School_year::find($schoolyear_id);
+        $term =Term::find($term_id);
         
         return view('admin.editComment', compact('comment', 'student'));
     }

@@ -13,7 +13,7 @@
             </div>
             <hr style="border-color: #fff;">
 
-          			<form class="form-group" action="{{ url('postComment')}}" method="POST">
+          			<form class="form-group" action="{{ url('postComment', [$schoolyear->id, $term->id])}}" method="POST">
           					{{ csrf_field() }}
           				<table class="table text-center table-responsive">
                     <thead>

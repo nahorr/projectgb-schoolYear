@@ -116,10 +116,10 @@ Route::get('/deletegrade/{grade}', 'AdminAuth\StudentCoursesGradesController@del
 
 //show students grades by term for editing
 //comments crud
-Route::get('/addComment/{student_id}/{term_id}', 'AdminAuth\CommentCrudController@addComment');
-Route::post('/postComment', 'AdminAuth\CommentCrudController@postComment');
-Route::get('/editComment/{comment}/{student}', 'AdminAuth\CommentCrudController@editComment');
-Route::post('/postCommentUpdate/{comment}', 'AdminAuth\CommentCrudController@postCommentUpdate');
+Route::get('/addComment/{student_id}/{schoolyear_id}/{term_id}', 'AdminAuth\CommentCrudController@addComment');
+Route::post('/postComment/{schoolyear_id}/{term_id}', 'AdminAuth\CommentCrudController@postComment');
+Route::get('/editComment/{comment}/{student}/{schoolyear_id}/{term_id}', 'AdminAuth\CommentCrudController@editComment');
+Route::post('/postCommentUpdate/{comment}/{schoolyear_id}/{term_id}', 'AdminAuth\CommentCrudController@postCommentUpdate');
 Route::get('/postcommentdelete/{comment}', 'AdminAuth\CommentCrudController@deleteComment');
 
 //Health Records

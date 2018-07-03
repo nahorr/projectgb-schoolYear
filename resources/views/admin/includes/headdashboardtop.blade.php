@@ -43,7 +43,7 @@
                                     <div class="col-xs-7">
                                         <div class="numbers">
                                             <p>Class</p>
-                                           <p> {{ $join_teacher_regs->where('term_id', $term->id)->find('name') }} </>
+                                           <p> {{ @$reg_teacher->group->name }} </>
                                         </div>
                                     </div>
                                 </div>
@@ -69,7 +69,7 @@
                                     <div class="col-xs-7">
                                         <div class="numbers">
                                             <p>Term</p>
-                                            <p> {{@$term->term}} </p>
+                                            <p> {{$term->term}} </p>
                                         </div>
                                     </div>
                                 </div>
@@ -77,7 +77,7 @@
                                     <hr />
                                     <div class="stats">
                                         <i class="ti-timer"></i> 
-                                        Ends:  {{ @$term->end_date->toFormatteddateString() }}
+                                        Ends:  {{ $term->end_date->toFormatteddateString() }}
                                                
                                     </div>
                                 </div>
