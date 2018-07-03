@@ -13,7 +13,7 @@
 
                                 
 
-                                      {{ $join_teacher_regs->where('term_id', $term->id)->count() }}
+                                      {{ @\App\StudentRegistration::where('school_year_id', '=', $schoolyear->id)->where('term_id', '=', $term->id)->where('group_id', \App\StafferRegistration::where('school_year_id', '=', $schoolyear->id)->where('term_id', '=', $term->id)->first()->group_id)->count() }}
                                   
                                
                                         </div>
@@ -22,10 +22,10 @@
                                 <div class="footer">
                                     <hr />
                                     <div class="stats">
-                                        <i class="ti-reload"></i>
-                                          {{ $join_teacher_regs->where('term_id', $term->id)->count() }}
+                                        <i class="fa fa-users"></i>
+                                          {{ @\App\StudentRegistration::where('school_year_id', '=', $schoolyear->id)->where('term_id', '=', $term->id)->where('group_id', \App\StafferRegistration::where('school_year_id', '=', $schoolyear->id)->where('term_id', '=', $term->id)->first()->group_id)->count() }}
 
-                                          students in your class this term
+                                          student(s) in your class this term
                                     </div>
                                 </div>
                             </div>
@@ -43,14 +43,14 @@
                                     <div class="col-xs-7">
                                         <div class="numbers">
                                             <p>Class</p>
-                                           <p> {{ @$reg_teacher->group->name }} </>
+                                           <p> {{ @\App\StafferRegistration::where('school_year_id', '=', $schoolyear->id)->where('term_id', '=', $term->id)->first()->group->name }} </>
                                         </div>
                                     </div>
                                 </div>
                                 <div class="footer">
                                     <hr />
                                     <div class="stats">
-                                        <i class="ti-calendar"></i> You are assigned to class <span style="color: red">{{ @$reg_teacher->group->name }}</span> this term.
+                                        <i class="ti-calendar"></i> You are assigned to class <span style="color: red">{{ @\App\StafferRegistration::where('school_year_id', '=', $schoolyear->id)->where('term_id', '=', $term->id)->first()->group->name }}</span> this term.
                                     </div>
                                 </div>
                             </div>

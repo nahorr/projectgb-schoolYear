@@ -26,24 +26,24 @@ use \Crypt;
 
 class CommentCrudController extends Controller
 {
-    public function addComment($student_id, $schoolyear_id, $term_id)
+    public function addComment($student, School_year $schoolyear, Term $term)
     {
 
-        $student = Student::find(Crypt::decrypt($student_id));
+        $student = Student::find(Crypt::decrypt($student));
 
-        $schoolyear = School_year::find($schoolyear_id);
+        //$schoolyear = School_year::find($schoolyear);
 
-        $term =Term::find(Crypt::decrypt($term_id));
+        //$term =Term::find(Crypt::decrypt($term));
 
 
     	return view('admin.addComment', compact('student', 'schoolyear', 'term'));
     }
 
-    public function postComment(Request $r , $schoolyear_id, $term_id) 
+    public function postComment(Request $r , School_year $schoolyear, Term $term) 
     {           
-        $schoolyear = School_year::find($schoolyear_id);
+        //$schoolyear = School_year::find($schoolyear_id);
 
-        $term =Term::find($term_id);
+        //$term =Term::find($term_id);
 
     	$this->validate(request(), [
 
@@ -70,19 +70,19 @@ class CommentCrudController extends Controller
     	return redirect()->route('adminhomeSchoolyearTerm', [ 'schoolyear_id' => $schoolyear->id, 'term_id' => $term->id]);;
     }
 
-    public function editComment($comment_id, $student_id, $schoolyear_id, $term_id)
+    public function editComment($comment, $student, School_year $schoolyear, Term $term)
     {
 
-        $comment = Comment::find(Crypt::decrypt($comment_id));
-        $student = Student::find($student_id);
-        $schoolyear = School_year::find($schoolyear_id);
-        $term =Term::find($term_id);
+        $comment = Comment::find(Crypt::decrypt($comment));
+        $student = Student::find($student);
+        //$schoolyear = School_year::find($schoolyear_id);
+        //$term =Term::find($term_id);
         
-        return view('admin.editComment', compact('comment', 'student'));
+        return view('admin.editComment', compact('comment', 'student', 'schoolyear', 'term'));
     }
 
 
-    public function postCommentUpdate(Request $r, $comment_id)
+    public function postCommentUpdate(Request $r, $comment, School_year $schoolyear, Term $term)
 
     {
          $this->validate(request(), [
@@ -93,20 +93,20 @@ class CommentCrudController extends Controller
             ]);
 
 
-        $student_comment =Comment::find(Crypt::decrypt($comment_id));
+        $student_comment =Comment::find(Crypt::decrypt($comment));
 
   
         $student_comment->comment_teacher= $r->comment_teacher;
             
         $student_comment->save();
 
-        return redirect()->route('adminhome');
+        return redirect()->route('adminhomeSchoolyearTerm', [ 'schoolyear_id' => $schoolyear->id, 'term_id' => $term->id]);
 
      }
 
-     public function deleteComment($comment_id)
+     public function deleteComment($comment)
          {
-            Comment::destroy(Crypt::decrypt($comment_id));
+            Comment::destroy(Crypt::decrypt($comment));
 
             flash('Comment has been deleted')->error();
 

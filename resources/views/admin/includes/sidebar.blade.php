@@ -7,7 +7,7 @@
 
         <div class="sidebar-wrapper">
             <div class="logo">
-                <a href="https://socidy.com/" class="simple-text">
+                <a href="{{url('admin_home')}}" class="simple-text">
                     <img src="{{asset('/assets/img/logo/logo.jpg')}}" style="width: 120px; height: 120px; border-radius: 50%; margin-right: 25px;">
                 </a>
             </div>
@@ -15,15 +15,23 @@
             
 
             <ul class="nav">
+
                 <li {{{ (Request::is('admin_home') ? 'class=active' : '') }}}>
                     <a href="{{ url('/admin_home') }}">
                         <i class="ti-panel"></i>
-                        <p>Admin Dashboard</p>
+                        <p>Select Term</p>
                     </a>
                 </li>
 
+                <li {{{ (Request::is('admin_home') ? 'class=active' : '') }}}>
+                    <a href="{{ url('/admin_home/'.$schoolyear->id) }}/{{$term->id}}">
+                        <i class="ti-dashboard"></i>
+                        <p>Term Dashboard</p>
+                    </a>
+                </li>
+ 
                 <li {{{ (Request::is('admin/profile') ? 'class=active' : '') }}} >
-                    <a href="{{ url('/admin/profile') }}">
+                    <a href="{{ url('/admin/profile/'.$schoolyear->id) }}/{{$term->id}}">
                         <i class="ti-user"></i>
                         <p>Profile</p>
                     </a>

@@ -32,25 +32,15 @@ class HomeController extends Controller
 {
     public function selectTerm()
     {
-
+       
         return view('admin.selectTerm');
     }
 
-    public function index($schoolyear, $term)
+    public function index(School_year $schoolyear, Term $term)
     {
 
-        $schoolyear = School_year::find($schoolyear);
-
-        $term = Term::find($term);
-
-        $reg_teacher = StafferRegistration::where('school_year_id', '=', $schoolyear->id)->where('term_id', '=', $term->id)->first();
-
-        $regs_students = StafferRegistration::where('school_year_id', '=', $schoolyear->id)->where('term_id', '=', $term->id)->get();
-
-        $regs_students_first = StafferRegistration::where('school_year_id', '=', $schoolyear->id)->where('term_id', '=', $term->id)->first();
-
-       
-        return view('admin.home', compact('schoolyear', 'term', 'reg_teacher', 'regs_students', 'regs_students_first'));
+      
+        return view('admin.home', compact('schoolyear', 'term'));
     }
 
 

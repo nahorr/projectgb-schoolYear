@@ -21,10 +21,10 @@ use File;
 
 class AdminUserController extends Controller
 {
-    public function profile()
+    public function profile(School_year $schoolyear, Term $term)
     {
         
-        return view('admin.profile');
+        return view('admin.profile', compact('schoolyear', 'term'));
     }
 
 

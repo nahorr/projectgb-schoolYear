@@ -15,7 +15,7 @@
 		                </div>
 		                <hr style="border-color: #fff;">
 
-						<form class="form-group" action="{{ url('/postCommentUpdate', [Crypt::encrypt($comment->id)] )}}" method="POST">
+						<form class="form-group" action="{{ url('/postCommentUpdate', [Crypt::encrypt($comment->id), $schoolyear->id, $term->id] )}}" method="POST">
 							{{ csrf_field() }}
 								
 

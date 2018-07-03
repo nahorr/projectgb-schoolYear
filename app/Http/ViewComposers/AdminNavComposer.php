@@ -37,6 +37,7 @@ Class AdminNavComposer {
 	
 	public function compose (View $view)
     {
+        
         //initialize number for irregular table numbering
         $number_init = 1;
 

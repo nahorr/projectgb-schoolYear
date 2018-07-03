@@ -31,19 +31,13 @@
                                 <p class="category">You have 
 
                              
-                                @if( @$regs_students_first->group_id == @$reg_teacher->group_id )
-
-                                      {{ $regs_students->count() }}
-                                  
-                                @else
-                                  0
-                                @endif 
+                                {{ @\App\StudentRegistration::where('school_year_id', '=', $schoolyear->id)->where('term_id', '=', $term->id)->where('group_id', \App\StafferRegistration::where('school_year_id', '=', $schoolyear->id)->where('term_id', '=', $term->id)->first()->group_id)->count() }}
                              
 
                                 students in your class this term</p>
                                 <p>School Year: {{$schoolyear->school_year}}</p>
                                 <p>Term: {{$term->term}}</p>
-                                <p>Class: {{$reg_teacher->group->name}}</p>
+                                <p>Class: {{ @\App\StafferRegistration::where('school_year_id', '=', $schoolyear->id)->where('term_id', '=', $term->id)->first()->group->name }}</p>
                             </div>
                             <div class="content">
                             <div class="table-responsive">
@@ -64,7 +58,7 @@
                             </thead>
                             <tbody> 
                                                           
-                                @foreach ($join_students_regs->where('term_id', $term->id) as $key => $reg_student)
+                                @foreach (@$join_students_regs->where('term_id', $term->id)->where('group_id', \App\StafferRegistration::where('school_year_id', '=', $schoolyear->id)->where('term_id', '=', $term->id)->first()->group_id ) as $key => $reg_student)
 
 
                                                                              
@@ -103,7 +97,7 @@
                                     <td>
                                     
                                     <strong>
-                                      <a href="{{asset('/addComment/'.Crypt::encrypt(@$reg_student->student->id)) }}/{{$schoolyear->id}}/{{Crypt::encrypt($term->id)}}"><i class="fa fa-plus fa-2x" aria-hidden="true"></i>{{$term->id}}</a>&nbsp;
+                                      <a href="{{asset('/addComment/'.Crypt::encrypt($reg_student->student->id)) }}/{{$schoolyear->id}}/{{$term->id}}"><i class="fa fa-plus fa-2x" aria-hidden="true"></i>{{$term->id}}</a>&nbsp;
 
                                       
                                       @foreach ($comments as $comment)                                       
