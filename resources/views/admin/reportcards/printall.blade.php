@@ -50,7 +50,7 @@
 </head>
 <body>
 
-@foreach (@$join_students_regs->where('term_id', $term->id)->where('group_id', \App\StafferRegistration::where('school_year_id', '=', $schoolyear->id)->where('term_id', '=', $term->id)->first()->group_id ) as $student)
+@foreach (@$join_students_regs->where('school_year_id', $schoolyear->id)->where('term_id', $term->id) as $student)
    
 
 <div class="page1">
@@ -378,7 +378,7 @@
                             
                                 @foreach ($course_grades as $grade)
 
-                                  @if(@$student->id == @$grade->student_id)
+                                
 
                                     @foreach ($sorted_grouped as $k1 => $grouped)
 
@@ -508,7 +508,7 @@
                                         @endif
                                       @endforeach
                                        
-                                  @endif 
+                            
                                 @endforeach
                           
                             </tbody>
@@ -756,7 +756,7 @@
                          
                          <div class="well well-sm"><strong>Next Term Begins:</strong><br>
                          
-                            @if(@$term->id != 3)
+                            @if(@$term->term != '3rd Term')
                             <i><u>{{ @$next_term->start_date->toFormattedDateString() }}</u></i>
                             @else
                             End of Year

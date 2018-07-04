@@ -737,7 +737,7 @@
                   <div class="col-xs-4">
                          
                          <div class="well well-sm"><strong>Next Term Begins:</strong><br>
-                         @if(@$term->id != 3)
+                         @if(@$term->term != '3rd Term')
                             <i><u>{{ @$next_term->start_date->toFormattedDateString() }}</u></i>
                             @else
                             End of Year

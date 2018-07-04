@@ -165,7 +165,7 @@ class CrudeController extends Controller
                 $course_grades = Course::join('grades', 'courses.id', '=', 'grades.course_id')
                                 ->where('courses.term_id', '=', $term->id)
                                 ->get();
-
+                //dd($course_grades);
                 //Rank
                 //$mgb_total = DB::table('grades')->groupBy('student_id')->get(['student_id', DB::raw('SUM(total) as sum')]);
                 $mgb_total_term_grade = Course::join('grades', 'courses.id', '=', 'grades.course_id')

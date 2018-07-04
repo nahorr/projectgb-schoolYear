@@ -105,7 +105,7 @@ Class AdminNavComposer {
                                 ->get();
         $groups = Group::get();
 
-        //dd($join_teacher_regs);
+        //dd($join_students_regs);
 
         //put variables in views
         $view
