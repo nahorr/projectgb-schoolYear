@@ -45,11 +45,11 @@
     </tr>
     <tr>
       <th scope="row">School Year:</th>
-      <td>{{@$current_school_year->school_year}}</td>
+      <td>{{@$schoolyear->school_year}}</td>
     </tr>
     <tr>
-      <th scope="row">Current Class:</th>
-      <td>{{@$current_registration_teacher->group->name}}</td>
+      <th scope="row">Class:</th>
+      <td>{{@\App\StafferRegistration::where('school_year_id', '=', $schoolyear->id)->where('term_id', '=', $term->id)->first()->group->name}}</td>
     </tr>
     <tr>
       <th scope="row">Firstname:</th>
@@ -68,11 +68,7 @@
 </table>
 
 <div class="bg-primary text-white"><h2>Bank Deposit/Transfer Information</h2></div>
-    @foreach($terms as $term)
-        @if($today->between($term->start_date, $term->show_until))
          <div class="bg-info text-white"><h2>TERM: {{@$term->term}}</h2></div>
-        @endif
-    @endforeach
   <p>Use the information below for Tuition Payment</p>
    <p>Please <mark>Qoute</mark> your registration, <mark>{{@$student->registration_code}}</mark>, on the tranfer. </p>         
   <table class="table table-bordered">
@@ -93,10 +89,6 @@
       <th scope="row">Amout Due Now:</th>
       <td>
 
-      @foreach($terms as $term)
-
-        @if($today->between($term->start_date, $term->show_until))
-
             @foreach(@$term_tuitions as $term_tuition)
 
                 @if(@$term->id == @$term_tuition->term_id )
@@ -106,8 +98,7 @@
                 @endif
 
             @endforeach
-        @endif   
-      @endforeach
+       
       </td>
     </tr>
       

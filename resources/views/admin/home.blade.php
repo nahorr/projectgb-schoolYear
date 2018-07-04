@@ -50,7 +50,7 @@
                                 <th>Last Name</th>
                                 <th>Teacher's Comment - {{ @$term->term }}</th>
                                 <th>Add/Edit/Delete</th>
-                                <th>Reg Code <a href="{{asset('/admin/printallregcode/')}}" target="_blank" ><br><i class="fa fa-print" aria-hidden="true"></i>Print All</a> </th>
+                                <th>Reg Code <a href="{{asset('/admin/printallregcode/'.$schoolyear->id)}}/{{$term->id}}" target="_blank" ><br><i class="fa fa-print" aria-hidden="true"></i>Print All</a> </th>
                                
                                 
 
@@ -115,7 +115,7 @@
 
                                     </strong>
                                     </td>
-                                    <td>{{@$reg_student->student->registration_code}} <a href="{{asset('/admin/printregcode/'.@$reg_student->student->id)}}" target="_blank" ><i class="fa fa-print" aria-hidden="true"></i>print</a>
+                                    <td>{{@$reg_student->student->registration_code}} <a href="{{asset('/admin/printregcode/'.@$reg_student->student->id)}}/{{$schoolyear->id}}/{{$term->id}}" target="_blank" ><i class="fa fa-print" aria-hidden="true"></i>print</a>
                                     </td>   
                         
                             @endforeach

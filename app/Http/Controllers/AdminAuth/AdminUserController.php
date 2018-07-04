@@ -28,7 +28,7 @@ class AdminUserController extends Controller
     }
 
 
-    public function update_avatar(Request $request)
+    public function update_avatar(Request $request, School_year $schoolyear, Term $term)
     {
 
         // Handle the user upload of avatar
@@ -54,7 +54,7 @@ class AdminUserController extends Controller
     		Auth::guard('web_admin')->user()->save();
     	}
 
-    	return view('admin.profile');
+    	return view('admin.profile', compact('schoolyear', 'term'));
 
     }
 

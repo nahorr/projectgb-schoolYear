@@ -44,27 +44,27 @@ class HomeController extends Controller
     }
 
 
-    public function printRegCode ($student_id)
+    public function printRegCode ($student, School_year $schoolyear, Term $term)
     {
 
-        $student =  Student::find($student_id);
+        $student =  Student::find($student);
 
 
         $term_tuitions = Fee::get();
 
         
-        $pdf = PDF::loadView('admin.printregcode',compact('student', 'term_tuitions'));
+        $pdf = PDF::loadView('admin.printregcode',compact('student', 'term_tuitions', 'schoolyear', 'term'));
 
         return $pdf->inline();
 
     }
 
-    public function printAllRegCode ()
+    public function printAllRegCode (School_year $schoolyear, Term $term)
     {
 
         $term_tuitions = Fee::get();
        
-        $pdf = PDF::loadView('admin.printallregcode',compact('term_tuitions'));
+        $pdf = PDF::loadView('admin.printallregcode',compact('term_tuitions', 'schoolyear', 'term'));
 
         return $pdf->inline();
 

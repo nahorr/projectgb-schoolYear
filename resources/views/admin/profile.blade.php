@@ -21,7 +21,7 @@
                                   <h4 class="title">{{ $teacher->name }}<br />
                                      
                                   </h4>
-                                  <form enctype="multipart/form-data" action="/admin/profile" method="POST">
+                                  <form enctype="multipart/form-data" action="{{url('admin/profile',[$schoolyear->id, $term->id])}}" method="POST">
                                       <div class="form-group">
                                         <label>Update Profile Image</label>
                                         <input type="file" class="form-control-file" name="avatar" style="margin-left: 28%; margin-right: 35%; padding-top: 5px; padding-bottom: 5px;">
