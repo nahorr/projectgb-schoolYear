@@ -26,27 +26,16 @@ use \Crypt;
 class CoursesController extends Controller
 {
 
-	public function index()
-    {          
-
-        return view('admin.admincourses');
-    }
-
-
-
-    public function show($id)
+	
+    public function show(School_year $schoolyear, Term $term)
     {
-
-        $term = Term::find(Crypt::decrypt($id));
 
         
         $term_courses = Course::where('term_id', '=', $term->id)->get();
 
-      
-        $assigned_term_courses = Course::where('term_id', '=', $term->id)->get();
-        
+       
 
-       return view('admin.showadmincourses', compact('term','term_courses', 'assigned_term_courses'));
+       return view('admin.showadmincourses', compact('schoolyear', 'term','term_courses'));
     }
 
 
@@ -99,7 +88,7 @@ class CoursesController extends Controller
                
         
 
-        return view('/admin.studentsterm', compact('students_in_group', 'today', 'teacher', 'count', 'group_teacher', 'terms', 'current_term', 'schoolyear', 't'));
+        return view('admin.studentsterm', compact('students_in_group', 'today', 'teacher', 'count', 'group_teacher', 'terms', 'current_term', 'schoolyear', 't'));
     }
 }
     

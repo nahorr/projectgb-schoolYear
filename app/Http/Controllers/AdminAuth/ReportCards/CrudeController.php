@@ -32,31 +32,19 @@ use App\LearningAndAccademic;
 
 class CrudeController extends Controller
 {
-    public function Terms($schoolyear_id)
-    {           
-              
-        $schoolyear = School_year::find($schoolyear_id)
-
-        return view('admin.reportcards.terms', compact('schoolyear'));
    
-    }
-
-    public function Students($term_id)
+    public function Students(School_year $schoolyear, Term $term)
     {
+              
 
-        $term = Term::find(Crypt::decrypt($term_id));
-               
-
-        return view('admin/reportcards/students', compact('term'));
+        return view('admin/reportcards/students', compact('schoolyear', 'term'));
     }
 
    
 
-    public function Print($student_id, $term_id )
+    public function Print($student, School_year $schoolyear, Term $term)
             {
-                $student = Student::find($student_id);
-
-                $term = Term::find($term_id);
+                $student = Student::find($student);
 
                 $next_term = Term::find($term->id+1);
                
@@ -122,7 +110,7 @@ class CrudeController extends Controller
 
 
                 $course_grade_all_students = Course::join('grades', 'courses.id', '=', 'grades.course_id')
-                ->where('courses.group_id', '=', $student->group_id)
+                ->where('courses.group_id', '=', \App\StafferRegistration::where('school_year_id', '=', $schoolyear->id)->where('term_id', '=', $term->id)->first()->group_id)
                 ->where('courses.term_id', '=', $term->id)
                 ->get();
 
@@ -136,22 +124,22 @@ class CrudeController extends Controller
 
                 //addd comments
                 $comment_all = Comment::where('student_id', '=', $student->id)
-                                            ->where('term_id', '=', $term_id)
+                                            ->where('term_id', '=', $term->id)
                                             ->first();
 
                 $psychomotor = Psychomotor::where('student_id', '=', $student->id)
-                                            ->where('term_id', '=', $term_id)
+                                            ->where('term_id', '=', $term->id)
                                             ->first();
 
                 $effective_areas = EffectiveArea::where('student_id', '=', $student->id)
-                                            ->where('term_id', '=', $term_id)
+                                            ->where('term_id', '=', $term->id)
                                             ->first();
                 $learnining_accademic = LearningAndAccademic::where('student_id', '=', $student->id)
-                                            ->where('term_id', '=', $term_id)
+                                            ->where('term_id', '=', $term->id)
                                             ->first();
 
                 $pdf = PDF::loadView('admin.reportcards.print', 
-                    compact('today', 'term', 'next_term', 'terms','student', 'student_user', 'students','school', 'school_year'
+                    compact('schoolyear','today', 'term', 'next_term', 'terms','student', 'student_user', 'students','school', 'school_year'
                         , 'teacher','student_group', 'course_grade', 'health_record', 'attendance',
                         'attendance_code', 'attendance_present', 'attendance_absent', 'attendance_late',
                         'mgb', 'mgb_lowest', 'mgb_avg', 'pluck_course_id', 'pluck_course_id_min',
@@ -164,40 +152,14 @@ class CrudeController extends Controller
 
  
 
-        public function PrintAll($term_id )
+        public function PrintAll(School_year $schoolyear, Term $term )
             {
-               
-                $school = School::first();
-                $school_year = School_year::first();
 
-                //get current date
-                $today = Carbon::today();
-
-                //get current term and terms
-                $term = Term::find($term_id);
                 $next_term = Term::find($term->id+1);
-                
-                $terms = Term::get();
-
-
-                //Class teacher using logged in user
-                //teacher
-                $teacher = Staffer::where('registration_code', '=', Auth::guard('web_admin')->user()->registration_code)->first();
-                
-
-                //students in the teachers group
-                $students = Student::where('group_id', '=', $teacher->group_id)->get();
-
-                
-
-                $student_group = Group::where('id', '=', $teacher->group_id)->first();
-
-                //get all registered users 
+    
 
                 
                 $student_users = User::get();
-
-
  
                 
                 $course_grades = Course::join('grades', 'courses.id', '=', 'grades.course_id')
@@ -247,12 +209,11 @@ class CrudeController extends Controller
 
 
                 $course_grade_all_students = Course::join('grades', 'courses.id', '=', 'grades.course_id')
-                ->where('courses.group_id', '=', $teacher->group_id)
+                ->where('courses.group_id', '=', \App\StafferRegistration::where('school_year_id', '=', $schoolyear->id)->where('term_id', '=', $term->id)->first()->group_id)
                 ->where('courses.term_id', '=', $term->id)
                 ->get();
 
-                
-            
+                            
                 $sorted = $course_grade_all_students->sortByDesc('total'); 
 
                 $sorted_grouped = $course_grade_all_students->sortByDesc('total')->groupBy('course_id');
@@ -260,15 +221,14 @@ class CrudeController extends Controller
                 //addd comments
                 $comment_all = Comment::where('term_id', '=', $term->id)->get();
                 
-                $psychomotors = Psychomotor::where('term_id', '=', $term_id)->get();
+                $psychomotors = Psychomotor::where('term_id', '=', $term->id)->get();
 
-                $effective_areas = EffectiveArea::where('term_id', '=', $term_id)->get();
+                $effective_areas = EffectiveArea::where('term_id', '=', $term->id)->get();
 
-                $learnining_accademics = LearningAndAccademic::where('term_id', '=', $term_id)->get();
+                $learnining_accademics = LearningAndAccademic::where('term_id', '=', $term->id)->get();
 
                 $pdf = PDF::loadView('admin.reportcards.printall', 
-                    compact('today', 'term', 'terms', 'next_term','student', 'student_users', 'students','school', 'school_year'
-                        , 'teacher','student_group', 'course_grades', 'health_records', 'attendances',
+                    compact('schoolyear', 'term', 'next_term', 'student_users', 'course_grades', 'health_records', 'attendances',
                         'attendance_code', 'attendance_present', 'attendance_absent', 'attendance_late',
                         'mgb', 'mgb_lowest', 'mgb_avg', 'pluck_course_id', 'pluck_course_id_min',
                         'pluck_course_id_avg', 'course_grade_all_students', 'sorted', 'sorted_grouped', 'comment_all',

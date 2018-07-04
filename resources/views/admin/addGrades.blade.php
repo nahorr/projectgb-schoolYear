@@ -21,10 +21,11 @@
 		                <div class="header">
 		                    <h4 class="title"><strong>Add Grades for {{ $course->name }}-{{ $group->name }}</strong> <a class="pull-right"> {{ $term->term }} </a></h4>
 		                    <p class="category"> {{ $term->term }} </p>
+                        <strong><p>{{ strtoupper($schoolyear->school_year) }} School Year</strong></p>
 		                </div>
 		                <hr style="border-color: #fff;">
             <div class="content">
-        			<form class="form-group" action="{{ url('/postGrades',[Crypt::encrypt($student->id),Crypt::encrypt($course->id)] )}}" method="POST">
+        			<form class="form-group" action="{{ url('/postGrades',[Crypt::encrypt($student->id),Crypt::encrypt($course->id), $schoolyear->id, $term->id] )}}" method="POST">
         					{{ csrf_field() }}
 
                                         <div class="row">

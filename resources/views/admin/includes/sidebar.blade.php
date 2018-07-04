@@ -39,21 +39,21 @@
 
 
                 <li {{{ (Request::is('attendances/showstudents') ? 'class=active' : '') }}}>
-                    <a href="{{ url('/attendances/showstudents') }}">
+                    <a href="{{ url('/attendances/showstudents/'.$schoolyear->id) }}/{{$term->id}}">
                         <i class="fa fa-calendar-check-o"></i>
                         <p>Attendance</p>
                     </a>
                 </li>
 
                 <li {{{ (Request::is('admincourses') ? 'class=active' : '') }}}>
-                    <a href="{{ url('/admincourses') }}">
+                    <a href="{{ url('/admincourses/'.$schoolyear->id) }}/{{$term->id}}">
                         <i class="fa fa-font"></i>
                         <p>Enter Grades</p>
                     </a>
                 </li>
 
-                <li {{{ (Request::is('admin/reportcards/terms') ? 'class=active' : '') }}}>
-                    <a href="{{ url('/admin/reportcards/terms') }}">
+                <li {{{ (Request::is('admin/reportcards/students') ? 'class=active' : '') }}}>
+                    <a href="{{ url('/admin/reportcards/students/'.$schoolyear->id) }}/{{$term->id}}">
                         <i class="fa fa-print"></i>
                         <p>Report Cards</p>
                     </a>

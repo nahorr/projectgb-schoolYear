@@ -70,8 +70,8 @@
                     <p class="noil">{{@$school->address}}, {{@$school->city}}, {{@$school->state}} {{@$school->postal_code}}</p> 
                     <p class="noil">Phone:&nbsp; {{@$school->phone}} &nbsp; Email:&nbsp; {{@$school->email}}</p> 
                     <p class="noil">END OF TERM REPORT</p> 
-                    <p class="noil">{{ $term->school_years->school_year }} &nbsp; SESSION</p>
-                    <p class="noil">{{ @$term->term }}</p> 
+                    <p class="noil">{{ $schoolyear->school_year }} &nbsp; SESSION</p>
+                    <p class="noil">{{ $term->term }}</p> 
                  
                   </div>
 
@@ -125,7 +125,7 @@
               </li>
               <li class="list-group-item justify-content-between">
                 # of students in class:
-                <span class="label label-primary pull-right">{{@$students->count()}}</span>
+                <span class="label label-primary pull-right"> {{ @\App\StudentRegistration::where('school_year_id', '=', $schoolyear->id)->where('term_id', '=', $term->id)->where('group_id', \App\StafferRegistration::where('school_year_id', '=', $schoolyear->id)->where('term_id', '=', $term->id)->first()->group_id)->count() }}</span>
               </li>
               <li class="list-group-item justify-content-between">
                 Admission Date: 
@@ -143,7 +143,7 @@
               </li>
               <li class="list-group-item justify-content-between">
                 Class:
-                <span class="label label-primary pull-right">{{ @$student_group->name }}</span>
+                <span class="label label-primary pull-right">{{ @\App\StafferRegistration::where('school_year_id', '=', $schoolyear->id)->where('term_id', '=', $term->id)->first()->group->name }}</span>
               </li>
               @if(@$course_grade->count() != null)
               <li class="list-group-item justify-content-between">

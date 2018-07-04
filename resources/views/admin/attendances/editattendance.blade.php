@@ -20,7 +20,7 @@
                             </div>
                               <hr>
                             <div class="content">
-                              <form class="form-group" action="{{ url('/attendances/postattendanceupdate', [Crypt::encrypt($attendance->id)]) }}" method="POST">
+                              <form class="form-group" action="{{ url('/attendances/postattendanceupdate', [Crypt::encrypt($attendance->id), $schoolyear->id, $term->id]) }}" method="POST">
                               {{ csrf_field() }}
                                       <div class="row">
                                           <div class="col-md-6">

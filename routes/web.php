@@ -80,10 +80,10 @@ Route::group(['middleware' => 'admin_auth'], function(){
     //Route::get('/admin/emailcode', 'AdminAuth\HomeController@emailCode');
 
     //Print Students Report Cards
-    Route::get('/admin/reportcards/terms/{schoolyear}', 'AdminAuth\ReportCards\CrudeController@Terms');
-    Route::get('/admin/reportcards/students/{term}', 'AdminAuth\ReportCards\CrudeController@Students');
-    Route::get('/admin/reportcards/print/{student}/{term}', 'AdminAuth\ReportCards\CrudeController@Print');
-    Route::get('/admin/reportcards/printall/{term}', 'AdminAuth\ReportCards\CrudeController@PrintAll')->where(['students'=>'.*']);
+    //Route::get('/admin/reportcards/terms/{schoolyear}', 'AdminAuth\ReportCards\CrudeController@Terms');
+    Route::get('/admin/reportcards/students/{schoolyear}/{term}', 'AdminAuth\ReportCards\CrudeController@Students');
+    Route::get('/admin/reportcards/print/{student}/{schoolyear}/{term}', 'AdminAuth\ReportCards\CrudeController@Print');
+    Route::get('/admin/reportcards/printall/{schoolyear}/{term}', 'AdminAuth\ReportCards\CrudeController@PrintAll')->where(['students'=>'.*']);
 
 
     //Ban and UnBan Students
@@ -99,20 +99,20 @@ Route::group(['middleware' => 'admin_auth'], function(){
 
     //admin courses
 
-    Route::get('/admincourses', 'AdminAuth\CoursesController@index');
+    //Route::get('/admincourses', 'AdminAuth\CoursesController@index');
 
-    Route::get('/admincourses/{term}', 'AdminAuth\CoursesController@show');
+    Route::get('/admincourses/{schoolyear}/{term}', 'AdminAuth\CoursesController@show');
 
-    Route::get('/admincourses/{term}/studentsterm', 'AdminAuth\CoursesController@students');
+    //Route::get('/admincourses/{term}/studentsterm', 'AdminAuth\CoursesController@students');
 
-    Route::get('/addGrades/{student}/{course}', 'AdminAuth\GradesCrudController@addGrades');
-    Route::post('/postGrades/{student}/{course}', 'AdminAuth\GradesCrudController@postGrades');
-    Route::get('/editGrades/{student_id}/{course_id}', 'AdminAuth\GradesCrudController@editGrades');
-    Route::post('/postGradeUpdate/{student_id}/{course_id}', 'AdminAuth\GradesCrudController@postGradeUpdate');
+    Route::get('/addGrades/{student}/{course}/{schoolyear}/{term}', 'AdminAuth\GradesCrudController@addGrades');
+    Route::post('/postGrades/{student}/{course}/{schoolyear}/{term}', 'AdminAuth\GradesCrudController@postGrades');
+    Route::get('/editGrades/{student}/{course}/{schoolyear}/{term}', 'AdminAuth\GradesCrudController@editGrades');
+    Route::post('/postGradeUpdate/{student}/{course}/{schoolyear}/{term}', 'AdminAuth\GradesCrudController@postGradeUpdate');
     //Route::get('/deletegrade/{grade}', 'AdminAuth\GradesCrudController@deleteGrade');
 
-    Route::get('/showstudentcoursesgrades/{course}', 'AdminAuth\StudentCoursesGradesController@showCourseGrades')->name('showstudentcoursesgrades');
-    Route::get('/deletegrade/{grade}', 'AdminAuth\StudentCoursesGradesController@deleteGrade');
+    Route::get('/showstudentcoursesgrades/{course}/{schoolyear}/{term}', 'AdminAuth\StudentCoursesGradesController@showCourseGrades')->name('showstudentcoursesgrades');
+    Route::get('/deletegrade/{grade}/{schoolyear}/{term}', 'AdminAuth\StudentCoursesGradesController@deleteGrade');
 
     //comments crud
     Route::get('/addComment/{student}/{schoolyear}/{term}', 'AdminAuth\CommentCrudController@addComment');
@@ -160,13 +160,13 @@ Route::group(['middleware' => 'admin_auth'], function(){
     Route::get('/learningandaccademics/postlearningandaccademicdelete/{learningandaccademic}', 'AdminAuth\LearningAndAccademics\CrudeController@deleteLearningAndAccademic');
 
     //Attendance
-    Route::get('/attendances/showterms', 'AdminAuth\Attendances\CrudeController@showTerms');
-    Route::get('/attendances/showstudents', 'AdminAuth\Attendances\CrudeController@showStudents')->name('showstudentsattendance');
-    Route::get('/attendances/addattendance/{student}', 'AdminAuth\Attendances\CrudeController@addAttendance');
-    Route::post('/attendances/postattendance/{student}', 'AdminAuth\Attendances\CrudeController@postAttendance');
-    Route::get('/attendances/editattendance/{attendance}', 'AdminAuth\Attendances\CrudeController@editAttendance');
-    Route::post('/attendances/postattendanceupdate/{attendance}', 'AdminAuth\Attendances\CrudeController@postAttendanceUpdate');
-    Route::get('/attendances/postattendancedelete/{attendance}', 'AdminAuth\Attendances\CrudeController@deleteAttendance');
+    //Route::get('/attendances/showterms', 'AdminAuth\Attendances\CrudeController@showTerms');
+    Route::get('/attendances/showstudents/{schoolyear}/{term}', 'AdminAuth\Attendances\CrudeController@showStudents')->name('showstudentsattendance');
+    Route::get('/attendances/addattendance/{student}/{schoolyear}/{term}', 'AdminAuth\Attendances\CrudeController@addAttendance');
+    Route::post('/attendances/postattendance/{student}/{schoolyear}/{term}', 'AdminAuth\Attendances\CrudeController@postAttendance');
+    Route::get('/attendances/editattendance/{attendance}/{schoolyear}/{term}', 'AdminAuth\Attendances\CrudeController@editAttendance');
+    Route::post('/attendances/postattendanceupdate/{attendance}/{schoolyear}/{term}', 'AdminAuth\Attendances\CrudeController@postAttendanceUpdate');
+    Route::get('/attendances/postattendancedelete/{attendance}/{schoolyear}/{term}', 'AdminAuth\Attendances\CrudeController@deleteAttendance');
 
     //Group Events
     Route::get('/groupevents/showgroupevents', 'AdminAuth\GroupEvents\SetUpController@showGroupEvents')->name('groupevents');

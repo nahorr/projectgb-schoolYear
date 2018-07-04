@@ -34,9 +34,14 @@
             'admin.superadmin.schoolsetup.courses.assign',
             'admin.showstudentcoursesgrades',
             'admin.addGrades',
+            'admin.editGrades',
             'admin.reportcards.terms',
             'admin/reportcards/students',
             'admin.reportcards.print',
+            'admin.reportcards.printall',
+            'admin.attendances.showstudents',
+            'admin.attendances.addattendance',
+            'admin.attendances.editattendance',
             ], 
             
             'App\Http\ViewComposers\AdminNavComposer'

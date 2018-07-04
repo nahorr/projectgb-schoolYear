@@ -25,6 +25,7 @@
                                 <h4 class="title">Registered and UnRegistered Students in Your class</h4>
                                 <p class="category">Teacher Name: <strong>{{@$teacher->first_name}}  {{@$teacher->last_name}}</strong></p>
                                 <p class="category">Term: <strong>{{@$term->term}} </strong></p>
+                                <p class="category">School Year: <strong>{{@$schoolyear->school_year}} </strong></p>
                             </div>
                           <div class="content col-xs-12">
                           <div class="table-responsive">
@@ -36,7 +37,7 @@
                                 <th>First Name</th>
                                 <th>Last Name</th>
                                 <th>Email</th>
-                                <th>Report Card <a href="{{asset('/admin/reportcards/printall/'.$term->id)}}"><br><i class="fa fa-print" aria-hidden="true"></i><strong>Print All</strong></a></th>
+                                <th>Report Card <a href="{{asset('/admin/reportcards/printall/'.$schoolyear->id)}}/{{$term->id}}" target="_blank"><br><i class="fa fa-print" aria-hidden="true"></i><strong>Print All</strong></a></th>
                                
                                
                                 
@@ -44,10 +45,7 @@
                               </tr>
                             </thead>
                             <tbody>
-                            
-                                @foreach ($registrations_students as $key => $reg_students)
-                                   
-                                   @if($reg_students->school_year_id == $current_school_year->id && $reg_students->group_id == $current_registration_teacher->group_id) 
+                             @foreach (@$join_students_regs->where('term_id', $term->id)->where('group_id', \App\StafferRegistration::where('school_year_id', '=', $schoolyear->id)->where('term_id', '=', $term->id)->first()->group_id ) as $key => $reg_students)
                                 
                                       <tr>
 
@@ -73,14 +71,12 @@
                                                                                 
                                       <td>
                                       <strong>
-                                      <a href="{{asset('/admin/reportcards/print/'.$reg_students->student->id)}}/{{$term->id}}">
+                                      <a href="{{asset('/admin/reportcards/print/'.$reg_students->student->id)}}/{{$schoolyear->id}}/{{$term->id}}" target="_blank">
                                       <i class="fa fa-print fa-3x" aria-hidden="true"></i> &nbsp;&nbsp;&nbsp;
                                       PRINT{{$reg_students->student->id}}
                                       </a>
                                       </strong>
                                       </td>
-
-                                    @endif
                                               
                                 @endforeach
                            

@@ -24,27 +24,26 @@ use \Crypt;
 
 class GradesCrudController extends Controller
 {
-    public function addGrades($student_id, $course_id)
+    public function addGrades($student, $course, School_year $schoolyear, Term $term)
     {
 
     	
-        $student = Student::find(Crypt::decrypt($student_id));
+        $student = Student::find(Crypt::decrypt($student));
 
-        $course = Course::find(Crypt::decrypt($course_id));
+        $course = Course::find(Crypt::decrypt($course));
 
-        $term = Term::where('id', '=', $course->term_id)->first();
-
+       
         $group = Group::where('id', '=', $course->group_id)->first();
 
 
-    	return view('admin.addGrades', compact('student','course', 'term', 'group'));
+    	return view('admin.addGrades', compact('schoolyear', 'term', 'student','course', 'group'));
     }
 
-    public function postGrades(Request $r, $student_id, $course_id) 
+    public function postGrades(Request $r, $student, $course, School_year $schoolyear, Term $term) 
     {
 
-        $student = Student::find(Crypt::decrypt($student_id));     
-        $course = Course::find(Crypt::decrypt($course_id));
+        $student = Student::find(Crypt::decrypt($student));     
+        $course = Course::find(Crypt::decrypt($course));
         
     	$this->validate(request(), [
 
@@ -73,40 +72,27 @@ class GradesCrudController extends Controller
     		
     	]);
 
-       return redirect()->route('showstudentcoursesgrades', [Crypt::encrypt($course->id)]);
+       return redirect()->route('showstudentcoursesgrades', [Crypt::encrypt($course->id), $schoolyear->id, $term->id]);
 
     	//return back();
     }
 
-    public function editGrades($student_id, $course_id)
+    public function editGrades($student, $course, School_year $schoolyear, Term $term)
     {
 
-         $today = Carbon::today();
+         $student = Student::find(Crypt::decrypt($student));
 
-         
-
-         $student = Student::find(Crypt::decrypt($student_id));
-
-         $course = Course::find(Crypt::decrypt($course_id));
-
-         $term = Term::where('id', '=', $course->term_id)->first();
+         $course = Course::find(Crypt::decrypt($course));
 
          $group = Group::where('id', '=', $course->group_id)->first();
 
-         //dd($student);
-
-         
-
-
+        
          $student_grades= Grade::where('grades.course_id', '=', $course->id)
         ->where('grades.student_id', '=', $student->id)
         ->first();
 
 
-
-
-
-        return view('/admin.editGrades', compact( 'student',
+        return view('admin.editGrades', compact('schoolyear', 'student',
 
             'students', 'today', 'course', 'term', 'group', 'student_grades', 'grades'
 
@@ -114,12 +100,12 @@ class GradesCrudController extends Controller
     }
 
 
-    public function postGradeUpdate(Request $r, $student_id, $course_id)
+    public function postGradeUpdate(Request $r, $student, $course, School_year $schoolyear, Term $term)
 
     {
-         $student = Student::find(Crypt::decrypt($student_id));
+         $student = Student::find(Crypt::decrypt($student));
 
-         $course = Course::find(Crypt::decrypt($course_id));
+         $course = Course::find(Crypt::decrypt($course));
 
          $this->validate(request(), [
 
@@ -150,7 +136,7 @@ class GradesCrudController extends Controller
 
             $student_grades->save();
 
-            return redirect()->route('showstudentcoursesgrades', [Crypt::encrypt($course->id)]);
+            return redirect()->route('showstudentcoursesgrades', [Crypt::encrypt($course->id), $schoolyear->id, $term->id]);
 
 
 

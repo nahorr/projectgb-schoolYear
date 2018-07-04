@@ -28,8 +28,8 @@
                             <div class="header">
                                  <h4 class="title"> 
                                  
-                                 <a><i class="fa fa-book fa-2x" aria-hidden="true"></i>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;Course:&nbsp; {{ $course->course_code }}: {{ $course->name }} </a> <div class="pull-right"><a href="{{asset('/admincourses/'. Crypt::encrypt($term->id)) }}"><button type="button" class="btn btn-primary">Back To {{@$term->term}} Courses</button></a></div>
-                                 
+                                 <a><i class="fa fa-book fa-2x" aria-hidden="true"></i>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;Course:&nbsp; {{ $course->course_code }}: {{ $course->name }} </a> <div class="pull-right"><a href="{{asset('/admincourses/'.$schoolyear->id) }}/{{$term->id}}"><button type="button" class="btn btn-primary">Back To {{@$term->term}} Courses</button></a></div>
+                                 <strong><p>{{ strtoupper($schoolyear->school_year) }} School Year</strong></p>
                                  </h4>
                                 <p class="category"><strong>{{strtoupper($group->name)}} - {{ strtoupper($term->term) }}</strong></p>
                                 
@@ -75,14 +75,11 @@
                             </thead>
                             <tbody>
 
-                            
-                                     @foreach ($registrations_students as $key => $reg_students)
-
-                                        @if($reg_students->school_year_id == $term->school_year_id && $reg_students->group_id == $current_registration_teacher->group_id) 
+                             @foreach (@$join_students_regs->where('term_id', $term->id)->where('group_id', \App\StafferRegistration::where('school_year_id', '=', $schoolyear->id)->where('term_id', '=', $term->id)->first()->group_id ) as $key => $reg_students)
                                   
 
                                       <tr>
-                                        <td class="text-center">{{$key++}}</td>
+                                        <td class="text-center">{{$number_init++}}</td>
 
                                         <td class="text-center"> 
                                         @foreach ($all_users as $st_user)
@@ -217,7 +214,7 @@
                                         </td>
                                         <td class="text-center">
                                        
-                                        <a href="{{ url('/addGrades', [Crypt::encrypt($reg_students->student->id), Crypt::encrypt($course->id)] ) }}"> <i class="fa fa-plus fa-2x" aria-hidden="true"></i>&nbsp;&nbsp;Add 
+                                        <a href="{{ url('/addGrades', [Crypt::encrypt($reg_students->student->id), Crypt::encrypt($course->id), $schoolyear->id, $term->id] ) }}"> <i class="fa fa-plus fa-2x" aria-hidden="true"></i>&nbsp;&nbsp;Add 
                                         </a>
                                         
                                         </td>
@@ -225,7 +222,7 @@
                                         <td class="text-center">
                                         @foreach ($grades as $grade)
                                             @if ($grade->registration_code == $reg_students->student->registration_code)
-                                        <a href="{{ url('/editGrades', [Crypt::encrypt($grade->student_id), Crypt::encrypt($course->id)] ) }}"> <i class="fa fa-pencil-square-o fa-2x" aria-hidden="true"></i>&nbsp;&nbsp;Edit 
+                                        <a href="{{ url('/editGrades', [Crypt::encrypt($grade->student_id), Crypt::encrypt($course->id), $schoolyear->id, $term->id] ) }}"> <i class="fa fa-pencil-square-o fa-2x" aria-hidden="true"></i>&nbsp;&nbsp;Edit 
                                         </a>
                                         @endif
                                         @endforeach
@@ -233,14 +230,14 @@
                                         <td class="text-center">
                                         @foreach ($grades as $grade)
                                             @if ($grade->registration_code == $reg_students->student->registration_code)                                        
-                                        <a href="{{ url('/deletegrade/'.Crypt::encrypt($grade->id) ) }}" onclick="return confirm('Are you sure you want to Delete this record?')"> <i class="fa fa-trash fa-2x" aria-hidden="true"></i>&nbsp;&nbsp;Delete
+                                        <a href="{{ url('/deletegrade/'.Crypt::encrypt($grade->id) ) }}/{{$schoolyear->id}}/{{$term->id}}" onclick="return confirm('Are you sure you want to Delete this record?')"> <i class="fa fa-trash fa-2x" aria-hidden="true"></i>&nbsp;&nbsp;Delete
                                         </a>
                                         @endif
                                         @endforeach
                                         </td>
                                       
                                       </tr>
-                                    @endif  
+                                 
                                 @endforeach
                            
                             </tbody>

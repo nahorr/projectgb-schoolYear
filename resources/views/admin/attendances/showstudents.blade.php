@@ -14,14 +14,15 @@
         </div>
         </div>
       </div>
+       @if($term->id == $current_term->id)
         <div class="row">
 
           <div class="col-md-12">
             <div class="card">
               <div class="header">
                   <h4 class="title">Take Attendance for today: {{$today->toFormattedDateString()}}</h4>
-                  <p class="category">Class: {{$current_registration_teacher->group->name}} </p>
-                  <p class="category">Current Term: {{$current_term->term}} </p>
+                  <p class="category">Class: {{@\App\StafferRegistration::where('school_year_id', '=', $schoolyear->id)->where('term_id', '=', $term->id)->first()->group->name }} </p>
+                  <p class="category">Current Term: {{$term->term}} </p>
                   <p class="category">Attendance Date: {{$today->toFormattedDateString()}} </p>
               </div>
               <div class="content">
@@ -43,11 +44,10 @@
                     </tr>
                   </thead>
                   <tbody>
-                      @foreach ($registrations_students as $key => $reg_student)
+                    
+                      @foreach (@$join_students_regs->where('term_id', $term->id)->where('group_id', \App\StafferRegistration::where('school_year_id', '=', $schoolyear->id)->where('term_id', '=', $term->id)->first()->group_id ) as $key => $reg_student)
 
-                        @if($reg_student->school_year_id == $current_school_year->id && $reg_student->group_id == $current_registration_teacher->group_id) 
-
-                                                                 
+                                                             
                           <tr>
 
                             <td>{{$number_init++}}</td>
@@ -65,9 +65,9 @@
                             @endforeach
 
                             </td>
-                            <td>{{$reg_student->student->first_name}}</td>
+                            <td>{{$reg_student->first_name}}</td>
 
-                            <td>{{$reg_student->student->last_name}}</td>
+                            <td>{{$reg_student->last_name}}</td>
                            
                             <td>
                             @foreach($attendances as $attendance)
@@ -128,7 +128,7 @@
                             <td>
 
 
-                            <strong><a href="{{asset('/attendances/addattendance/'.Crypt::encrypt($reg_student->student_id)) }}"><i class="fa fa-plus fa-2x" aria-hidden="true"></i>&nbsp;&nbsp;Take attendance</a>
+                            <strong><a href="{{asset('/attendances/addattendance/'.Crypt::encrypt($reg_student->student_id)) }}/{{$schoolyear->id}}/{{$term->id}}"><i class="fa fa-plus fa-2x" aria-hidden="true"></i>&nbsp;&nbsp;Take attendance</a>
                            
                             </td>
                             <td>
@@ -136,7 +136,7 @@
 
                               @if($attendance->student_id == $reg_student->student_id  && $attendance->day == $today->format('Y-m-d'))
 
-                            <strong><a href="{{asset('/attendances/editattendance/'.Crypt::encrypt($attendance->id)) }}"><i class="fa fa-pencil-square-o fa-2x" aria-hidden="true"></i>&nbsp;&nbsp;edit attendance</a></strong>
+                            <strong><a href="{{asset('/attendances/editattendance/'.Crypt::encrypt($attendance->id)) }}/{{$schoolyear->id}}/{{$term->id}}"><i class="fa fa-pencil-square-o fa-2x" aria-hidden="true"></i>&nbsp;&nbsp;edit attendance</a></strong>
 
                               @endif
 
@@ -148,7 +148,7 @@
                             @foreach($attendances as $attendance)
                               @if($attendance->student_id == $reg_student->student_id  && $attendance->day == $today->format('Y-m-d'))
                                 <strong>
-                                <a href="{{asset('/attendances/postattendancedelete/'.Crypt::encrypt($attendance->id)) }}" onclick="return confirm('Are you sure you want to Delete this record?')">
+                                <a href="{{asset('/attendances/postattendancedelete/'.Crypt::encrypt($attendance->id)) }}/{{$schoolyear->id}}/{{$term->id}}" onclick="return confirm('Are you sure you want to Delete this record?')">
                                 <i class="fa fa-times fa-2x" aria-hidden="true"></i>&nbsp;&nbsp;
                                 Delete attendance
                                 </a>
@@ -158,8 +158,9 @@
                             </td>
                           </tr>
 
-                             @endif
-                          @endforeach                                                                        
+                            
+                          @endforeach 
+                                                                                               
                   </tbody>
                 </table>
               </div>
@@ -168,6 +169,17 @@
             </div>
           </div>
         </div>
+      @else
+
+      <div class="row">
+        <div class="col-md-12">
+        <div class="alert alert-danger">
+          <h5><strong>Term Ended!</strong> This term has ended. You can no longer take attendances for this term. Please go to <a href="{{ url('/attendances/showstudents/'.$current_school_year->id) }}/{{$current_term->id}}"><strong>current term</strong></a></h5>
+        </div>
+        </div>
+      </div>
+        
+      @endif
     </div>
   </div>
             

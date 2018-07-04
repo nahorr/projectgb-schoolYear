@@ -25,40 +25,32 @@ use \Crypt;
 
 class CrudeController extends Controller
 {
-	public function showTerms()
-    {
-      
-
-        return view('admin.attendances.showterms');
-   
-    }
-
-
-    public function showStudents()
+	
+    public function showStudents( School_year $schoolyear, Term $term)
     {
 
         
-        return view('admin.attendances.showstudents');
+        return view('admin.attendances.showstudents', compact('schoolyear', 'term'));
 
     }
 
-    public function addAttendance($student_id)
+    public function addAttendance($student, School_year $schoolyear, Term $term)
     {
 
-    	$student = Student::find(Crypt::decrypt($student_id));     
+    	$student = Student::find(Crypt::decrypt($student));     
 
         $attendancecodes = AttendanceCode::pluck('code_name', 'id');
 
         
-        return view('admin.attendances.addattendance', compact('student', 'attendancecodes'));
+        return view('admin.attendances.addattendance', compact('student', 'attendancecodes', 'schoolyear', 'term'));
 
     }
 
 
-    public function postAttendance(Request $r, $student_id) 
+    public function postAttendance(Request $r, $student, School_year $schoolyear, Term $term) 
     {
          
-         $student = Student::find(Crypt::decrypt($student_id));
+         $student = Student::find(Crypt::decrypt($student));
     	           
 
         $this->validate(request(), [
@@ -88,28 +80,28 @@ class CrudeController extends Controller
        
         flash('Attendance Added Successfully')->success();
 
-        return redirect()->route('showstudentsattendance');
+        return redirect()->route('showstudentsattendance', ['School_year_id' => $schoolyear->id, 'term_id' => $term->id]);
     }
 
-    public function editAttendance($attendance_id)
+    public function editAttendance($attendance, School_year $schoolyear, Term $term)
     {
 
-        $attendance = Attendance::find(Crypt::decrypt($attendance_id));
+        $attendance = Attendance::find(Crypt::decrypt($attendance));
 
             
         $attendancecodes = AttendanceCode::pluck('code_name', 'id');
 
 
         
-        return view('admin.attendances.editattendance', compact('attendance', 'attendancecodes'));
+        return view('admin.attendances.editattendance', compact('attendance', 'attendancecodes', 'schoolyear', 'term' ));
 
     }
 
-     public function postAttendanceUpdate(Request $r, $attendance_id)
+     public function postAttendanceUpdate(Request $r, $attendance, School_year $schoolyear, Term $term )
 
         {
         
-        $attendance_edit = Attendance::find(Crypt::decrypt($attendance_id));
+        $attendance_edit = Attendance::find(Crypt::decrypt($attendance));
 
         $this->validate(request(), [
 
@@ -129,14 +121,14 @@ class CrudeController extends Controller
 
         flash('Attendance Updated Successfully')->success();
 
-        return redirect()->route('showstudentsattendance');
+        return redirect()->route('showstudentsattendance', ['School_year_id' => $schoolyear->id, 'term_id' => $term->id]);
 
 
          }
 
-         public function deleteattendance($attendance_id)
+         public function deleteattendance($attendance)
          {
-            Attendance::destroy(Crypt::decrypt($attendance_id));
+            Attendance::destroy(Crypt::decrypt($attendance));
 
             flash('Attendance has been deleted')->error();
 

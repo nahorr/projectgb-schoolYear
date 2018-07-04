@@ -13,8 +13,8 @@
                     <div class="col-md-5">
                         <div class="card">
                             <div class="header">
-                                <h4 class="title"><strong>{{ strtoupper($term->term) }} COURSES</strong></h4>
-                                <p class="category"> <i class="fa fa-circle text-danger"></i> <strong>My Assigned Class:</strong> {{ $current_registration_teacher->group->name }}</p>
+                                <h4 class="title"><strong>{{ strtoupper($term->term) }} COURSES</strong><strong><p>{{ strtoupper($schoolyear->school_year) }} School Year</strong></p></h4>
+                                <p class="category"> <i class="fa fa-circle text-danger"></i> <strong>My Assigned Class:</strong> {{ @\App\StafferRegistration::where('school_year_id', '=', $schoolyear->id)->where('term_id', '=', $term->id)->first()->group->name }}</p>
                             </div>
 
                                 <div class="content">
@@ -26,7 +26,7 @@
 
                                         </thead>
                                         <tbody>
-                                            @foreach ($term_courses->where('group_id', '=', $current_registration_teacher->group_id) as $course)
+                                        @foreach ($term_courses->where('group_id', '=', @\App\StafferRegistration::where('school_year_id', '=', $schoolyear->id)->where('term_id', '=', $term->id)->first()->group_id) as $course)
 
                                             <tr>
                                                 
@@ -35,12 +35,12 @@
                                                 
                                                 <td>
                                                     <strong>
-                                                        <a href="{{asset('/showstudentcoursesgrades/'.Crypt::encrypt($course->id)) }}"><i class="fa fa-pencil-square-o fa-2x" aria-hidden="true"></i>&nbsp;&nbsp;Add/Edit Grades</a>
+                                                        <a href="{{asset('/showstudentcoursesgrades/'.Crypt::encrypt($course->id)) }}/{{$schoolyear->id}}/{{$term->id}}"><i class="fa fa-pencil-square-o fa-2x" aria-hidden="true"></i>&nbsp;&nbsp;Add/Edit Grades</a>
                                                     </strong>
                                                 </td>
                                                
                                             </tr>
-                                         @endforeach
+                                        @endforeach
                                             
                                         </tbody>
                                     </table>
@@ -62,7 +62,7 @@
                         <div class="col-md-7">
                         <div class="card">
                             <div class="header">
-                                <h4 class="title"><strong> {{ strtoupper($term->term) }} COURSE</strong></h4>
+                                <h4 class="title"><strong> {{ strtoupper($term->term) }} COURSE</strong><strong><p>{{ strtoupper($schoolyear->school_year) }} School Year</strong></p></h4>
                                 <p class="category"> <i class="fa fa-circle text-success"></i> <strong>Course am teaching this term.</strong></p>
                             </div>
 
@@ -76,9 +76,7 @@
 
                                         </thead>
                                         <tbody>
-                                            @foreach ($assigned_term_courses as $course)
-
-                                                @if($course->staffer_id == $teacher->id)
+                                            @foreach($term_courses->where('staffer_id', '=', @\App\StafferRegistration::where('school_year_id', '=', $schoolyear->id)->where('term_id', '=', $term->id)->first()->staffer_id) as $course)
 
                                             <tr>
                                                 
@@ -87,12 +85,12 @@
                                                 <td class="success">{{$course->group->name}}</td>
                                                 <td>
                                                     <strong>
-                                                        <a href="{{asset('/showstudentcoursesgrades/'.Crypt::encrypt($course->id)) }}"><i class="fa fa-pencil-square-o fa-2x" aria-hidden="true"></i>&nbsp;&nbsp;Add/Edit Grades</a>
+                                                        <a href="{{asset('/showstudentcoursesgrades/'.Crypt::encrypt($course->id)) }}/{{$schoolyear->id}}/{{$term->id}}"><i class="fa fa-pencil-square-o fa-2x" aria-hidden="true"></i>&nbsp;&nbsp;Add/Edit Grades</a>
                                                     </strong>
                                                 </td>
                                                
                                             </tr>
-                                            @endif
+                                            
                                          @endforeach
                                             
                                         </tbody>

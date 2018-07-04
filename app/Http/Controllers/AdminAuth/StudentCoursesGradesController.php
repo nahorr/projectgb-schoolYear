@@ -27,17 +27,14 @@ use \Crypt;
 class StudentCoursesGradesController extends Controller
 {
     
-    public function showCourseGrades($id)
+    public function showCourseGrades($course, School_year $schoolyear, Term $term)
     {
 
-        $course = Course::find(Crypt::decrypt($id));
+        $course = Course::find(Crypt::decrypt($course));
 
 
-        $term = Term::where('id', '=', $course->term_id)->first();
-
-        
+               
         $group = Group::where('id', '=', $course->group_id)->first();
-
 
     
     	$student_grades= Student::join('grades', 'students.id', '=', 'grades.student_id')
@@ -51,7 +48,7 @@ class StudentCoursesGradesController extends Controller
         ->orderBy('total', 'desc')
         ->get();
 
-        
+   
               
         $positions= Student::join('grades', 'students.id', '=', 'grades.student_id')
         ->where('grades.course_id', '=', $course->id)
@@ -67,22 +64,20 @@ class StudentCoursesGradesController extends Controller
 
         //dd($class_highest);
 
-    	
-
 
     	return view('admin.showstudentcoursesgrades', compact(
 
-    		'course', 'term', 'group', 'student_grades', 'grades',
+    		'schoolyear', 'term', 'course', 'group', 'student_grades', 'grades',
             'class_highest', 'class_lowest', 'class_average', 'positions', 'all_user'
 
 
     		));
     }
 
-    public function deleteGrade($grade_id)
+    public function deleteGrade($grade, School_year $schoolyear, Term $term)
          {
             
-            Grade::destroy(Crypt::decrypt($grade_id));
+            Grade::destroy(Crypt::decrypt($grade));
 
             flash('Grade has been deleted')->error();
 

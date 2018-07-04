@@ -20,11 +20,12 @@
 		                <div class="header">
 		                    <h4 class="title"><strong>Editting Grades for {{ $student_grades->first_name }} {{ $student_grades->last_name }}</strong> <a class="pull-right"> {{ $course->name }}&nbsp;&nbsp;{{ $group->name }} </a></h4>
 		                    <p class="category"> {{ $term->term }} </p>
+                        <strong><p>{{ strtoupper($schoolyear->school_year) }} School Year</strong></p>
 		                </div>
 		                <hr style="border-color: #fff;">
 
             	           <div class="content">
-							<form action="{{ url('/postGradeUpdate', [Crypt::encrypt($student_grades->student_id), Crypt::encrypt($course->id)] )}}" method="POST">
+							<form action="{{ url('/postGradeUpdate', [Crypt::encrypt($student_grades->student_id), Crypt::encrypt($course->id), $schoolyear->id, $term->id] )}}" method="POST">
 							{{ csrf_field() }}
 
                             <div class="row">
