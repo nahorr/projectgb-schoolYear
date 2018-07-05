@@ -77,18 +77,12 @@
                                 <th>Title</th>
                                 <th>First Name</th>
                                 <th>Last Name</th>
-                                <th>Gender</th>
                                 <th>Status</th>
-                                <th>Nationality</th>
-                                <th>ID Card #</th>
-                                <th>Passport # </th>
-                                <th>Phone</th>
-                                <th>State</th>
-                                <th>Address</th>
-                                <th>Date Employed</th>
                                 <th>Edit</th>
                                 <th>Delete</th>
-
+                                <th>Registration Status</th>
+                                <th>Staffer Details</th>
+                                <th>Role</th>
                                
                                 
                             </thead>
@@ -96,28 +90,21 @@
                                 @foreach ($staffers as $staffer)
 
                                 <tr>
-                                    <td>{{ $staffer->registration_code }}</td>
+                                    <td><a href="{{asset('/schoolsetup/staffers/stafferdetails/'.$staffer->id) }}">{{ $staffer->registration_code }}</a></td>
                                     <td>{{ $staffer->title }}</td>
                                     <td>{{ $staffer->first_name }}</td>
                                     <td>{{ $staffer->last_name }}</td>
-                                    <td>{{ $staffer->gender }}</td>
-                                    <td>{{ $staffer->employment_status }}</td>
-                                    <td>{{ $staffer->nationality }}</td>
-                                    <td>{{ $staffer->national_card_number }}</td>
-                                    <td>{{ $staffer->passport_number }}</td>
-                                    <td>{{ $staffer->phone }}</td>
-                                    <td>{{ $staffer->state }}</td>
-                                    <td>{{ $staffer->current_address }}</td>
-                                    <td>{{ $staffer->date_of_employment }}</td>
-                                    
+                                    <td>{{ $staffer->employment_status }}</td>                                   
                                     <td><strong><a href="{{asset('/schoolsetup/staffers/editstaffer/'.$staffer->id) }}"><i class="fa fa-pencil-square-o fa-2x" aria-hidden="true">                                                           
                                     </i></a></strong>
                                     </td>
                                     <td><strong><a href="{{asset('/schoolsetup/staffers/poststafferdelete/'.$staffer->id) }}" onclick="return confirm('Are you sure you want to Delete this record?')"><i class="fa fa-trash fa-2x" aria-hidden="true">                                                           
                                     </i></a></strong>
                                     </td>
-                                    
-                                   
+                                    <td>
+                                        <button type="button" class="btn btn-danger">Registration</button></td>
+                                    <td><a href="{{asset('/schoolsetup/staffers/stafferdetails/'.$staffer->id) }}" class="btn btn-warning btn-md" role="button" aria-pressed="true">View</a></td>
+                                    <td><button type="button" class="btn btn-info">Super Admin</button></td>
                                 </tr>
                              @endforeach
                                 

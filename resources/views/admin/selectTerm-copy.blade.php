@@ -149,22 +149,20 @@
                                         <td class="text-center">{{$schoolyear->start_date->toFormattedDateString()}}</td>
                                         <td class="text-center">{{$schoolyear->end_date->toFormattedDateString()}}</td>
                                         <td class="text-center">
-                                            @foreach ($terms as $term)
-                                                @foreach ($registrations_teacher->where('school_year_id', '=', $schoolyear->id)->where('term_id', '=', $term->id) as $regs_teacher)
+                                            @foreach ($terms->where('school_year_id', '=', $schoolyear->id) as $term)
                                                 <a href="{{asset('/admin_home/'. $schoolyear->id)}}/{{$term->id}}">
                                                     @if($schoolyear->id == $current_school_year->id)
                                                         @if($term->id == $current_term->id)
-                                                            <button type="button" class="btn btn-success btn-sm">{{strtoupper($term->term)}} <span style="color: red">You are assigned to</span> {{$regs_teacher->group->name}}<br><span style="color: red">Current Term</span></button>
+                                                            <button type="button" class="btn btn-success btn-sm">{{strtoupper($term->term)}}<br><mark style="color: green;">Current Term</mark></button>
                                                         @else
-                                                            <button type="button" class="btn btn-success btn-sm">{{strtoupper($term->term)}} <span style="color: red">You are assigned to</span> {{$regs_teacher->group->name}}</button>
+                                                            <button type="button" class="btn btn-success btn-sm">{{strtoupper($term->term)}}</button>
                                                         @endif
                                                     @else
-                                                            <button type="button" class="btn btn-primary btn-sm">{{strtoupper($term->term)}} <span style="color: red">You are assigned to</span> {{$regs_teacher->group->name}}</button>
+                                                            <button type="button" class="btn btn-primary btn-sm">{{strtoupper($term->term)}}</button>
                                                     @endif
                                                 </a>
                                                 <br>
                                                 <br>
-                                                @endforeach
                                             @endforeach
                                         </td>
                                     </tr>

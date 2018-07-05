@@ -65,4 +65,14 @@ class Term extends Model
     {
         return $this->hasMany('App\DisciplinaryRecord');
     }
+
+    public function staffer_registrations()
+    {
+        return $this->hasMany('App\StafferRegistration');
+    }
+
+    public function student_registrations()
+    {
+        return $this->hasMany('App\StudentRegistration');
+    }
 }

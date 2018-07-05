@@ -20,4 +20,9 @@ class StafferRegistration extends Model
     {
         return $this->belongsTo('App\Group');
     }
+
+    public function term()
+    {
+        return $this->belongsTo('App\Term');
+    }
 }

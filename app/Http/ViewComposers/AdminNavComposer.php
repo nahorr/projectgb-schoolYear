@@ -66,11 +66,12 @@ Class AdminNavComposer {
         //get all admin/staffer/teacher's registrations.  
         //note also that a teacher schould have one registration for the current school year and like wise for every school year.
         $registrations_teacher = StafferRegistration::where('staffer_id', '=', $teacher->id)->get();
+        //dd($registrations_teacher);
 
         $join_teacher_regs = StafferRegistration::join('staffers', 'staffer_registrations.staffer_id', '=', 'staffers.id')->join('school_years', 'staffer_registrations.school_year_id', '=', 'school_years.id')->join('terms', 'staffer_registrations.term_id', '=', 'terms.id')
                                 ->join('groups', 'staffer_registrations.group_id', '=', 'groups.id')
                                 ->get();
-
+        //dd($join_teacher_regs);
         //get current registration for admin/staffer/teacher. The idea is to get the current group_id from it.
         $current_registration_teacher = StafferRegistration::where('school_year_id', '=', $current_school_year->id)->where('staffer_id', '=', $teacher->id)->first();
         

@@ -31,6 +31,14 @@ class SetUpController extends Controller
         return view('admin.superadmin.schoolsetup.staffers.showstaffers');
     }
 
+    public function stafferDetails(Staffer $staffer)
+    {
+        
+
+        return view('admin.superadmin.schoolsetup.staffers.stafferdetails', compact('staffer'));
+    }
+
+
     public function addStaffer()
     {
 
