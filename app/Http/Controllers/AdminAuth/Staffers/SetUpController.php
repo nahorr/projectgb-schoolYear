@@ -17,6 +17,7 @@ use App\Student;
 use App\Group;
 use App\Staffer;
 use App\User;
+use App\Admin;
 use Excel;
 
 
@@ -30,6 +31,39 @@ class SetUpController extends Controller
 
         return view('admin.superadmin.schoolsetup.staffers.showstaffers');
     }
+
+    public function postMakeSuperAdmin(Request $r, Admin $admin)
+
+    {
+
+         $makesuperadmin = Admin::where('id', '=', $admin->id)->first();
+         
+         $makesuperadmin->is_super_admin= $r->is_super_admin;
+            
+         $makesuperadmin->save();
+
+         flash('Staffer is now a Super Admin on this portal')->error();
+
+         return back();
+
+     }
+
+    public function postRemoveSuperAdmin(Request $r, Admin $admin)
+
+    {
+        
+         $removesuperadmin = Admin::where('id', '=', $admin->id)->first();
+         
+         $removesuperadmin->is_super_admin= $r->is_super_admin;
+            
+         $removesuperadmin->save();
+
+         flash('Staffer is no longer a Super Admin on this portal')->success();
+
+         return back();
+
+         
+     }
 
     public function stafferDetails(Staffer $staffer)
     {

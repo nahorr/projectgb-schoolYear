@@ -86,7 +86,7 @@
                               
                               <ul class="dropdown-menu">
 
-                                <li><a href="{{ url('/admin/profile') }}"><i class="fa fa-btn fa-user"></i>Profile</a></li>
+                                <li><a href="{{ url('/admin/profile/'. $current_school_year->id) }}/{{$current_term->id}}"><i class="fa fa-btn fa-user"></i>Profile</a></li>
                                 <li><a href="{{ url('/admincourses') }}"><i class="fa fa-list-ul"></i>My Courses</a></li>
                                 <li><a href="{{ url('/admin/reportcards/terms') }}"><i class="fa fa-check-square-o"></i>Report card</a></li>
                                 <li>

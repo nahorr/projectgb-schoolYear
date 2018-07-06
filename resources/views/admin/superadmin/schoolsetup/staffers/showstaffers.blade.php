@@ -80,9 +80,9 @@
                                 <th>Status</th>
                                 <th>Edit</th>
                                 <th>Delete</th>
-                                <th>Registration Status</th>
+                                <th>Current Registration Status</th>
                                 <th>Staffer Details</th>
-                                <th>Role</th>
+                                <th>Make/Remove Super Admin</th>
                                
                                 
                             </thead>
@@ -102,9 +102,32 @@
                                     </i></a></strong>
                                     </td>
                                     <td>
-                                        <button type="button" class="btn btn-danger">Registration</button></td>
+
+                                        <button type="button" class="btn btn-info">Registration</button>
+                                    </td>
                                     <td><a href="{{asset('/schoolsetup/staffers/stafferdetails/'.$staffer->id) }}" class="btn btn-warning btn-md" role="button" aria-pressed="true">View</a></td>
-                                    <td><button type="button" class="btn btn-info">Super Admin</button></td>
+                                    <td>
+                                    @foreach ($admin_users as $admin_user)
+                                        @if($staffer->registration_code == $admin_user->registration_code && $admin_user->is_super_admin == 1 && $admin_user->id ==1)
+                                            <span style="color: red">GLOBAL SUPER ADMIN - CANNOT BE REMOVED</span>
+                                        @elseif($staffer->registration_code == $admin_user->registration_code && $admin_user->is_super_admin == 0)
+                                          <form class="form-group" action="{{ url('/schoolsetup/staffers/postremovesuperadmin', [$admin_user->id] )}}" method="POST">
+                                          {{ csrf_field() }}
+                                          <input id="is_super_admin" name="is_super_admin" type="hidden" value="1">
+                                          
+                                          <button type="submit" class="btn btn-success">Make {{$admin_user->name}} Super Admin</button>
+                                          </form>
+                                        @elseif($staffer->registration_code == $admin_user->registration_code && $admin_user->is_super_admin == 1)
+                                          <form class="form-group" action="{{ url('/schoolsetup/staffers/postmakesuperadmin', [$admin_user->id] )}}" method="POST">
+                                          {{ csrf_field() }}
+                                          <input id="is_super_admin" name="is_super_admin" type="hidden" value="0">
+                                          
+                                          <button type="submit" class="btn btn-danger">Remove {{$admin_user->name}} from Super Admin</button>
+                                          </form>
+                                      @endif
+                                    @endforeach
+                                    </td>
+                                   
                                 </tr>
                              @endforeach
                                 

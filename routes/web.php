@@ -278,6 +278,11 @@ Route::group(['middleware' => 'admin_auth'], function(){
 
         //staff setup
         Route::get('/schoolsetup/staffers/showstaffers', 'AdminAuth\Staffers\SetUpController@showStaffers')->name('showstaffers');
+        Route::post('/schoolsetup/staffers/postmakesuperadmin/{admin}', 'AdminAuth\Staffers\SetUpController@postMakeSuperAdmin');
+        Route::post('/schoolsetup/staffers/postremovesuperadmin/{admin}', 'AdminAuth\Staffers\SetUpController@postRemoveSuperAdmin');
+        Route::post('/schoolsetup/staffers/registerstaffer/{staffer}', 'AdminAuth\Staffers\SetUpController@registerStaffer');
+        Route::post('/schoolsetup/staffers/postregisterstaffer/{staffer}', 'AdminAuth\Staffers\SetUpController@postRegisterStaffer');
+        Route::post('/schoolsetup/staffers/postunregisterstaffer/{staffer}', 'AdminAuth\Staffers\SetUpController@postUnRegisterStaffer');
         Route::get('/schoolsetup/staffers/stafferdetails/{staffer}', 'AdminAuth\Staffers\SetUpController@stafferDetails')->name('stafferdetail');
         Route::get('/schoolsetup/staffers/addstaffer', 'AdminAuth\Staffers\SetUpController@addStaffer');
         Route::post('/schoolsetup/staffers/poststaffer', 'AdminAuth\Staffers\SetUpController@postStaffer');

@@ -2,7 +2,7 @@
 
 @section('content')
 
-            <div class="main-content">
+    <div class="main-content">
                 <div class="main-content-inner">
                     <div class="breadcrumbs ace-save-state" id="breadcrumbs">
                         <ul class="breadcrumb">
@@ -185,7 +185,7 @@
                         </div>
                     </div><!-- /.col -->
                 </div><!-- /.row -->
-            </div><!-- /.page-content -->
+        </div><!-- /.page-content -->
         </div><!-- /.row -->
     </div><!-- /.page-content -->
                     <!-- inline scripts related to this page -->

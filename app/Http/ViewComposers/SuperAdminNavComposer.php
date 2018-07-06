@@ -11,6 +11,7 @@ use App\Student;
 use App\Staffer;
 use App\Course;
 use App\School;
+use App\Admin;
 use App\Event;
 use App\Group;
 use App\User;
@@ -37,6 +38,8 @@ Class SuperAdminNavComposer {
         
         //get all terms
         $terms = Term::get();
+
+        $admin_users = Admin::get();
             
         $teacher = Staffer::where('registration_code', '=', Auth::guard('web_admin')->user()->registration_code)->first();
 
@@ -53,6 +56,7 @@ Class SuperAdminNavComposer {
         ->with('schoolyears', $schoolyears)
         ->with('current_school_year', $current_school_year)
         ->with('terms', $terms)
+        ->with('admin_users', $admin_users)
         ->with('teacher', $teacher)
         ->with('staffers', $staffers)
         ->with('groups', $groups)

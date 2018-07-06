@@ -39,7 +39,7 @@
             'admin.superadmin.schoolsetup.students.addnewstudents',
             'admin.superadmin.schoolsetup.students.viewallstudents',
             'admin.superadmin.schoolsetup.staffers.showstaffers',
-            'admin.schoolsetup.staffers.stafferdetails'
+            'admin.superadmin.schoolsetup.staffers.stafferdetails',
             'admin.superadmin.schoolsetup.staffers.addstaffer',
             'admin.superadmin.schoolsetup.staffers.editstaffer',
 
