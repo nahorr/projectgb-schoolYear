@@ -19,6 +19,7 @@ use App\Term;
 use Image;
 use Auth;
 use File;
+use App\StafferRegistration;
 
 Class SuperAdminNavComposer {	
 	
@@ -39,6 +40,8 @@ Class SuperAdminNavComposer {
         //get all terms
         $terms = Term::get();
 
+        $current_term = Term::where([['start_date', '<=', $today], ['end_date', '>=', $today]])->first();
+
         $admin_users = Admin::get();
             
         $teacher = Staffer::where('registration_code', '=', Auth::guard('web_admin')->user()->registration_code)->first();
@@ -49,6 +52,10 @@ Class SuperAdminNavComposer {
 
         $students = Student::get();
 
+        $current_staffers_registrations = StafferRegistration::where('School_year_id', '=', $current_school_year->id)->where('term_id', '=', $current_term->id)->get();
+
+        //dd($current_staffers_registrations);
+
         //put variables in views
         $view
         ->with('today', $today )
@@ -56,11 +63,13 @@ Class SuperAdminNavComposer {
         ->with('schoolyears', $schoolyears)
         ->with('current_school_year', $current_school_year)
         ->with('terms', $terms)
+        ->with('current_term', $current_term)
         ->with('admin_users', $admin_users)
         ->with('teacher', $teacher)
         ->with('staffers', $staffers)
         ->with('groups', $groups)
-        ->with('students', $students);    
+        ->with('students', $students)
+        ->with('current_staffers_registrations', $current_staffers_registrations);    
     }
 }
 

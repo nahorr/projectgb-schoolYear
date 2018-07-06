@@ -19,6 +19,7 @@ use App\Staffer;
 use App\User;
 use App\Admin;
 use Excel;
+use App\StafferRegistration;
 
 
 class SetUpController extends Controller
@@ -64,6 +65,15 @@ class SetUpController extends Controller
 
          
      }
+
+     public function registerStaffer(Staffer $staffer)
+    {
+        
+        $current_staffer_registration = StafferRegistration::where('staffer_id', '=', $staffer->id)->where('School_year_id', '=', $current_school_year->id)->where('term_id', '=', $current_term->id)->first();
+
+
+        return view('admin.superadmin.schoolsetup.staffers.registerstaffer', compact('staffer', 'current_staffer_registration'));
+    }
 
     public function stafferDetails(Staffer $staffer)
     {

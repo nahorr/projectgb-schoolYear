@@ -73,37 +73,56 @@
 
                 	   <table class="table table-striped table-bordered table-hover">
                             <thead>
+                                <th>#</th>
                                 <th>Registration Code</th>
                                 <th>Title</th>
                                 <th>First Name</th>
                                 <th>Last Name</th>
                                 <th>Status</th>
-                                <th>Edit</th>
-                                <th>Delete</th>
                                 <th>Current Registration Status</th>
                                 <th>Staffer Details</th>
                                 <th>Make/Remove Super Admin</th>
+                                <th>Edit</th>
+                                <th>Delete</th>
                                
                                 
                             </thead>
                             <tbody>
-                                @foreach ($staffers as $staffer)
+                                @foreach ($staffers as $key=> $staffer)
 
                                 <tr>
+                                    <td>{{$key+1}}</td>
                                     <td><a href="{{asset('/schoolsetup/staffers/stafferdetails/'.$staffer->id) }}">{{ $staffer->registration_code }}</a></td>
                                     <td>{{ $staffer->title }}</td>
                                     <td>{{ $staffer->first_name }}</td>
                                     <td>{{ $staffer->last_name }}</td>
                                     <td>{{ $staffer->employment_status }}</td>                                   
-                                    <td><strong><a href="{{asset('/schoolsetup/staffers/editstaffer/'.$staffer->id) }}"><i class="fa fa-pencil-square-o fa-2x" aria-hidden="true">                                                           
-                                    </i></a></strong>
-                                    </td>
-                                    <td><strong><a href="{{asset('/schoolsetup/staffers/poststafferdelete/'.$staffer->id) }}" onclick="return confirm('Are you sure you want to Delete this record?')"><i class="fa fa-trash fa-2x" aria-hidden="true">                                                           
-                                    </i></a></strong>
-                                    </td>
+                                    
                                     <td>
+                                    @foreach($current_staffers_registrations as $current_staffer_registration)
+                                        @if($current_staffer_registration->staffer_id == $staffer->id)
+                                        <button type="button" class="btn btn-secondary">Registered: {{$current_staffer_registration->group->name}}</button>
+                                        <button type="button" class="btn btn-info">Edit Registration</button>
+                                        @else
+                                        <button type="button" class="btn btn-primary">Register {{$staffer->first_name}} {{$staffer->last_name}} This Term</button>
+                                        <div>
+                                            <label for="form-field-select-3">Select an Class</label>
 
-                                        <button type="button" class="btn btn-info">Registration</button>
+                                            <br />
+                                            <select name="staffer_id" class="chosen-select form-control" id="form-field-select-3" data-placeholder="Select an class...">
+                                                <option selected disabled>Please select one class</option>
+                                                    @foreach($groups as $key => $group)
+
+                                                        <option value="{{ $group->id }}" >
+                                                            {{ $group->name }}
+                                                        </option>
+
+                                                    @endforeach
+                                            </select>
+
+                                        </div>
+                                        @endif
+                                    @endforeach
                                     </td>
                                     <td><a href="{{asset('/schoolsetup/staffers/stafferdetails/'.$staffer->id) }}" class="btn btn-warning btn-md" role="button" aria-pressed="true">View</a></td>
                                     <td>
@@ -126,6 +145,12 @@
                                           </form>
                                       @endif
                                     @endforeach
+                                    </td>
+                                    <td><strong><a href="{{asset('/schoolsetup/staffers/editstaffer/'.$staffer->id) }}"><i class="fa fa-pencil-square-o fa-2x" aria-hidden="true">                                                           
+                                    </i></a></strong>
+                                    </td>
+                                    <td><strong><a href="{{asset('/schoolsetup/staffers/poststafferdelete/'.$staffer->id) }}" onclick="return confirm('Are you sure you want to Delete this record?')"><i class="fa fa-trash fa-2x" aria-hidden="true">                                                           
+                                    </i></a></strong>
                                     </td>
                                    
                                 </tr>
