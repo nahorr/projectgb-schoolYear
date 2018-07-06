@@ -101,26 +101,74 @@
                                     <td>
                                     @foreach($current_staffers_registrations as $current_staffer_registration)
                                         @if($current_staffer_registration->staffer_id == $staffer->id)
-                                        <button type="button" class="btn btn-secondary">Registered: {{$current_staffer_registration->group->name}}</button>
+                                        <button type="button" class="btn btn-secondary" disabled="">Assigned to: {{$current_staffer_registration->group->name}}</button>
                                         <button type="button" class="btn btn-info">Edit Registration</button>
                                         @else
-                                        <button type="button" class="btn btn-primary">Register {{$staffer->first_name}} {{$staffer->last_name}} This Term</button>
-                                        <div>
-                                            <label for="form-field-select-3">Select an Class</label>
 
-                                            <br />
-                                            <select name="staffer_id" class="chosen-select form-control" id="form-field-select-3" data-placeholder="Select an class...">
-                                                <option selected disabled>Please select one class</option>
-                                                    @foreach($groups as $key => $group)
+                                        <button type="button" class="btn btn-primary" data-toggle="modal" data-target="#myModal" id="open">Register {{$staffer->first_name}} {{$staffer->last_name}} This Term</button>
+                                          <form class="form-group" method="post" action="{{ url('/schoolsetup/staffers/postregisterstaffer', [$staffer->id] )}}">
+                                            {{ csrf_field() }}
+                                          <!-- Modal -->
+                                          <div class="modal" tabindex="-1" role="dialog" id="myModal">
+                                          <div class="modal-dialog" role="document">
+                                            <div class="modal-content">
+                                              <div class="alert alert-danger" style="display:none"></div>
+                                              <div class="modal-header">
+                                                
+                                                <h5 class="modal-title">Register {{$staffer->first_name}} {{$staffer->last_name}} for {{$current_term->term}} - {{$current_school_year->school_year}}</h5>
+                                                        <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                                                  <span aria-hidden="true">&times;</span>
+                                                </button>
+                                              </div>
+                                              <div class="modal-body">
+                                                <div class="row">
+                                                    <div class="form-group col-md-4" style="display: none;">
+                                                      <label for="Name">Staffer ID:</label>
+                                                      <input type="hidden" class="form-control" name="staffer_id" id="staffer_id" value="{{$staffer->id}}">
+                                                    </div>
+                                                </div>
+                                                <div class="row">
+                                                    <div class="form-group col-md-4" style="display: none;">
+                                                      <label for="Name">School Year ID:</label>
+                                                      <input type="hidden" class="form-control" name="school_year_id" id="school_year_id" value="{{$current_school_year->id}}">
+                                                    </div>
+                                                </div>
+                                                <div class="row">
+                                                  <div class="form-group col-md-4" style="display: none;">
+                                                    <label for="Club">Term ID:</label>
+                                                    <input type="hidden" class="form-control" name="term_id" id="term_id" value="{{$current_term->id}}">
+                                                  </div>
+                                                </div>
+                                                  <div class="row">
+                                                     <div class="col-lg-12">
+                                                        <label for="Group">Select a Class(group):</label>
+                                                        <select name="group_id" class="chosen-select form-control" id="group_id" data-placeholder="Select an Class(Group)...">
+                                                            <option selected disabled>Please select one Class</option>
+                                                                
 
-                                                        <option value="{{ $group->id }}" >
-                                                            {{ $group->name }}
-                                                        </option>
+                                                                   @foreach($groups as $group)
 
-                                                    @endforeach
-                                            </select>
+                                                                        
 
+                                                                    <option value="{{ $group->id }}" >
+                                                                        {{ $group->name }}
+                                                                    </option>
+                                                                        
+                                                                @endforeach
+                                                        </select>
+                                                      </div>
+                                                  </div>
+                                                  
+                                              </div>
+                                              <div class="modal-footer">
+                                                <button type="button" class="btn btn-secondary" data-dismiss="modal">Close</button>
+                                                <button  class="btn btn-success" id="ajaxSubmit">Save changes</button>
+                                                </div>
+                                            </div>
+                                          </div>
                                         </div>
+                                        </form>
+
                                         @endif
                                     @endforeach
                                     </td>
@@ -172,16 +220,63 @@
 
 	<div class="alert-danger">
 		
-			<ul>
-				@foreach($errors->all() as $error)
+		<ul>
+			@foreach($errors->all() as $error)
 
-					<li> {{ $error }}</li>
+				<li> {{ $error }}</li>
 
-				@endforeach
+			@endforeach
 
-			</ul>
+		</ul>
 
-	</div>
+    </div>
+
+    <script src="http://code.jquery.com/jquery-3.3.1.min.js"
+               integrity="sha256-FgpCb/KJQlLNfOu91ta32o/NMZxltwRo8QtmkMRdAu8="
+               crossorigin="anonymous">
+    </script>
+
+    <!-- Latest compiled and minified JavaScript -->
+    <script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/js/bootstrap.min.js" integrity="sha384-Tc5IQib027qvyjSMfHjOMaLkfuWVxZxUPnCJA7l2mCWNIpG9mGCD8wGNIcPD7Txa" crossorigin="anonymous"></script>
+      <script>
+         jQuery(document).ready(function(){
+            jQuery('#ajaxSubmit').click(function(e){
+               e.preventDefault();
+               $.ajaxSetup({
+                  headers: {
+                      'X-CSRF-TOKEN': $('meta[name="_token"]').attr('content')
+                  }
+              });
+               jQuery.ajax({
+                  url: "{{ url('/chempionleague') }}",
+                  method: 'post',
+                  data: {
+                     name: jQuery('#name').val(),
+                     club: jQuery('#club').val(),
+                     country: jQuery('#country').val(),
+                     score: jQuery('#score').val(),
+                  },
+                  success: function(result){
+                    if(result.errors)
+                    {
+                        jQuery('.alert-danger').html('');
+
+                        jQuery.each(result.errors, function(key, value){
+                            jQuery('.alert-danger').show();
+                            jQuery('.alert-danger').append('<li>'+value+'</li>');
+                        });
+                    }
+                    else
+                    {
+                        jQuery('.alert-danger').hide();
+                        $('#open').hide();
+                        $('#myModal').modal('hide');
+                    }
+                  }});
+               });
+            });
+      </script>
+
 
 
 @endsection

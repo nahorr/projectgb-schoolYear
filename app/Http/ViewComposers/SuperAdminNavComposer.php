@@ -54,7 +54,13 @@ Class SuperAdminNavComposer {
 
         $current_staffers_registrations = StafferRegistration::where('School_year_id', '=', $current_school_year->id)->where('term_id', '=', $current_term->id)->get();
 
-        //dd($current_staffers_registrations);
+        $current_registered_groups =  StafferRegistration::where('School_year_id', '=', $current_school_year->id)->where('term_id', '=', $current_term->id)->pluck('group_id')->all();
+
+        $current_unregistered_groups = Group::whereNotIn('id', $current_registered_groups)->select('name')->get();
+
+        
+
+        //dd(collect($current_unregistered_groups));
 
         //put variables in views
         $view
@@ -69,7 +75,9 @@ Class SuperAdminNavComposer {
         ->with('staffers', $staffers)
         ->with('groups', $groups)
         ->with('students', $students)
-        ->with('current_staffers_registrations', $current_staffers_registrations);    
+        ->with('current_staffers_registrations', $current_staffers_registrations)
+        ->with('current_registered_groups', $current_registered_groups)
+        ->with('current_unregistered_groups', $current_registered_groups);   
     }
 }
 
