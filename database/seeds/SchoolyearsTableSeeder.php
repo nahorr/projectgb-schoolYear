@@ -18,13 +18,13 @@ class SchoolyearsTableSeeder extends Seeder
              array(
                     'school_year'=>'2016/2017', 
                     'start_date'=>Carbon::create('2016', '09', '12'),
-                    'end_date'=>Carbon::create('2017', '09', '12')->addMonths(10)
+                    'end_date'=>Carbon::create('2016', '09', '12')->addMonths(11)
                   ),
 
              array(
                     'school_year'=>'2017/2018', 
                     'start_date'=>Carbon::create('2017', '09', '11'),
-                    'end_date'=>Carbon::create('2018', '09', '11')->addMonths(10)
+                    'end_date'=>Carbon::create('2017', '09', '11')->addMonths(11)
                  ),
              
           ));
