@@ -140,20 +140,26 @@
                                                   </div>
                                                 </div>
                                                   <div class="row">
-                                                     <div class="col-lg-12">
+                                                     <div class="col-md-12">
                                                         <label for="Group">Select a Class(group):</label>
-                                                        <select name="group_id" class="chosen-select form-control" id="group_id" data-placeholder="Select an Class(Group)...">
-                                                            <option selected disabled>Please select one Class</option>
+                                                      
+                                                        <select name="group_id" class="chosen-select form-control" id="group_id" data-placeholder="Select an Class(Group)..." >
+                                                            <option selected disabled> Please select one Class</option>
                                                                 
 
-                                                                   @foreach($groups as $group)
+                                                                  @foreach($groups as $group)
 
-                                                                        
+                                                                    @foreach($current_staffers_registrations as $csr)
 
-                                                                    <option value="{{ $group->id }}" >
-                                                                        {{ $group->name }}
+
+                                                                    <option value="{{ $group->id }}">
+                                                                      @if($group->id == $csr->group_id)
+                                                                        {{ $group->name }}-{{$csr->staffer->last_name}}
+                                                                      @else
+                                                                      {{$group->name}}
+                                                                      @endif
                                                                     </option>
-                                                                        
+                                                                  @endforeach      
                                                                 @endforeach
                                                         </select>
                                                       </div>
