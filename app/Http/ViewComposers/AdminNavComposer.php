@@ -73,7 +73,7 @@ Class AdminNavComposer {
                                 ->get();
         //dd($join_teacher_regs);
         //get current registration for admin/staffer/teacher. The idea is to get the current group_id from it.
-        $current_registration_teacher = StafferRegistration::where('school_year_id', '=', $current_school_year->id)->where('staffer_id', '=', $teacher->id)->first();
+        //$current_registration_teacher = StafferRegistration::where('school_year_id', '=', $current_school_year->id)->where('staffer_id', '=', $teacher->id)->first();
         
         //get all students registered in teachers current group in the current school year. 
         /*$students_in_teacher_current_group = StudentRegistration::where('school_year_id', '=', $current_school_year->id)->where('group_id', '=', $current_registration_teacher->group_id)->get();*/
@@ -119,7 +119,7 @@ Class AdminNavComposer {
         ->with('teachers', $teachers)
         ->with('students', $students)
         ->with('registrations_teacher', $registrations_teacher)
-        ->with('current_registration_teacher', $current_registration_teacher)
+        //->with('current_registration_teacher', $current_registration_teacher)
         //->with('students_in_teacher_current_group', $students_in_teacher_current_group)
         ->with('registrations_students', $registrations_students)
         ->with('all_users', $all_users)
