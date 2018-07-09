@@ -75,6 +75,31 @@ class SetUpController extends Controller
         return view('admin.superadmin.schoolsetup.staffers.registerstaffer', compact('staffer', 'current_staffer_registration'));
     }
 
+    public function postRegisterStaffer(Request $request, Staffer $staffer)
+    {
+
+         
+         $validator = \Validator::make($request->all(), [
+            'staffer_id' => 'required',
+            'school_year_id' => 'required',
+            'term_id' => 'required',
+            'group_id' => 'required',
+        ]);
+        
+        if ($validator->fails())
+        {
+            return response()->json(['errors'=>$validator->errors()->all()]);
+        }
+        $stafferregistration= new StafferRegistration();
+        $stafferregistration->staffer_id=$request->get('staffer_id');
+        $stafferregistration->school_year_id=$request->get('school_year_id');
+        $stafferregistration->term_id=$request->get('term_id');
+        $stafferregistration->group_id=$request->get('group_id');
+        $stafferregistration->save();
+   
+        return response()->json(['success'=>'Data is successfully added']);
+    }
+
     public function stafferDetails(Staffer $staffer)
     {
         

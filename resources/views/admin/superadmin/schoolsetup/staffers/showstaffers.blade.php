@@ -84,11 +84,13 @@
                                 <th>Make/Remove Super Admin</th>
                                 <th>Edit</th>
                                 <th>Delete</th>
-                               
+                              
                                 
                             </thead>
                             <tbody>
                                 @foreach ($staffers as $key=> $staffer)
+
+                                   
 
                                 <tr>
                                     <td>{{$key+1}}</td>
@@ -99,84 +101,102 @@
                                     <td>{{ $staffer->employment_status }}</td>                                   
                                     
                                     <td>
-                                    @foreach($current_staffers_registrations as $current_staffer_registration)
-                                        @if($current_staffer_registration->staffer_id == $staffer->id)
-                                        <button type="button" class="btn btn-secondary" disabled="">Assigned to: {{$current_staffer_registration->group->name}}</button>
-                                        <button type="button" class="btn btn-info">Edit Registration</button>
-                                        @else
+                                    
+                                    
+                                        @foreach($current_staffers_registrations as $current_staffer_registration)
 
-                                        <button type="button" class="btn btn-primary" data-toggle="modal" data-target="#myModal" id="open">Register {{$staffer->first_name}} {{$staffer->last_name}} This Term</button>
-                                          <form class="form-group" method="post" action="{{ url('/schoolsetup/staffers/postregisterstaffer', [$staffer->id] )}}">
-                                            {{ csrf_field() }}
-                                          <!-- Modal -->
-                                          <div class="modal" tabindex="-1" role="dialog" id="myModal">
-                                          <div class="modal-dialog" role="document">
-                                            <div class="modal-content">
-                                              <div class="alert alert-danger" style="display:none"></div>
-                                              <div class="modal-header">
+                                            @if($current_staffer_registration->staffer_id == $staffer->id)
+
+
+                                                <button type="button" class="btn btn-secondary" disabled="">Assigned to: {{$current_staffer_registration->group->name}}</button>
+                                                <button type="button" class="btn btn-info">Edit Registration</button>
+                                       
                                                 
-                                                <h5 class="modal-title">Register {{$staffer->first_name}} {{$staffer->last_name}} for {{$current_term->term}} - {{$current_school_year->school_year}}</h5>
-                                                        <button type="button" class="close" data-dismiss="modal" aria-label="Close">
-                                                  <span aria-hidden="true">&times;</span>
-                                                </button>
-                                              </div>
-                                              <div class="modal-body">
-                                                <div class="row">
-                                                    <div class="form-group col-md-4" style="display: none;">
-                                                      <label for="Name">Staffer ID:</label>
-                                                      <input type="hidden" class="form-control" name="staffer_id" id="staffer_id" value="{{$staffer->id}}">
-                                                    </div>
-                                                </div>
-                                                <div class="row">
-                                                    <div class="form-group col-md-4" style="display: none;">
-                                                      <label for="Name">School Year ID:</label>
-                                                      <input type="hidden" class="form-control" name="school_year_id" id="school_year_id" value="{{$current_school_year->id}}">
-                                                    </div>
-                                                </div>
-                                                <div class="row">
-                                                  <div class="form-group col-md-4" style="display: none;">
-                                                    <label for="Club">Term ID:</label>
-                                                    <input type="hidden" class="form-control" name="term_id" id="term_id" value="{{$current_term->id}}">
+
+                                                @elseif(!$current_staffer_registration->staffer_id == $staffer->id)
+
+                                                <button type="button" class="btn btn-primary" data-toggle="modal" data-target="#myModal" id="open">Register {{$staffer->first_name}} {{$staffer->last_name}} This Term</button>
+                                            
+
+                                   
+
+                                  
+                                          <form class="form-group" method="POST" action="{{ url('/schoolsetup/staffers/postregisterstaffer', [$staffer->id] ) }}" id="form">
+                                                {{ csrf_field() }}
+                                              <!-- Modal -->
+                                              <div class="modal" tabindex="-1" role="dialog" id="myModal">
+                                              <div class="modal-dialog" role="document">
+                                                <div class="modal-content">
+                                                  <div class="alert alert-danger" style="display:none"></div>
+
+                                                  <div class="modal-header">
+                                                    
+                                                    <h5 class="modal-title">Register {{$staffer->first_name}} {{$staffer->last_name}} for {{$current_term->term}} - {{$current_school_year->school_year}}</h5>
+                                                            <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                                                      <span aria-hidden="true">&times;</span>
+                                                    </button>
                                                   </div>
-                                                </div>
-                                                  <div class="row">
-                                                     <div class="col-md-12">
-                                                        <label for="Group">Select a Class(group):</label>
-                                                      
-                                                        <select name="group_id" class="chosen-select form-control" id="group_id" data-placeholder="Select an Class(Group)..." >
-                                                            <option selected disabled> Please select one Class</option>
-                                                                
 
-                                                                  @foreach($groups as $group)
+                                                  <div class="modal-body">
 
-                                                                    @foreach($current_staffers_registrations as $csr)
-
-
-                                                                    <option value="{{ $group->id }}">
-                                                                      @if($group->id == $csr->group_id)
-                                                                        {{ $group->name }}-{{$csr->staffer->last_name}}
-                                                                      @else
-                                                                      {{$group->name}}
-                                                                      @endif
-                                                                    </option>
-                                                                  @endforeach      
-                                                                @endforeach
-                                                        </select>
+                                                    <div class="row">
+                                                        <div class="form-group col-md-4" style="display: none;">
+                                                          <label for="Name">Staffer ID:</label>
+                                                          <input type="hidden" class="form-control" name="staffer_id" id="staffer_id" value="{{$staffer->id}}">
+                                                        </div>
+                                                    </div>
+                                                    <div class="row">
+                                                        <div class="form-group col-md-4" style="display: none;">
+                                                          <label for="Name">School Year ID:</label>
+                                                          <input type="hidden" class="form-control" name="school_year_id" id="school_year_id" value="{{ $current_school_year->id}}">
+                                                        </div>
+                                                    </div>
+                                                    <div class="row">
+                                                      <div class="form-group col-md-4" style="display: none;">
+                                                        <label for="Club">Term ID:</label>
+                                                        <input type="hidden" class="form-control" name="term_id" id="term_id" value="{{$current_term->id}}">
                                                       </div>
+                                                    </div>
+                                                      <div class="row">
+                                                         <div class="form-group col-md-12">
+                                                            <label for="Group">Select a Class(group):</label>
+                                                            <br>                                                     
+                                                            <select name="group_id" class="chosen-select form-control" id="group_id" data-placeholder="Select an Class(Group)..." >
+                                                                <option selected disabled> Please select one Class</option>
+                                                                    
+
+                                                                      @foreach($groups as $group)
+
+                                                                       
+
+                                                                        <option value="{{ $group->id }}">
+                                                                          @if($group->id == $current_staffer_registration->group_id)
+                                                                            {{ $group->name }}-Assigned to {{$current_staffer_registration->staffer->first_name}} {{$current_staffer_registration->staffer->last_name}}
+                                                                          @else
+                                                                          {{$group->name}}
+                                                                          @endif
+                                                                        </option>
+                                                                      @endforeach      
+                                                                    
+                                                            </select>
+                                                          </div>
+                                                      </div>
+                                                      
                                                   </div>
-                                                  
-                                              </div>
-                                              <div class="modal-footer">
-                                                <button type="button" class="btn btn-secondary" data-dismiss="modal">Close</button>
-                                                <button  class="btn btn-success" id="ajaxSubmit">Save changes</button>
+
+                                                  <div class="modal-footer">
+                                                    <button type="button" class="btn btn-secondary" data-dismiss="modal">Close</button>
+                                                    <button  class="btn btn-success" id="ajaxSubmit">Submit Registration</button>
+                                                  </div>
+
                                                 </div>
+                                              </div>
                                             </div>
-                                          </div>
-                                        </div>
                                         </form>
 
-                                        @endif
-                                    @endforeach
+                                     
+                                     @endif
+                                  @endforeach
                                     </td>
                                     <td><a href="{{asset('/schoolsetup/staffers/stafferdetails/'.$staffer->id) }}" class="btn btn-warning btn-md" role="button" aria-pressed="true">View</a></td>
                                     <td>
@@ -206,8 +226,9 @@
                                     <td><strong><a href="{{asset('/schoolsetup/staffers/poststafferdelete/'.$staffer->id) }}" onclick="return confirm('Are you sure you want to Delete this record?')"><i class="fa fa-trash fa-2x" aria-hidden="true">                                                           
                                     </i></a></strong>
                                     </td>
-                                   
+                                                                     
                                 </tr>
+                                
                              @endforeach
                                 
                             </tbody>
@@ -254,13 +275,13 @@
                   }
               });
                jQuery.ajax({
-                  url: "{{ url('/chempionleague') }}",
+                  url: "{{ url('/schoolsetup/staffers/postregisterstaffer', [$staffer->id] ) }}",
                   method: 'post',
                   data: {
-                     name: jQuery('#name').val(),
-                     club: jQuery('#club').val(),
-                     country: jQuery('#country').val(),
-                     score: jQuery('#score').val(),
+                     staffer_id: jQuery('#staffer_id').val(),
+                     school_year_id: jQuery('#school_year_id').val(),
+                     term_id: jQuery('#term_id').val(),
+                     group_id: jQuery('#group_id').val(),
                   },
                   success: function(result){
                     if(result.errors)

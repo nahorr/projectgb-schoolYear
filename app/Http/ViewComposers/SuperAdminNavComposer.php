@@ -52,15 +52,22 @@ Class SuperAdminNavComposer {
 
         $students = Student::get();
 
-        $current_staffers_registrations = StafferRegistration::where('School_year_id', '=', $current_school_year->id)->where('term_id', '=', $current_term->id)->get();
+        //$join_current_teachers_registrations = StafferRegistration::leftJoin('staffers', 'staffer_registrations.staffer_id', '=', 'staffers.id')->leftjoin('school_years', 'staffer_registrations.school_year_id', '=', 'school_years.id')->leftjoin('terms', 'staffer_registrations.term_id', '=', 'terms.id')
+        //->leftjoin('groups', 'staffer_registrations.group_id', '=', 'groups.id')
+                                //->where('staffer_registrations.school_year_id', '=', $current_school_year->id)->where('staffer_registrations.term_id', '=', $current_term->id)->get();
 
-        $current_registered_groups =  StafferRegistration::where('School_year_id', '=', $current_school_year->id)->where('term_id', '=', $current_term->id)->pluck('group_id')->all();
+        //$current_staffers_registrations = StafferRegistration::where('school_year_id', '=', $current_school_year->id)->where('term_id', '=', $current_term->id)->get();
+
+        $current_registered_groups =  StafferRegistration::where('school_year_id', '=', $current_school_year->id)->where('term_id', '=', $current_term->id)->pluck('group_id')->all();
 
         $current_unregistered_groups = Group::whereNotIn('id', $current_registered_groups)->select('name')->get();
 
+        $current_staffers_registrations = StafferRegistration::with('staffer')->with('school_year')->with('term')->with('group')->where('staffer_registrations.school_year_id', '=', $current_school_year->id)->where('staffer_registrations.term_id', '=', $current_term->id)->get();
+
         
 
-        //dd(collect($current_unregistered_groups));
+
+        //dd($sReg);
 
         //put variables in views
         $view
@@ -75,6 +82,7 @@ Class SuperAdminNavComposer {
         ->with('staffers', $staffers)
         ->with('groups', $groups)
         ->with('students', $students)
+        //->with('join_current_teachers_registrations', $join_current_teachers_registrations)
         ->with('current_staffers_registrations', $current_staffers_registrations)
         ->with('current_registered_groups', $current_registered_groups)
         ->with('current_unregistered_groups', $current_registered_groups);   

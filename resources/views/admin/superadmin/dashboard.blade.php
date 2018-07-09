@@ -3,6 +3,7 @@
     <head>
         <meta http-equiv="X-UA-Compatible" content="IE=edge,chrome=1" />
         <meta charset="utf-8" />
+        <meta name="_token" content="{{csrf_token()}}" />
         <title>nahorr Analytics - Super Admin Dashboard</title>
 
         <meta name="description" content="Common form elements and layouts" />
@@ -52,6 +53,8 @@
         <!--Data Tables CSS-->
         
         <link rel="stylesheet" type="text/css" href="//cdn.datatables.net/1.10.16/css/jquery.dataTables.css">
+
+         <script src="https://cdnjs.cloudflare.com/ajax/libs/jquery/3.3.0/jquery.js"></script> 
 
     </head>
 
