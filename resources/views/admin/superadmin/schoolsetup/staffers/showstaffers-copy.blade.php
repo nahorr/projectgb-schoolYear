@@ -103,23 +103,21 @@
                                     <td>
                                     
                                     
-                                        @foreach($current_staffers_registrations->where('staffer_id', $staffer->id) as $current_staffer_registration)
+                                        @foreach($current_staffers_registrations as $current_staffer_registration)
 
-                                           
+                                            @if($current_staffer_registration->staffer_id == $staffer->id)
+
 
                                                 <button type="button" class="btn btn-secondary" disabled="">Assigned to: {{$current_staffer_registration->group->name}}</button>
                                                 <button type="button" class="btn btn-info">Edit Registration</button>
-
-                                         @endforeach
-                                            
-                                            
-                                                <button type="button" class="btn btn-primary" data-toggle="modal" data-target="#myModal" id="open">Register {{$staffer->first_name}} {{$staffer->last_name}} This Term</button>
-                                                                                         
-                                             
-
-                                              
-
+                                       
                                                 
+
+                                                @elseif(!$current_staffer_registration->staffer_id == $staffer->id)
+
+                                                <button type="button" class="btn btn-primary" data-toggle="modal" data-target="#myModal" id="open">Register {{$staffer->first_name}} {{$staffer->last_name}} This Term</button>
+                                            
+
                                    
 
                                   
@@ -167,12 +165,16 @@
                                                                 <option selected disabled> Please select one Class</option>
                                                                     
 
-                                                                      @foreach($groups as $key=> $group)
+                                                                      @foreach($groups as $group)
+
+                                                                       
 
                                                                         <option value="{{ $group->id }}">
-                                                                        
-                                                                          {{$group->id}}
-                                                                         
+                                                                          @if($group->id == $current_staffer_registration->group_id)
+                                                                            {{ $group->name }}-Assigned to {{$current_staffer_registration->staffer->first_name}} {{$current_staffer_registration->staffer->last_name}}
+                                                                          @else
+                                                                          {{$group->name}}
+                                                                          @endif
                                                                         </option>
                                                                       @endforeach      
                                                                     
@@ -193,8 +195,8 @@
                                         </form>
 
                                      
-                                    
-                                 
+                                     @endif
+                                  @endforeach
                                     </td>
                                     <td><a href="{{asset('/schoolsetup/staffers/stafferdetails/'.$staffer->id) }}" class="btn btn-warning btn-md" role="button" aria-pressed="true">View</a></td>
                                     <td>
@@ -272,7 +274,6 @@
                       'X-CSRF-TOKEN': $('meta[name="_token"]').attr('content')
                   }
               });
-               var selected = [];
                jQuery.ajax({
                   url: "{{ url('/schoolsetup/staffers/postregisterstaffer', [$staffer->id] ) }}",
                   method: 'post',
@@ -280,7 +281,7 @@
                      staffer_id: jQuery('#staffer_id').val(),
                      school_year_id: jQuery('#school_year_id').val(),
                      term_id: jQuery('#term_id').val(),
-                     group_id: jQuery('#group_id').val(group_id),
+                     group_id: jQuery('#group_id').val(),
                   },
                   success: function(result){
                     if(result.errors)

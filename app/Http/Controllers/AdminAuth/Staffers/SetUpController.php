@@ -80,7 +80,7 @@ class SetUpController extends Controller
 
          
          $validator = \Validator::make($request->all(), [
-            'staffer_id' => 'required',
+            'staffer_id' => 'required|unique_with:staffer_registrations,term_id',
             'school_year_id' => 'required',
             'term_id' => 'required',
             'group_id' => 'required',
@@ -97,7 +97,7 @@ class SetUpController extends Controller
         $stafferregistration->group_id=$request->get('group_id');
         $stafferregistration->save();
    
-        return response()->json(['success'=>'Data is successfully added']);
+        return back();
     }
 
     public function stafferDetails(Staffer $staffer)
