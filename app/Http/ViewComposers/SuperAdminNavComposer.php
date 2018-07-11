@@ -20,6 +20,7 @@ use Image;
 use Auth;
 use File;
 use App\StafferRegistration;
+use PDF;
 
 Class SuperAdminNavComposer {	
 	

@@ -31,20 +31,20 @@
               <div class="col-md-12">
 	              <div class="alert alert-info">
 	                <h5 style=""><strong>Please note:<br>
-	                	<strong style="color: #FF0000;"> school_year_id <span style="color: black;">must be equal to</span> {{$current_school_year->id}}</strong>. </strong><br>
-	                	<strong style="color: #FF0000;"> term_id <span style="color: black;">must be equal to</span> {{$current_term->id}}</strong>. </strong><br>
+	                	<strong style="color: #FF0000;"> All school_year_id <span style="color: black;">must be equal to</span> {{$current_school_year->id}}</strong>. </strong><br>
+	                	<strong style="color: #FF0000;"> All term_id <span style="color: black;">must be equal to</span> {{$current_term->id}}</strong>. </strong><br>
 	                </h5>
 	                <h5 style="">
-	                	<strong>Get Staffers ID: <br>
-	                		<span style="color: #FF0000;">
-	                		@foreach($staffers as $staffer)
-
-	                			{{$staffer->first_name}} {{$staffer->last_name}}: staffer_id is {{$staffer->id}}<br>
-	                			
-	                		@endforeach
-	                		</span>
-	                	</strong><br>
-	                	<strong>Get Groups ID: <strong style="color: #FF0000;"> Click Here to get list of groups and their ids</strong>. </strong>
+	                	<strong>Print Staffers ID: <br>
+	                		
+	                		<a href="{{asset('/schoolsetup/staffers/printregisterstafferspdf') }}" target="_blank"><span style="color: red;">Click here to print all staffers and their IDs</span></a>
+	                		
+	                	</strong><br><br>
+	                	<strong>Print Groups ID: <br>
+	                		
+	                		<a href="{{asset('/schoolsetup/staffers/printregistergroupspdf') }}" target="_blank"><span style="color: darkred;">Click here to print all staffers and their IDs</span></a>
+	                		
+	                	</strong>
 	                </h5>
 	              </div>
               </div>

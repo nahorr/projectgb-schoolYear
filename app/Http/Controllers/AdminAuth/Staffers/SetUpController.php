@@ -20,6 +20,7 @@ use App\User;
 use App\Admin;
 use Excel;
 use App\StafferRegistration;
+use PDF;
 
 
 class SetUpController extends Controller
@@ -142,7 +143,23 @@ class SetUpController extends Controller
             flash('Please Check your file, Something is wrong there')->error();
             return back();
         }
+    
+    
 
+     public function printRegisterStaffersPdf()
+    {
+        $pdf = PDF::loadView('admin.superadmin.schoolsetup.staffers.printregisterstafferspdf');
+
+        return $pdf->inline('staffers.pdf');
+    }
+
+    public function printRegisterGroupsPdf()
+    {
+        $pdf = PDF::loadView('admin.superadmin.schoolsetup.staffers.printregistergroupspdf');
+
+        return $pdf->inline('groups.pdf');
+    }
+    
     public function postUnRegisterStaffer($registration)
     {
         StafferRegistration::destroy($registration);
