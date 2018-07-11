@@ -11,7 +11,7 @@
         <h2> <i class="ace-icon fa fa-cloud-upload fa-2x" style="color: darkred"></i>
          <span style="color: darkred">Bulk Register Staffers</span>
         </h2>
-       	<form style="border: 4px solid #a1a1a1;margin-top: 15px;padding: 20px;" action="{{ URL::to('/schoolsetup/staffers/importstaffers') }}" class="form-horizontal" method="post" 	enctype="multipart/form-data">
+       	<form style="border: 4px solid #a1a1a1;margin-top: 15px;padding: 20px;" action="{{ URL::to('/schoolsetup/staffers/bulkregisterstaffers') }}" class="form-horizontal" method="post" 	enctype="multipart/form-data">
 
             <input type="file" name="import_file" />
             {{ csrf_field() }}
@@ -22,8 +22,30 @@
           	<div class="row">
               <div class="col-md-12">
 	              <div class="alert alert-info">
-	                <h5 style=""><strong>Download sample file to use as template to Bulk Register <strong style="color: #FF0000;"> Teachers</strong>. </strong><a href="{{ URL::to( '/sample-files/sample-staffers-bulk-register.ods')  }}" target="_blank"><i class="fa fa-hand-o-right fa-2x" aria-hidden="true"></i><strong style="color: #FF0000">Sample Staffers/Teachers File</strong></a></h5>
+	                <h5 style=""><strong>Download sample file to use as template to Bulk Register <strong style="color: #FF0000;"> Teachers</strong>. </strong><a href="{{ URL::to( '/sample-files/sample-stafferrsregistration-upload.ods')  }}" target="_blank"><i class="fa fa-hand-o-right fa-2x" aria-hidden="true"></i><strong style="color: #FF0000">Sample Staffers/Teachers File</strong></a></h5>
 	                Please use <strong style="color: #FF0000;">open office</strong> for best result. Excel may throw some errors due to white spaces.
+	              </div>
+              </div>
+        	</div>
+        	<div class="row">
+              <div class="col-md-12">
+	              <div class="alert alert-info">
+	                <h5 style=""><strong>Please note:<br>
+	                	<strong style="color: #FF0000;"> school_year_id <span style="color: black;">must be equal to</span> {{$current_school_year->id}}</strong>. </strong><br>
+	                	<strong style="color: #FF0000;"> term_id <span style="color: black;">must be equal to</span> {{$current_term->id}}</strong>. </strong><br>
+	                </h5>
+	                <h5 style="">
+	                	<strong>Get Staffers ID: <br>
+	                		<span style="color: #FF0000;">
+	                		@foreach($staffers as $staffer)
+
+	                			{{$staffer->first_name}} {{$staffer->last_name}}: staffer_id is {{$staffer->id}}<br>
+	                			
+	                		@endforeach
+	                		</span>
+	                	</strong><br>
+	                	<strong>Get Groups ID: <strong style="color: #FF0000;"> Click Here to get list of groups and their ids</strong>. </strong>
+	                </h5>
 	              </div>
               </div>
         	</div>
@@ -142,7 +164,7 @@
                                 <th>Title</th>
                                 <th>First Name</th>
                                 <th>Last Name</th>
-                                <th>Current Group</th>
+                                <th>Assigned To</th>
                                 <th>Edit Registration</th>
                                 <th>Delete Registration</th>
                               

@@ -23,6 +23,8 @@ class CreateStafferRegistrationsTable extends Migration
             $table->foreign('term_id')->references('id')->on('terms')->onDelete('cascade');
             $table->integer('group_id')->unsigned();
             $table->foreign('group_id')->references('id')->on('groups')->onDelete('cascade');
+            $table->unique(['staffer_id', 'school_year_id']);
+            $table->unique(['term_id', 'group_id']);
             $table->timestamps();
         });
     }

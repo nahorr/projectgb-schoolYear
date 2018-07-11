@@ -73,25 +73,25 @@ class SetUpController extends Controller
     }
 
     
-    public function postRegisterStaffer(Request $r)
+    public function postRegisterStaffer(Request $request)
     {
 
          $this->validate(request(), [
 
-            'staffer_id' => 'required|unique:staffer_registrations,school_year_id,NULL,NULL,term_id,'.$r->term_id.',NULL,NULL,group_id,'.$r->group_id,
-            'school_year_id' => 'required',
+            'staffer_id' => 'required',
+            'school_year_id' => 'required|unique_with:staffer_registrations,staffer_id',
             'term_id' => 'required',
-            'group_id' => 'required',
+            'group_id' => 'required|unique_with:staffer_registrations,term_id',
 
             ]);
 
 
         StafferRegistration::insert([
 
-            'staffer_id'=>$r->staffer_id,
-            'school_year_id'=>$r->school_year_id,
-            'term_id'=>$r->term_id,
-            'group_id'=>$r->group_id,
+            'staffer_id'=>$request->staffer_id,
+            'school_year_id'=>$request->school_year_id,
+            'term_id'=>$request->term_id,
+            'group_id'=>$request->group_id,
             'created_at' => date('Y-m-d H:i:s'),
             'updated_at' => date('Y-m-d H:i:s'),
  
@@ -100,6 +100,48 @@ class SetUpController extends Controller
         flash('Teacher(Staffer) registered Successfully')->success();
         return back();
     }
+
+    public function bulkRegisterStaffers(Request $request)
+        {
+            
+          
+            if($request->hasFile('import_file')){
+                $path = $request->file('import_file')->getRealPath();
+
+                $data = Excel::load($path, function($reader) {})->get();
+
+                if(!empty($data) && $data->count()){
+
+                    foreach ($data->toArray() as $key => $value) {
+                        if(!empty($value)){
+                            foreach ($value as $v) {        
+                                $insert[] = [
+
+                                    
+                                    'staffer_id' => $v['staffer_id'],
+                                    'school_year_id' => $v['school_year_id'],
+                                    'term_id' => $v['term_id'],
+                                    'group_id'=>$v['group_id'],
+                                    
+                                    ];
+                            }
+                        }
+                    }
+
+                    
+                    if(!empty($insert)){
+                        StafferRegistration::insert($insert);
+                        flash('Teacher(Staffer) Bulk Registered Successfully')->success();
+                        return back();
+                    }
+
+                }
+
+            }
+
+            flash('Please Check your file, Something is wrong there')->error();
+            return back();
+        }
 
     public function postUnRegisterStaffer($registration)
     {
