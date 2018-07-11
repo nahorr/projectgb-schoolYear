@@ -50,6 +50,7 @@ Class SuperAdminNavComposer {
 
         $staffers = Staffer::get();
 
+       
         $students = Student::get();
 
         //$join_current_teachers_registrations = StafferRegistration::leftJoin('staffers', 'staffer_registrations.staffer_id', '=', 'staffers.id')->leftjoin('school_years', 'staffer_registrations.school_year_id', '=', 'school_years.id')->leftjoin('terms', 'staffer_registrations.term_id', '=', 'terms.id')
@@ -67,7 +68,7 @@ Class SuperAdminNavComposer {
         
 
 
-        //dd($sReg);
+        //dd($group_join);
 
         //put variables in views
         $view

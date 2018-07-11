@@ -28,6 +28,14 @@
                 Add Teacher(Staffer)
             </a></strong>
             </h1>
+            <br/>
+          
+           <h1>
+           <strong><a href="{{asset('/schoolsetup/staffers/registerstaffers')}}">
+             <i class="ace-icon fa fa-user-plus fa-2x" style="color: darkred"></i>
+                <span style="color: darkred">Register Teachers(Staffers)</span>
+            </a></strong>
+            </h1>
            <hr>
 
            <div class="row">
@@ -67,6 +75,8 @@
                     
                 </div>
 
+                
+
                 <div class="widget-body">
                     <div class="widget-main">
                     <div class="table-responsive">
@@ -80,6 +90,7 @@
                                 <th>Last Name</th>
                                 <th>Status</th>
                                 <th>Current Registration Status</th>
+                                
                                 <th>Staffer Details</th>
                                 <th>Make/Remove Super Admin</th>
                                 <th>Edit</th>
@@ -89,9 +100,6 @@
                             </thead>
                             <tbody>
                                 @foreach ($staffers as $key=> $staffer)
-
-                                   
-
                                 <tr>
                                     <td>{{$key+1}}</td>
                                     <td><a href="{{asset('/schoolsetup/staffers/stafferdetails/'.$staffer->id) }}">{{ $staffer->registration_code }}</a></td>
@@ -101,104 +109,17 @@
                                     <td>{{ $staffer->employment_status }}</td>                                   
                                     
                                     <td>
-                                    
-                                    
-                                        @foreach($current_staffers_registrations->where('staffer_id', $staffer->id) as $current_staffer_registration)
-
-                                           
-
-                                                <button type="button" class="btn btn-secondary" disabled="">Assigned to: {{$current_staffer_registration->group->name}}</button>
-                                                <button type="button" class="btn btn-info">Edit Registration</button>
-
-                                         @endforeach
-                                            
-                                            
-                                                <button type="button" class="btn btn-primary" data-toggle="modal" data-target="#myModal" id="open">Register {{$staffer->first_name}} {{$staffer->last_name}} This Term</button>
-                                                                                         
-                                             
-
-                                              
-
-                                                
-                                   
-
-                                  
-                                          <form class="form-group" method="POST" action="{{ url('/schoolsetup/staffers/postregisterstaffer', [$staffer->id] ) }}" id="form">
-                                                {{ csrf_field() }}
-                                              <!-- Modal -->
-                                              <div class="modal" tabindex="-1" role="dialog" id="myModal">
-                                              <div class="modal-dialog" role="document">
-                                                <div class="modal-content">
-                                                  <div class="alert alert-danger" style="display:none"></div>
-
-                                                  <div class="modal-header">
-                                                    
-                                                    <h5 class="modal-title">Register {{$staffer->first_name}} {{$staffer->last_name}} for {{$current_term->term}} - {{$current_school_year->school_year}}</h5>
-                                                            <button type="button" class="close" data-dismiss="modal" aria-label="Close">
-                                                      <span aria-hidden="true">&times;</span>
-                                                    </button>
-                                                  </div>
-
-                                                  <div class="modal-body">
-
-                                                    <div class="row">
-                                                        <div class="form-group col-md-4" style="display: none;">
-                                                          <label for="Name">Staffer ID:</label>
-                                                          <input type="hidden" class="form-control" name="staffer_id" id="staffer_id" value="{{$staffer->id}}">
-                                                        </div>
-                                                    </div>
-                                                    <div class="row">
-                                                        <div class="form-group col-md-4" style="display: none;">
-                                                          <label for="Name">School Year ID:</label>
-                                                          <input type="hidden" class="form-control" name="school_year_id" id="school_year_id" value="{{ $current_school_year->id}}">
-                                                        </div>
-                                                    </div>
-                                                    <div class="row">
-                                                      <div class="form-group col-md-4" style="display: none;">
-                                                        <label for="Club">Term ID:</label>
-                                                        <input type="hidden" class="form-control" name="term_id" id="term_id" value="{{$current_term->id}}">
-                                                      </div>
-                                                    </div>
-                                                      <div class="row">
-                                                         <div class="form-group col-md-12">
-                                                            <label for="Group">Select a Class(group):</label>
-                                                            <br>                                                     
-                                                            <select name="group_id" class="chosen-select form-control" id="group_id" data-placeholder="Select an Class(Group)..." >
-                                                                <option selected disabled> Please select one Class</option>
-                                                                    
-
-                                                                      @foreach($groups as $key=> $group)
-
-                                                                        <option value="{{ $group->id }}">
-                                                                        
-                                                                          {{$group->id}}
-                                                                         
-                                                                        </option>
-                                                                      @endforeach      
-                                                                    
-                                                            </select>
-                                                          </div>
-                                                      </div>
-                                                      
-                                                  </div>
-
-                                                  <div class="modal-footer">
-                                                    <button type="button" class="btn btn-secondary" data-dismiss="modal">Close</button>
-                                                    <button  class="btn btn-success" id="ajaxSubmit">Submit Registration</button>
-                                                  </div>
-
-                                                </div>
-                                              </div>
-                                            </div>
-                                        </form>
-
-                                     
-                                    
-                                 
+                                      @foreach($current_staffers_registrations->where('staffer_id', $staffer->id) as $current_staffer_registration)
+                                        <button type="button" class="btn btn-secondary" disabled="">Assigned to: {{$current_staffer_registration->group->name}}</button>
+                                        <button type="button" class="btn btn-info">Edit Registration</button>
+                                      @endforeach
                                     </td>
-                                    <td><a href="{{asset('/schoolsetup/staffers/stafferdetails/'.$staffer->id) }}" class="btn btn-warning btn-md" role="button" aria-pressed="true">View</a></td>
+                                    
                                     <td>
-                                    @foreach ($admin_users as $admin_user)
+                                      <a href="{{asset('/schoolsetup/staffers/stafferdetails/'.$staffer->id) }}" class="btn btn-warning btn-md" role="button" aria-pressed="true">View</a>
+                                    </td>
+                                    <td>
+                                      @foreach ($admin_users as $admin_user)
                                         @if($staffer->registration_code == $admin_user->registration_code && $admin_user->is_super_admin == 1 && $admin_user->id ==1)
                                             <span style="color: red">GLOBAL SUPER ADMIN - CANNOT BE REMOVED</span>
                                         @elseif($staffer->registration_code == $admin_user->registration_code && $admin_user->is_super_admin == 0)
@@ -218,16 +139,19 @@
                                       @endif
                                     @endforeach
                                     </td>
-                                    <td><strong><a href="{{asset('/schoolsetup/staffers/editstaffer/'.$staffer->id) }}"><i class="fa fa-pencil-square-o fa-2x" aria-hidden="true">                                                           
-                                    </i></a></strong>
+                                    <td>
+                                      <strong>
+                                        <a href="{{asset('/schoolsetup/staffers/editstaffer/'.$staffer->id) }}"><i class="fa fa-pencil-square-o fa-2x" aria-hidden="true"></i></a>
+                                      </strong>
                                     </td>
-                                    <td><strong><a href="{{asset('/schoolsetup/staffers/poststafferdelete/'.$staffer->id) }}" onclick="return confirm('Are you sure you want to Delete this record?')"><i class="fa fa-trash fa-2x" aria-hidden="true">                                                           
-                                    </i></a></strong>
+                                    <td>
+                                      <strong>
+                                        <a href="{{asset('/schoolsetup/staffers/poststafferdelete/'.$staffer->id) }}" onclick="return confirm('Are you sure you want to Delete this record?')"><i class="fa fa-trash fa-2x" aria-hidden="true"></i></a>
+                                      </strong>
                                     </td>
                                                                      
                                 </tr>
-                                
-                             @endforeach
+                                @endforeach
                                 
                             </tbody>
                         </table>
@@ -256,52 +180,6 @@
 
     </div>
 
-    <script src="http://code.jquery.com/jquery-3.3.1.min.js"
-               integrity="sha256-FgpCb/KJQlLNfOu91ta32o/NMZxltwRo8QtmkMRdAu8="
-               crossorigin="anonymous">
-    </script>
-
-    <!-- Latest compiled and minified JavaScript -->
-    <script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/js/bootstrap.min.js" integrity="sha384-Tc5IQib027qvyjSMfHjOMaLkfuWVxZxUPnCJA7l2mCWNIpG9mGCD8wGNIcPD7Txa" crossorigin="anonymous"></script>
-      <script>
-         jQuery(document).ready(function(){
-            jQuery('#ajaxSubmit').click(function(e){
-               e.preventDefault();
-               $.ajaxSetup({
-                  headers: {
-                      'X-CSRF-TOKEN': $('meta[name="_token"]').attr('content')
-                  }
-              });
-               var selected = [];
-               jQuery.ajax({
-                  url: "{{ url('/schoolsetup/staffers/postregisterstaffer', [$staffer->id] ) }}",
-                  method: 'post',
-                  data: {
-                     staffer_id: jQuery('#staffer_id').val(),
-                     school_year_id: jQuery('#school_year_id').val(),
-                     term_id: jQuery('#term_id').val(),
-                     group_id: jQuery('#group_id').val(group_id),
-                  },
-                  success: function(result){
-                    if(result.errors)
-                    {
-                        jQuery('.alert-danger').html('');
-
-                        jQuery.each(result.errors, function(key, value){
-                            jQuery('.alert-danger').show();
-                            jQuery('.alert-danger').append('<li>'+value+'</li>');
-                        });
-                    }
-                    else
-                    {
-                        jQuery('.alert-danger').hide();
-                        $('#open').hide();
-                        $('#myModal').modal('hide');
-                    }
-                  }});
-               });
-            });
-      </script>
 
 
 

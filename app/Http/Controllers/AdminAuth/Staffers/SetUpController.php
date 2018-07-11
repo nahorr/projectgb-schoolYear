@@ -66,39 +66,50 @@ class SetUpController extends Controller
          
      }
 
-     public function registerStaffer(Staffer $staffer)
+     public function registerStaffers()
     {
         
-        $current_staffer_registration = StafferRegistration::where('staffer_id', '=', $staffer->id)->where('School_year_id', '=', $current_school_year->id)->where('term_id', '=', $current_term->id)->first();
-
-
-        return view('admin.superadmin.schoolsetup.staffers.registerstaffer', compact('staffer', 'current_staffer_registration'));
+       return view('admin.superadmin.schoolsetup.staffers.registerstaffers');
     }
 
-    public function postRegisterStaffer(Request $request, Staffer $staffer)
+    
+    public function postRegisterStaffer(Request $r)
     {
 
-         
-         $validator = \Validator::make($request->all(), [
-            'staffer_id' => 'required|unique_with:staffer_registrations,term_id',
+         $this->validate(request(), [
+
+            'staffer_id' => 'required|unique:staffer_registrations,school_year_id,NULL,NULL,term_id,'.$r->term_id.',NULL,NULL,group_id,'.$r->group_id,
             'school_year_id' => 'required',
             'term_id' => 'required',
             'group_id' => 'required',
+
+            ]);
+
+
+        StafferRegistration::insert([
+
+            'staffer_id'=>$r->staffer_id,
+            'school_year_id'=>$r->school_year_id,
+            'term_id'=>$r->term_id,
+            'group_id'=>$r->group_id,
+            'created_at' => date('Y-m-d H:i:s'),
+            'updated_at' => date('Y-m-d H:i:s'),
+ 
         ]);
         
-        if ($validator->fails())
-        {
-            return response()->json(['errors'=>$validator->errors()->all()]);
-        }
-        $stafferregistration= new StafferRegistration();
-        $stafferregistration->staffer_id=$request->get('staffer_id');
-        $stafferregistration->school_year_id=$request->get('school_year_id');
-        $stafferregistration->term_id=$request->get('term_id');
-        $stafferregistration->group_id=$request->get('group_id');
-        $stafferregistration->save();
-   
+        flash('Teacher(Staffer) registered Successfully')->success();
         return back();
     }
+
+    public function postUnRegisterStaffer($registration)
+    {
+        StafferRegistration::destroy($registration);
+
+        flash('Staffer Registration has been deleted')->error();
+
+        return back();
+    }
+
 
     public function stafferDetails(Staffer $staffer)
     {
