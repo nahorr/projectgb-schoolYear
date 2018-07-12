@@ -41,6 +41,7 @@
             'admin.superadmin.schoolsetup.staffers.showstaffers',
             'admin.superadmin.schoolsetup.staffers.stafferdetails',
             'admin.superadmin.schoolsetup.staffers.registerstaffers',
+            'admin.superadmin.schoolsetup.staffers.editregisterstaffer',
             'admin.superadmin.schoolsetup.staffers.printregisterstafferspdf',
             'admin.superadmin.schoolsetup.staffers.printregistergroupspdf',
             'admin.superadmin.schoolsetup.staffers.addstaffer',

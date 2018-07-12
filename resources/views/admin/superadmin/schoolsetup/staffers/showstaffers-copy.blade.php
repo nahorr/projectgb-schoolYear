@@ -171,7 +171,7 @@
 
                                                                         <option value="{{ $group->id }}">
                                                                           @if($group->id == $current_staffer_registration->group_id)
-                                                                            {{ $group->name }}-Assigned to {{$current_staffer_registration->staffer->first_name}} {{$current_staffer_registration->staffer->last_name}}
+                                                                            Assigned to {{$current_staffer_registration->staffer->first_name}} {{$current_staffer_registration->staffer->last_name}}
                                                                           @else
                                                                           {{$group->name}}
                                                                           @endif

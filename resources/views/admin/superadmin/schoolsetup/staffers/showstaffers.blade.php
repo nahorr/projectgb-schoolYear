@@ -111,7 +111,6 @@
                                     <td>
                                       @foreach($current_staffers_registrations->where('staffer_id', $staffer->id) as $current_staffer_registration)
                                         <button type="button" class="btn btn-secondary" disabled="">Assigned to: {{$current_staffer_registration->group->name}}</button>
-                                        <button type="button" class="btn btn-info">Edit Registration</button>
                                       @endforeach
                                     </td>
                                     

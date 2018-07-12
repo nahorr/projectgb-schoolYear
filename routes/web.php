@@ -282,7 +282,10 @@ Route::group(['middleware' => 'admin_auth'], function(){
         Route::post('/schoolsetup/staffers/postremovesuperadmin/{admin}', 'AdminAuth\Staffers\SetUpController@postRemoveSuperAdmin');
         Route::get('/schoolsetup/staffers/registerstaffers', 'AdminAuth\Staffers\SetUpController@registerStaffers');
         Route::post('/schoolsetup/staffers/postregisterstaffer', 'AdminAuth\Staffers\SetUpController@postRegisterStaffer');
+        Route::get('/schoolsetup/staffers/editregisterstaffer/{registration}', 'AdminAuth\Staffers\SetUpController@editRegisterStaffer');
+        Route::post('/schoolsetup/staffers/posteditregisterstaffer/{registration}', 'AdminAuth\Staffers\SetUpController@postEditRegisterStaffer');
         Route::post('/schoolsetup/staffers/bulkregisterstaffers', 'AdminAuth\Staffers\SetUpController@bulkRegisterStaffers');
+
         Route::get('/schoolsetup/staffers/printregisterstafferspdf', 'AdminAuth\Staffers\SetUpController@printRegisterStaffersPdf');
         Route::get('/schoolsetup/staffers/printregistergroupspdf', 'AdminAuth\Staffers\SetUpController@printRegisterGroupsPdf');
         Route::get('/schoolsetup/staffers/postunregisterstaffer/{registration}', 'AdminAuth\Staffers\SetUpController@postUnRegisterStaffer');

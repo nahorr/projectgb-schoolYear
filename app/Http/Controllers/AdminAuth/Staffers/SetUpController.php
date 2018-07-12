@@ -102,6 +102,39 @@ class SetUpController extends Controller
         return back();
     }
 
+    public function editRegisterStaffer(StafferRegistration $registration)
+    {
+        
+       return view('admin.superadmin.schoolsetup.staffers.editregisterstaffer', compact('registration'));
+    }
+
+    public function postEditRegisterStaffer(Request $request, StafferRegistration $registration)
+    {
+
+        $this->validate(request(), [
+
+            'staffer_id' => 'required',
+            'school_year_id' => 'required',
+            'term_id' => 'required',
+            'group_id' => 'required|unique_with:staffer_registrations,term_id',
+
+            ]);
+
+
+        $edit_registration = StafferRegistration::where('id', '=', $registration->id)->first();
+
+
+        $edit_registration->staffer_id= $request->staffer_id;
+        $edit_registration->school_year_id= $request->school_year_id;
+        $edit_registration->term_id= $request->term_id;
+        $edit_registration->group_id= $request->group_id;
+        
+        $edit_registration->save();
+        
+        flash('Teacher(Staffer) registration edited Successfully')->success();
+        return back();
+    }
+
     public function bulkRegisterStaffers(Request $request)
         {
             

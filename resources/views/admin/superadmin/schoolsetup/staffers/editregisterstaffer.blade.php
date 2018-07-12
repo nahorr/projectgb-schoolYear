@@ -3,109 +3,39 @@
 @section('content')
 
 
-    <div class="page-header">
-        <h1>Register/Bulk Register Teacher(Staffer)</h1>
-         @include('flash::message')
-       	<hr>
-           
-        <h2> <i class="ace-icon fa fa-cloud-upload fa-2x" style="color: darkred"></i>
-         <span style="color: darkred">Bulk Register Staffers</span>
-        </h2>
-       	<form style="border: 4px solid #a1a1a1;margin-top: 15px;padding: 20px;" action="{{ URL::to('/schoolsetup/staffers/bulkregisterstaffers') }}" class="form-horizontal" method="post" 	enctype="multipart/form-data">
-
-            <input type="file" name="import_file" />
-            {{ csrf_field() }}
-            <br/>
-
-            <button class="btn btn-primary">Bulk Register Teachers/Staffers for {{strtoupper($current_term->term)}} {{$current_school_year->school_year}}</button>
-           	<hr>
-          	<div class="row">
-              <div class="col-md-12">
-	              <div class="alert alert-info">
-	                <h5 style=""><strong>Download sample file to use as template to Bulk Register <strong style="color: #FF0000;"> Teachers</strong>. </strong><a href="{{ URL::to( '/sample-files/sample-stafferrsregistration-upload.ods')  }}" target="_blank"><i class="fa fa-hand-o-right fa-2x" aria-hidden="true"></i><strong style="color: #FF0000">Sample Staffers/Teachers File</strong></a></h5>
-	                Please use <strong style="color: #FF0000;">open office</strong> for best result. Excel may throw some errors due to white spaces.
-	              </div>
-              </div>
-        	</div>
-        	<div class="row">
-              <div class="col-md-12">
-	              <div class="alert alert-info">
-	                <h5 style=""><strong>Please note:<br>
-	                	<strong style="color: #FF0000;"> All school_year_id <span style="color: black;">must be equal to</span> {{$current_school_year->id}}</strong>. </strong><br>
-	                	<strong style="color: #FF0000;"> All term_id <span style="color: black;">must be equal to</span> {{$current_term->id}}</strong>. </strong><br>
-	                </h5>
-	                <h5 style="">
-	                	<strong>Print Staffers ID: <br>
-	                		
-	                		<a href="{{asset('/schoolsetup/staffers/printregisterstafferspdf') }}" target="_blank"><span style="color: red;">Click here to print all staffers and their IDs</span></a>
-	                		
-	                	</strong><br><br>
-	                	<strong>Print Groups ID: <br>
-	                		
-	                		<a href="{{asset('/schoolsetup/staffers/printregistergroupspdf') }}" target="_blank"><span style="color: darkred;">Click here to print all staffers and their IDs</span></a>
-	                		
-	                	</strong>
-	                </h5>
-	              </div>
-              </div>
-        	</div>
-
-        </form>
-        <br/>
-    </div>
 
     <div class="row">
         <div class="col-sm-12">
             <div class="widget-box">
                 <div class="widget-header">
-                    <h4 class="widget-title" style="color: darkred"><strong>Register a Teacher </strong></h4>
+                    <h4 class="widget-title" style="color: darkred"><strong>Edit Currrent Registration for {{$registration->staffer->first_name}} {{$registration->staffer->last_name}} </strong></h4>
                 </div>
 
                 <div class="widget-body">
                     <div class="widget-main">
 
-                    	<form class="form-group" method="POST" action="{{ url('/schoolsetup/staffers/postregisterstaffer' ) }}">
+                    	<form class="form-group" method="POST" action="{{ url('/schoolsetup/staffers/posteditregisterstaffer',[$registration->id] ) }}">
                                 {{ csrf_field() }}
                          
 
                           	<div class="row">
                                 <div class="form-group col-md-4" style="display: none;">
                                   <label for="Name">School Year ID:</label>
-                                  <input type="hidden" class="form-control" name="school_year_id" id="school_year_id" value="{{ $current_school_year->id}}">
+                                  <input type="hidden" class="form-control" name="school_year_id" id="school_year_id" value="{{ $registration->school_year_id}}">
                                 </div>
                             </div>
                             <div class="row">
                               <div class="form-group col-md-4" style="display: none;">
                                 <label for="Club">Term ID:</label>
-                                <input type="hidden" class="form-control" name="term_id" id="term_id" value="{{$current_term->id}}">
+                                <input type="hidden" class="form-control" name="term_id" id="term_id" value="{{$registration->term_id}}">
                               </div>
                             </div>
 
-                            <div class="row">
-                                <div class="form-group col-md-5">
-                                  <label for="Name">Staffer ID:</label>
-                                 	<select name="staffer_id" class="chosen-select form-control" id="staffer_id" data-placeholder="Select an Teacher..." >
-                                        <option selected disabled> Please select one Class</option>
-                                            
-
-                                              @foreach($staffers as $staffer)
-
-                                                <option value="{{ $staffer->id }}">
-
-                                                  
-                                                  {{$staffer->first_name}} {{$staffer->last_name}}
-                                                  @foreach($current_staffers_registrations as $current_staffer_registration)
-                                                     @if($staffer->id == $current_staffer_registration->staffer_id)
-                                                        - Assigned to {{$current_staffer_registration->group->name}}
-                                                    @endif
-                                                  @endforeach 
-                                                 
-                                                </option>
-
-                                              @endforeach      
-                                            
-                                    </select>
-                                </div>
+                           <div class="row">
+                              <div class="form-group col-md-4" style="display: none;">
+                                <label for="Club">Staffer ID:</label>
+                                <input type="hidden" class="form-control" name="staffer_id" id="staffer_id" value="{{$registration->staffer_id}}">
+                              </div>
                             </div>
                                     
 	                         <div class="row">
@@ -117,15 +47,17 @@
 	                                    @foreach($groups as $group)
 	                                    	
 	                                      <option value="{{ $group->id }}">
-	                                        
-	                                        {{$group->name}}
+                                          {{$group->name}}
                                           @foreach($current_staffers_registrations as $current_staffer_registration)
-                                             @if($group->id == $current_staffer_registration->group_id)
+	                                           @if($group->id == $current_staffer_registration->group_id)
                                                 - Assigned to {{$current_staffer_registration->staffer->first_name}} {{$current_staffer_registration->staffer->last_name}}
-                                            @endif
-                                          @endforeach 
+                                    
+                                              
+                                              @endif
+	                                        @endforeach
 
-	                                        
+                                          
+
 	                                    </option>
 	                                    	 
 	                                    @endforeach
