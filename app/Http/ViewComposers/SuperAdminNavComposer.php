@@ -20,6 +20,7 @@ use Image;
 use Auth;
 use File;
 use App\StafferRegistration;
+use App\StudentRegistration;
 use PDF;
 
 Class SuperAdminNavComposer {	
@@ -49,10 +50,17 @@ Class SuperAdminNavComposer {
 
         $groups = Group::get();
 
+        //Staffers
         $staffers = Staffer::get();
 
-       
+        $current_staffers_registrations = StafferRegistration::with('staffer')->with('school_year')->with('term')->with('group')->where('staffer_registrations.school_year_id', '=', $current_school_year->id)->where('staffer_registrations.term_id', '=', $current_term->id)->get();
+
+        //Students
         $students = Student::get();
+
+        $current_students_registrations = StudentRegistration::with('student')->with('school_year')->with('term')->with('group')->where('student_registrations.school_year_id', '=', $current_school_year->id)->where('student_registrations.term_id', '=', $current_term->id)->get();
+
+        
 
         //$join_current_teachers_registrations = StafferRegistration::leftJoin('staffers', 'staffer_registrations.staffer_id', '=', 'staffers.id')->leftjoin('school_years', 'staffer_registrations.school_year_id', '=', 'school_years.id')->leftjoin('terms', 'staffer_registrations.term_id', '=', 'terms.id')
         //->leftjoin('groups', 'staffer_registrations.group_id', '=', 'groups.id')
@@ -60,13 +68,11 @@ Class SuperAdminNavComposer {
 
         //$current_staffers_registrations = StafferRegistration::where('school_year_id', '=', $current_school_year->id)->where('term_id', '=', $current_term->id)->get();
 
-        $current_registered_groups =  StafferRegistration::where('school_year_id', '=', $current_school_year->id)->where('term_id', '=', $current_term->id)->pluck('group_id')->all();
+        //$current_registered_groups =  StafferRegistration::where('school_year_id', '=', $current_school_year->id)->where('term_id', '=', $current_term->id)->pluck('group_id')->all();
 
-        $current_unregistered_groups = Group::whereNotIn('id', $current_registered_groups)->select('name')->get();
+        //$current_unregistered_groups = Group::whereNotIn('id', $current_registered_groups)->select('name')->get();
 
-        $current_staffers_registrations = StafferRegistration::with('staffer')->with('school_year')->with('term')->with('group')->where('staffer_registrations.school_year_id', '=', $current_school_year->id)->where('staffer_registrations.term_id', '=', $current_term->id)->get();
-
-        
+              
 
 
         //dd($group_join);
@@ -84,10 +90,8 @@ Class SuperAdminNavComposer {
         ->with('staffers', $staffers)
         ->with('groups', $groups)
         ->with('students', $students)
-        //->with('join_current_teachers_registrations', $join_current_teachers_registrations)
         ->with('current_staffers_registrations', $current_staffers_registrations)
-        ->with('current_registered_groups', $current_registered_groups)
-        ->with('current_unregistered_groups', $current_registered_groups);   
+        ->with('current_students_registrations', $current_students_registrations);   
     }
 }
 

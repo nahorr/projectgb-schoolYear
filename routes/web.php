@@ -259,9 +259,11 @@ Route::group(['middleware' => 'admin_auth'], function(){
         //students setup
         Route::get('/schoolsetup/students/showgroups', 'AdminAuth\Students\SetUpController@showGroups');
         Route::get('/schoolsetup/students/showregisteredstudents/{group}', 'AdminAuth\Students\SetUpController@showStudents')->name('showstudents');
+        Route::post('/schoolsetup/students/postregisterstudent', 'AdminAuth\Students\SetUpController@postRegisterStudent');
+        Route::get('/schoolsetup/students/postdeleteregisterstudent/{registration}', 'AdminAuth\Students\SetUpController@postDeleteRegisterStudent');
+        Route::get('/schoolsetup/students/printregisterstudentspdf', 'AdminAuth\Students\SetUpController@printRegisterStudentsPdf');
+
         Route::get('/schoolsetup/students/addstudent/{group}', 'AdminAuth\Students\SetUpController@addStudent');
-
-
         Route::get('/schoolsetup/students/addnewstudents', 'AdminAuth\Students\SetUpController@addNewStudents');
         Route::post('/schoolsetup/students/postaddnewstudents', 'AdminAuth\Students\SetUpController@postAddNewStudents');
         Route::get('/schoolsetup/students/viewallstudents', 'AdminAuth\Students\SetUpController@viewAllStudents')->name('viewallstudents');

@@ -19,6 +19,17 @@
 
                 <button class="btn btn-primary">Upload Teachers/Staffers</button>
 
+                <hr>
+
+                <div class="row">
+                   <div class="col-md-12">
+                   <div class="alert alert-info">
+                     <h5 style=""><strong>Download sample file to use as template to upload <strong style="color: #FF0000;"> Teachers and other Staff</strong> members. </strong><a href="{{ URL::to( '/sample-files/sample-staffers-upload.ods')  }}" target="_blank"><i class="fa fa-hand-o-right fa-2x" aria-hidden="true"></i><strong style="color: #FF0000">Sample Staffers/Teachers File</strong></a></h5>
+                     Please use <strong style="color: #FF0000;">open office</strong> for best result. Excel may throw some errors due to white spaces.
+                   </div>
+                   </div>
+                 </div>
+
             </form>
             <br/>
           
@@ -38,26 +49,9 @@
             </h1>
            <hr>
 
-           <div class="row">
-              <div class="col-md-12">
-              <div class="alert alert-info">
-                <h5 style=""><strong>Download sample file to use as template to upload <strong style="color: #FF0000;"> Teachers and other Staff</strong> members. </strong><a href="{{ URL::to( '/sample-files/sample-staffers-upload.ods')  }}" target="_blank"><i class="fa fa-hand-o-right fa-2x" aria-hidden="true"></i><strong style="color: #FF0000">Sample Staffers/Teachers File</strong></a></h5>
-                Please use <strong style="color: #FF0000;">open office</strong> for best result. Excel may throw some errors due to white spaces.
-              </div>
-              </div>
-            </div>
            
-                                            
-       
-    </div><!-- /.page-header -->
-     <div class="row">
-      <div class="col-md-12">
-      <div class="alert alert-info">
-        <h5><strong>List of all Teachers in your school.</strong> You can add or upload teachers here.<strong><a href="{{asset('schoolsetup/showgroups')}}"><i class="ace-icon fa fa-hand-o-right fa-2x"></i>View Group</a></strong></h5>
-      
-      </div>
-      </div>
-    </div>
+          </div>
+   
 
     <div class="row">
         <div class="col-sm-12">

@@ -17,34 +17,66 @@ use App\Group;
 use App\Staffer;
 use App\User;
 use Excel;
+use PDF;
 
 
 class SetUpController extends Controller
 {
     public function showGroups()
     {   
-        $today = Carbon::today();
         
-        $current_school_year = School_year::where('start_date', '<=', $today)->where('end_date', '>=', $today)->first();
-
-        $current_students_registrations = StudentRegistration::where('school_year_id', '=', $current_school_year->id)->get();
-        
-
-        return view('admin.superadmin.schoolsetup.students.showgroups', compact( 'current_students_registrations'));
+        return view('admin.superadmin.schoolsetup.students.showgroups');
     }
 
-    public function showStudents($group_id)
+    public function showStudents(Group $group)
     {
 
-        $group = Group::find($group_id);
+        return view('admin.superadmin.schoolsetup.students.showregisteredstudents', compact('group'));
+    }
 
-        $today = Carbon::today();
+     
+    public function postRegisterStudent(Request $request)
+    {
+
+         $this->validate(request(), [
+
+            'student_id' => 'required|unique_with:student_registrations,term_id',
+            'school_year_id' => 'required|unique_with:student_registrations,student_id',
+            'term_id' => 'required',
+            'group_id' => 'required',
+
+            ]);
+
+
+        StudentRegistration::insert([
+
+            'student_id'=>$request->student_id,
+            'school_year_id'=>$request->school_year_id,
+            'term_id'=>$request->term_id,
+            'group_id'=>$request->group_id,
+            'created_at' => date('Y-m-d H:i:s'),
+            'updated_at' => date('Y-m-d H:i:s'),
+    
+        ]);
         
-        $current_school_year = School_year::where('start_date', '<=', $today)->where('end_date', '>=', $today)->first();
+        flash('Student registered Successfully')->success();
+        return back();
+    }
 
-        $registered_students = StudentRegistration::where('group_id', '=', $group->id)->where('school_year_id', '=', $current_school_year->id)->get();
+    public function postDeleteRegisterStudent($registration)
+    {
+        StudentRegistration::destroy($registration);
 
-        return view('admin.superadmin.schoolsetup.students.showregisteredstudents', compact('group', 'registered_students'));
+        flash('Student Registration has been deleted')->error();
+
+        return back();
+    }
+
+    public function printRegisterStudentsPdf()
+    {
+        $pdf = PDF::loadView('admin.superadmin.schoolsetup.students.printregisterstudentspdf');
+
+        return $pdf->inline('students.pdf');
     }
 
      public function viewAllStudents()

@@ -36,6 +36,7 @@
             'admin.superadmin.schoolsetup.editcourse',
             'admin.superadmin.schoolsetup.students.showgroups',
             'admin.superadmin.schoolsetup.students.showregisteredstudents',
+            'admin.superadmin.schoolsetup.students.printregisterstudentspdf',
             'admin.superadmin.schoolsetup.students.addnewstudents',
             'admin.superadmin.schoolsetup.students.viewallstudents',
             'admin.superadmin.schoolsetup.staffers.showstaffers',

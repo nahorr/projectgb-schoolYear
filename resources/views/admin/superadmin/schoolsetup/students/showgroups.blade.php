@@ -29,7 +29,7 @@
                             <thead>
                                 <th>#</th>
                                 <th>Group Name</th>
-                                <th># of Students</th>
+                                <th># of Registered Students</th>
                                 <th>Select a Group</th>
                                
                                 
