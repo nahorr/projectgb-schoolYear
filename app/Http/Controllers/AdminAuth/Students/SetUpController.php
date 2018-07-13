@@ -51,6 +51,7 @@ class SetUpController extends Controller
         StudentRegistration::insert([
 
             'student_id'=>$request->student_id,
+            'registration_code'=>Student::where('id',$request->student_id)->first()->registration_code,
             'school_year_id'=>$request->school_year_id,
             'term_id'=>$request->term_id,
             'group_id'=>$request->group_id,
@@ -218,10 +219,12 @@ class SetUpController extends Controller
 
                     foreach ($data->toArray() as $key => $value) {
                         if(!empty($value)){
-                            foreach ($value as $v) {        
+                            foreach ($value as $v) { 
+                                      
                                 $insert[] = [
 
-                                    'student_id' => $v['student_id'],
+                                    'registration_code' => $v['registration_code'],
+                                    'student_id' => Student::where('registration_code', $v['registration_code'])->firstOrFail()->id,
                                     'school_year_id' => $current_school_year->id,                           
                                     'group_id' => $group->id,
                                     'term_id' => $current_term->id,
@@ -246,13 +249,9 @@ class SetUpController extends Controller
             return back()->with('error','Please Check your file, Something is wrong there.');
         }
 
-        public function importStudents(Request $request, $group_id)
+        public function importStudents(Request $request)
         {
-           // Get current data from items table
-            $students = Student::pluck('registration_code')->toArray();
-
-            $group = Group::find($group_id);
-            
+                       
 
             if($request->hasFile('import_file')){
                 $path = $request->file('import_file')->getRealPath();
@@ -267,14 +266,15 @@ class SetUpController extends Controller
                                 $insert[] = [
 
                                     
-                                    'group_id' => $group->id,
+                                    'student_number' => $v['student_number'],
                                     'registration_code' => $v['registration_code'], 
                                     'first_name'=>$v['first_name'],
                                     'last_name'=>$v['last_name'],
                                     'gender'=>$v['gender'],
                                     'dob'=>$v['dob'],
-                                    'status'=>$v['status'],
                                     'date_enrolled'=>$v['date_enrolled'],
+                                    'date_graduated'=>$v['date_graduated'],
+                                    'date_unenrolled'=>$v['date_enrolled'],
                                     'nationality'=>$v['nationality'],
                                     'national_card_number'=>$v['national_card_number'],
                                     'passport_number'=>$v['passport_number'],
@@ -293,7 +293,7 @@ class SetUpController extends Controller
                     
                     if(!empty($insert)){
                         Student::insert($insert);
-                        return back()->with('success','Insert Record successfully.');
+                        return redirect()->route('viewallstudents');
                     }
 
                 }

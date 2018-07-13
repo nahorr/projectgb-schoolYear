@@ -17,6 +17,7 @@ class CreateStudentRegistrationsTable extends Migration
             $table->increments('id');
             $table->integer('student_id')->unsigned();
             $table->foreign('student_id')->references('id')->on('students')->onDelete('cascade');
+            $table->string('registration_code');
             $table->integer('school_year_id')->unsigned();
             $table->foreign('school_year_id')->references('id')->on('school_years')->onDelete('cascade');
             $table->integer('term_id')->unsigned();

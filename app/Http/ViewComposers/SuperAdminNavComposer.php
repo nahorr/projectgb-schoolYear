@@ -60,7 +60,7 @@ Class SuperAdminNavComposer {
 
         $current_students_registrations = StudentRegistration::with('student')->with('school_year')->with('term')->with('group')->where('student_registrations.school_year_id', '=', $current_school_year->id)->where('student_registrations.term_id', '=', $current_term->id)->get();
 
-        
+       // dd($current_students_registrations);
 
         //$join_current_teachers_registrations = StafferRegistration::leftJoin('staffers', 'staffer_registrations.staffer_id', '=', 'staffers.id')->leftjoin('school_years', 'staffer_registrations.school_year_id', '=', 'school_years.id')->leftjoin('terms', 'staffer_registrations.term_id', '=', 'terms.id')
         //->leftjoin('groups', 'staffer_registrations.group_id', '=', 'groups.id')

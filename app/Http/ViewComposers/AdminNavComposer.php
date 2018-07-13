@@ -68,9 +68,11 @@ Class AdminNavComposer {
         $registrations_teacher = StafferRegistration::where('staffer_id', '=', $teacher->id)->get();
         //dd($registrations_teacher);
 
-        $join_teacher_regs = StafferRegistration::join('staffers', 'staffer_registrations.staffer_id', '=', 'staffers.id')->join('school_years', 'staffer_registrations.school_year_id', '=', 'school_years.id')->join('terms', 'staffer_registrations.term_id', '=', 'terms.id')
-                                ->join('groups', 'staffer_registrations.group_id', '=', 'groups.id')
-                                ->get();
+        //$join_teacher_regs = StafferRegistration::join('staffers', 'staffer_registrations.staffer_id', '=', 'staffers.id')->join('school_years', 'staffer_registrations.school_year_id', '=', 'school_years.id')->join('terms', 'staffer_registrations.term_id', '=', 'terms.id')
+                                //->join('groups', 'staffer_registrations.group_id', '=', 'groups.id')
+                                //->get();
+
+        $join_teacher_regs = StafferRegistration::with('staffer')->with('school_year')->with('term')->with('group')->get();
         //dd($join_teacher_regs);
         //get current registration for admin/staffer/teacher. The idea is to get the current group_id from it.
         //$current_registration_teacher = StafferRegistration::where('school_year_id', '=', $current_school_year->id)->where('staffer_id', '=', $teacher->id)->first();
@@ -80,9 +82,10 @@ Class AdminNavComposer {
 
         $registrations_students = StudentRegistration::get();
 
-        $join_students_regs = StudentRegistration::join('students', 'student_registrations.student_id', '=', 'students.id')->join('school_years', 'student_registrations.school_year_id', '=', 'school_years.id')->join('terms', 'student_registrations.term_id', '=', 'terms.id')
-                                ->join('groups', 'student_registrations.group_id', '=', 'groups.id')
-                                ->get();
+        //$join_students_regs = StudentRegistration::join('students', 'student_registrations.student_id', '=', 'students.id')->join('school_years', 'student_registrations.school_year_id', '=', 'school_years.id')->join('terms', 'student_registrations.term_id', '=', 'terms.id')
+                               // ->join('groups', 'student_registrations.group_id', '=', 'groups.id')
+                                //->get();
+        $join_students_regs = StudentRegistration::with('student')->with('school_year')->with('term')->with('group')->get();
         
         //get all users                      
         $all_users = User::get();

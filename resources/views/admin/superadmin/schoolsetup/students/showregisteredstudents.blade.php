@@ -46,13 +46,9 @@
                 <div class="row">
                   <div class="col-md-12">
                       <div class="alert alert-info">
-                        <h5 style=""><strong>Please note:<br>
-                            <strong style="color: #FF0000;"> All school_year_id <span style="color: black;">must be equal to</span> {{$current_school_year->id}}</strong>. </strong><br>
-                            <strong style="color: #FF0000;"> All term_id <span style="color: black;">must be equal to</span> {{$current_term->id}}</strong>. </strong><br>
-                            <strong style="color: #FF0000;"> All group_id <span style="color: black;">must be equal to</span> {{$group->id}}</strong>. </strong><br>
-                        </h5>
+                        
                         <h5 style="">
-                            <strong>Print Students IDs: <br>
+                            <strong>Print Students' Registsration Codes: <br>
                                 
                                 <a href="{{asset('/schoolsetup/students/printregisterstudentspdf') }}" target="_blank"><span style="color: red;">Click here to print all students and their IDs</span></a>
                                 
@@ -115,7 +111,7 @@
                             <div class="row">
                                 <div class="form-group col-md-5">
                                   <label for="Name">Select A Student:</label>
-                                    <select name="student_id" class="chosen-select form-control" id="student_id" data-placeholder="Select an Teacher..." >
+                                    <select name="student_id" class="chosen-select form-control" id="student_id" data-placeholder="Select a Student..." >
                                         <option selected disabled> Please select one Class</option>
                                             
 
@@ -124,7 +120,7 @@
                                                 <option value="{{ $student->id }}">
 
                                                   
-                                                  {{$student->first_name}} {{$student->last_name}}
+                                                  {{$student->registration_code}}({{$student->first_name}} {{$student->last_name}})
                                                   @foreach($current_students_registrations as $current_student_registration)
                                                      @if($student->id == $current_student_registration->student_id)
                                                         - Registered in {{$current_student_registration->group->name}}
@@ -192,8 +188,8 @@
                                                     <tr>
                                                         <td>{{ $key+1 }}</td>
                                                         <td>
-                                                            {{ $registered_student->student->student_number }}
-                                                            <strong><a href="{{asset('/schoolsetup/students/studentdetails/'.$registered_student->student->id) }}">
+                                                            {{ $registered_student->registration_code }}
+                                                            <strong><a href="{{asset('/schoolsetup/students/studentdetails/'.$registered_student->student_id) }}">
                                                                 <button type="button" class="btn btn-sm btn-warning">View</button>
                                                             </a></strong>
                                                            

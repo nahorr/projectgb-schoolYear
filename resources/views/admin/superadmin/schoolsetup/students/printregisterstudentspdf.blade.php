@@ -24,7 +24,7 @@
   <table class="table table-striped table-bordered table-hover">
     <thead>
         <th>Student_ID</th>
-        <th>Title</th>
+        <th>Registration Code</th>
         <th>First Name</th>
         <th>Last Name</th>
     </thead>
@@ -32,7 +32,7 @@
         @foreach ($students as $key=> $student)
         <tr>
             <td>{{ $student->id }}</td>
-            <td>{{ $student->title }}</td>
+            <td>{{ $student->registration_code }}</td>
             <td>{{ $student->first_name }}</td>
             <td>{{ $student->last_name }}</td>
         </tr>
