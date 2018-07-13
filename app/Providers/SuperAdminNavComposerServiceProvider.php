@@ -39,6 +39,7 @@
             'admin.superadmin.schoolsetup.students.printregisterstudentspdf',
             'admin.superadmin.schoolsetup.students.addnewstudents',
             'admin.superadmin.schoolsetup.students.viewallstudents',
+            'admin.superadmin.schoolsetup.students.editstudent',
             'admin.superadmin.schoolsetup.staffers.showstaffers',
             'admin.superadmin.schoolsetup.staffers.stafferdetails',
             'admin.superadmin.schoolsetup.staffers.registerstaffers',

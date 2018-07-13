@@ -26,7 +26,7 @@
             <h3> <i class="ace-icon fa fa-cloud-upload fa-2x"></i>
              Upload and Bulk Register Students into {{$group->name}} for {{$current_term->term}} {{$current_school_year->school_year}} school year.
             </h3>
-           <form style="border: 4px solid #a1a1a1;margin-top: 15px;padding: 20px;" action="{{ URL::to('/schoolsetup/students/importregisterstudents', [$group->id, $current_school_year->id]) }}" class="form-horizontal" method="post" enctype="multipart/form-data">
+           <form style="border: 4px solid #a1a1a1;margin-top: 15px;padding: 20px;" action="{{ URL::to('/schoolsetup/students/importregisterstudents', [$group->id]) }}" class="form-horizontal" method="post" enctype="multipart/form-data">
 
                 <input type="file" name="import_file" />
                 {{ csrf_field() }}

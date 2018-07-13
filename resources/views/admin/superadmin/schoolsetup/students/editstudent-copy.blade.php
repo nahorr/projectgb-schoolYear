@@ -5,7 +5,7 @@
 
                         <div class="page-header">
                             <h1>
-                               Adding Student
+                               Editing {{$student->first_name}} {{$student->last_name}}
                                <hr>
                                 @include('flash::message')
                                                                 
@@ -16,13 +16,13 @@
                             <div class="col-sm-6">
                                 <div class="widget-box">
                                     <div class="widget-header">
-                                        <h4 class="widget-title">Adding  student to {{$group->name}} Group for {{ $schoolyear->school_year}} School year</h4>
+                                        <h4 class="widget-title">Editing  {{$student->first_name}} {{$student->last_name}}</h4>
                                         
                                     </div>
 
                                     <div class="widget-body">
                                         <div class="widget-main">
-                                <form class="form-group" action="{{ url('/schoolsetup/students/poststudent', [$group->id]) }}" method="POST">
+                                <form class="form-group" action="{{ url('/schoolsetup/students/poststudentupdate', [$group->id, $student->id]) }}" method="POST">
                             
                                     {{ csrf_field() }}
 
@@ -45,15 +45,14 @@
 
                                                         <hr />
 
-                                                        <label for="school-year"><strong>Registration Key</strong></label>
+                                                        <label for="school-year"><strong>Registration Key: {{$student->registration_code}}</strong></label>
 
                                                         <div class="row">
                                                             <div class="col-xs-8 col-sm-11">
-                                                                <div class="input-group">
-                                                                    <input class="form-control" id="registration_code" type="text" name="registration_code" required="required" />
-                                                                    <span class="input-group-addon">
-                                                                        <i class="fa fa-key bigger-110"></i>
-                                                                    </span>
+                                                                <div class="col-sm-9">
+
+                                                                    <input class="form-control" id="registration_code" type="hidden" name="registration_code" value="{{$student->registration_code}}"/>
+                                                                    
                                                                 </div>
                                                             </div>
                                                         </div>
@@ -65,7 +64,7 @@
                                                          <div class="row">
                                                             <div class="col-xs-8 col-sm-11">
                                                                 <div class="input-group">
-                                                                    <input class="form-control" id="first_name" type="text" name="first_name" required="required" />
+                                                                    <input class="form-control" id="first_name" type="text" name="first_name" value="{{$student->first_name}}" required="required" />
                                                                     <span class="input-group-addon">
                                                                         <i class="fa fa-user bigger-110"></i>
                                                                     </span>
@@ -80,7 +79,7 @@
                                                         <div class="row">
                                                             <div class="col-xs-8 col-sm-11">
                                                                 <div class="input-group">
-                                                                    <input class="form-control" id="last_name" type="text" name="last_name" required="required" />
+                                                                    <input class="form-control" id="last_name" type="text" name="last_name" value="{{$student->last_name}}" required="required" />
                                                                     <span class="input-group-addon">
                                                                         <i class="fa fa-user-o bigger-110"></i>
                                                                     </span>
@@ -97,7 +96,7 @@
                                                         <div class="row">
                                                             <div class="col-xs-8 col-sm-11">
                                                                 <div class="input-group">
-                                                                    <input class="form-control" id="gender" type="text" name="gender" required="required" />
+                                                                    <input class="form-control" id="gender" type="text" name="gender" value="{{$student->gender}}" required="required" />
                                                                     <span class="input-group-addon">
                                                                         <i class="fa fa-genderless custom bigger-110"></i>
                                                                     </span>
@@ -113,7 +112,7 @@
                                                             <div class="col-xs-8 col-sm-11">
                                                                 <div class="input-group">
                                                                     <input class="form-control date-picker" id="dob" 
-                                                                   name="dob" type="text" data-date-format="yyyy-mm-dd" />
+                                                                   name="dob" type="text" data-date-format="yyyy-mm-dd" value="{{$student->dob->format('Y-m-d')}}" />
                                                                     <span class="input-group-addon">
                                                                         <i class="fa fa-calendar bigger-110"></i>
                                                                     </span>
@@ -129,7 +128,7 @@
                                                         <div class="row">
                                                             <div class="col-xs-8 col-sm-11">
                                                                 <div class="input-group">
-                                                                    <input class="form-control" id="status" type="text" name="status" required="required" />
+                                                                    <input class="form-control" id="status" type="text" name="status" value="{{$student->status}}"/>
                                                                     <span class="input-group-addon">
                                                                         <i class="fa fa-info-circle bigger-110"></i>
                                                                     </span>
@@ -145,7 +144,7 @@
                                                         <div class="row">
                                                             <div class="col-xs-8 col-sm-11">
                                                                 <div class="input-group">
-                                                                    <input class="form-control date-picker" id="date_enrolled" name="date_enrolled" type="text" data-date-format="yyyy-mm-dd" />
+                                                                    <input class="form-control date-picker" id="date_enrolled" name="date_enrolled" type="text" data-date-format="yyyy-mm-dd" value="{{$student->date_enrolled}}" />
                                                                     <span class="input-group-addon">
                                                                         <i class="fa fa-calendar bigger-110"></i>
                                                                     </span>
@@ -160,7 +159,7 @@
                                                         <div class="row">
                                                             <div class="col-xs-8 col-sm-11">
                                                                 <div class="input-group">
-                                                                    <input class="form-control" id="nationality" type="text" name="nationality" />
+                                                                    <input class="form-control" id="nationality" type="text" name="nationality" value="{{$student->nationality}}"/>
                                                                     <span class="input-group-addon">
                                                                         <i class="fa fa-flag bigger-110"></i>
                                                                     </span>
@@ -175,7 +174,7 @@
                                                         <div class="row">
                                                             <div class="col-xs-8 col-sm-11">
                                                                 <div class="input-group">
-                                                                    <input class="form-control" id="national_card_number" type="" name="national_card_number" />
+                                                                    <input class="form-control" id="national_card_number" type="" name="national_card_number" value="{{$student->national_card_number}}"/>
                                                                     <span class="input-group-addon">
                                                                         <i class="fa fa-address-card bigger-110"></i>
                                                                     </span>
@@ -190,7 +189,7 @@
                                                         <div class="row">
                                                             <div class="col-xs-8 col-sm-11">
                                                                 <div class="input-group">
-                                                                    <input class="form-control" id="passport_number" type="text" name="passport_number"/>
+                                                                    <input class="form-control" id="passport_number" type="text" name="passport_number" value="{{$student->passport_number}}"/>
                                                                     <span class="input-group-addon">
                                                                         <i class="fa fa-id-card-o bigger-110"></i>
                                                                     </span>
@@ -205,7 +204,7 @@
                                                         <div class="row">
                                                             <div class="col-xs-8 col-sm-11">
                                                                 <div class="input-group">
-                                                                    <input class="form-control" id="phone" type="text" name="phone" />
+                                                                    <input class="form-control" id="phone" type="text" name="phone" value="{{$student->phone}}"/>
                                                                     <span class="input-group-addon">
                                                                         <i class="fa fa-phone bigger-110"></i>
                                                                     </span>
@@ -220,7 +219,7 @@
                                                         <div class="row">
                                                             <div class="col-xs-8 col-sm-11">
                                                                 <div class="input-group">
-                                                                    <input class="form-control" id="parent_email" type="email" name="email" required="" />
+                                                                    <input class="form-control" id="parent_email" type="email" name="email"  value="{{$student->email}}" required="" />
                                                                     <span class="input-group-addon">
                                                                         <i class="fa fa-envelope bigger-110"></i>
                                                                     </span>
@@ -235,7 +234,7 @@
                                                         <div class="row">
                                                             <div class="col-xs-8 col-sm-11">
                                                                 <div class="input-group">
-                                                                    <input class="form-control" id="state" type="text" name="state"/>
+                                                                    <input class="form-control" id="state" type="text" name="state" value="{{$student->state}}"/>
                                                                     <span class="input-group-addon">
                                                                         <i class="fa fa-map bigger-110"></i>
                                                                     </span>
@@ -245,12 +244,17 @@
 
                                                         <hr />
 
-                                                        <label for="school-year"><strong>Address</strong></label>
+                                                       
 
                                                         <div class="row">
                                                             <div class="col-xs-8 col-sm-11">
-                                                          
-                                                            <textarea id="form-field-11" class="autosize-transition form-control" name="current_address"></textarea>
+                                                            <label for="school-year"><strong>Current Address</strong></label>
+
+                                                            <div class="well well-lg">                                   {{$student->current_address}}
+                                                            </div>
+
+                                                             <label for="school-year"><strong>New Address</strong></label>
+                                                            <textarea id="form-field-11" class="autosize-transition form-control" name="current_address" ></textarea>
                                                         </div>
                                                         </div>
 

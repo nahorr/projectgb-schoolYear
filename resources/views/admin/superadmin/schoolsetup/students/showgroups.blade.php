@@ -5,7 +5,7 @@
 
     <div class="page-header">
         <h1>
-           Step 5: Register Students for {{$current_school_year->school_year}} School Year
+           Step 5:Add New Students or Register Students for {{$current_school_year->school_year}} School Year
            <div class="pull-right"><a href="{{asset('/schoolsetup/students/addnewstudents') }}"><button type="button" class="btn btn-warning btn-lg"><i class="fa fa-plus"></i>  ADD NEW STUDENTS</button></a></div> 
            <hr>
            <div class="pull-right"><a href="{{asset('/schoolsetup/students/viewallstudents') }}"><button type="button" class="btn btn-info btn-lg"><i class="fa fa-eye"></i>  VIEW ALL STUDENTS</button></a></div> 
@@ -15,10 +15,10 @@
     </div><!-- /.page-header -->
 
     <div class="row">
-        <div class="col-sm-6">
+        <div class="col-sm-8">
             <div class="widget-box">
                 <div class="widget-header">
-                    <h4 class="widget-title">Select a Group to Register Students for {{ $current_school_year->school_year}} school year.</h4>
+                    <h4 class="widget-title">Select a Group to Register Students for {{$current_term->term}} {{ $current_school_year->school_year}} school year.</h4>
                     
                 </div>
 

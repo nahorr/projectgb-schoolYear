@@ -263,20 +263,20 @@ Route::group(['middleware' => 'admin_auth'], function(){
         Route::get('/schoolsetup/students/postdeleteregisterstudent/{registration}', 'AdminAuth\Students\SetUpController@postDeleteRegisterStudent');
         Route::get('/schoolsetup/students/printregisterstudentspdf', 'AdminAuth\Students\SetUpController@printRegisterStudentsPdf');
 
-        Route::get('/schoolsetup/students/addstudent/{group}', 'AdminAuth\Students\SetUpController@addStudent');
+        //Route::get('/schoolsetup/students/addstudent/{group}', 'AdminAuth\Students\SetUpController@addStudent');
         Route::get('/schoolsetup/students/addnewstudents', 'AdminAuth\Students\SetUpController@addNewStudents');
         Route::post('/schoolsetup/students/postaddnewstudents', 'AdminAuth\Students\SetUpController@postAddNewStudents');
         Route::get('/schoolsetup/students/viewallstudents', 'AdminAuth\Students\SetUpController@viewAllStudents')->name('viewallstudents');
 
 
 
-        Route::post('/schoolsetup/students/poststudent/{group}', 'AdminAuth\Students\SetUpController@postStudent');
-        Route::get('/schoolsetup/students/editstudent/{group}/{student}', 'AdminAuth\Students\SetUpController@editStudent');
-        Route::post('/schoolsetup/students/poststudentupdate/{group}/{student}', 'AdminAuth\Students\SetUpController@postStudentUpdate');
+        //Route::post('/schoolsetup/students/poststudent/{group}', 'AdminAuth\Students\SetUpController@postStudent');
+        Route::get('/schoolsetup/students/editstudent/{student}', 'AdminAuth\Students\SetUpController@editStudent');
+        Route::post('/schoolsetup/students/poststudentupdate/{student}', 'AdminAuth\Students\SetUpController@postStudentUpdate');
         Route::get('/schoolsetup/students/poststudentdelete/{student}', 'AdminAuth\Students\SetUpController@deleteStudent');
 
-        Route::post('/schoolsetup/students/importregisterstudents/{group}/{currentschoolyear}', 'AdminAuth\Students\SetUpController@importRegisterStudents');
-        Route::post('/schoolsetup/students/importstudents/{group}', 'AdminAuth\Students\SetUpController@importStudents');
+        Route::post('/schoolsetup/students/importregisterstudents/{group}', 'AdminAuth\Students\SetUpController@importRegisterStudents');
+        Route::post('/schoolsetup/students/importstudents', 'AdminAuth\Students\SetUpController@importStudents');
 
         //staff setup
         Route::get('/schoolsetup/staffers/showstaffers', 'AdminAuth\Staffers\SetUpController@showStaffers')->name('showstaffers');

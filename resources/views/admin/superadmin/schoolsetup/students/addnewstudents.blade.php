@@ -6,7 +6,9 @@
     <div class="page-header">
         <h1>
            Add/Upload New Students
-           <div class="pull-right"><a href="{{asset('/schoolsetup/students/showgroups') }}"><button type="button" class="btn btn-danger btn-lg"><i class="fa fa-plus"></i>  REGISTER STUDENTS</button></a></div> 
+           <div class="pull-right"><a href="{{asset('/schoolsetup/students/showgroups') }}"><button type="button" class="btn btn-danger btn-lg"><i class="fa fa-plus"></i>  REGISTER STUDENTS</button></a></div>
+           <hr>
+           <div class="pull-right"><a href="{{asset('/schoolsetup/students/viewallstudents') }}"><button type="button" class="btn btn-info btn-lg"><i class="fa fa-eye"></i>  VIEW ALL STUDENTS</button></a></div> 
            <hr>
            @include('flash::message')
           

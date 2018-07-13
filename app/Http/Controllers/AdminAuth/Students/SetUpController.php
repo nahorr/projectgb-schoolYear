@@ -134,159 +134,41 @@ class SetUpController extends Controller
         return redirect()->route('viewallstudents');
     }
 
-    public function addStudent($id)
+
+
+    public function editStudent(Student $student)
     {
-
-    	//get current date
-        $today = Carbon::today();
-
-        $schoolyear = School_year::first();
-
-        $group = Group::find($id);
-
-    
-        //get logged in user
-        $teacher_logged_in = Auth::guard('web_admin')->user();
-
-        
-        $reg_code = $teacher_logged_in->registration_code;
-
-        $teacher = Staffer::where('registration_code', '=', $reg_code)->first();
-
       
-
-        return view('/admin.superadmin.schoolsetup.students.addstudent', compact('today', 'teacher', 'teacher_logged_in', 'schoolyear', 'term', 'group'));
+        return view('admin.superadmin.schoolsetup.students.editstudent', compact('student'));
     }
 
-    public function postStudent(Request $r, $group_id) 
-    {
-        $group = Group::find($group_id);
-               
-
-        $this->validate(request(), [
-
-            'group_id' => 'required',
-            'registration_code' => 'required|unique:students',
-            'first_name' => 'required',
-            'last_name' => 'required',
-            'email' => 'required',
-            //'gender' => 'required',
-            //'dob' => 'required',
-            //'status' => 'required',
-            //'date_enrolled' => 'required',
-            //'nationality' => 'required',
-            //'national_card_number' => 'required',
-            //'passport_number' => 'required',
-            //'phone' => 'required',
-            //'state' => 'required',
-            //'address' => 'required',
-
-            ]);
-
-
-        Student::insert([
-
-            'group_id'=>$r->group_id,
-            'registration_code'=>$r->registration_code,
-            'first_name'=>$r->first_name,
-            'last_name'=>$r->last_name,
-            'gender'=>$r->gender,
-            'dob'=>$r->dob,
-            'status'=>$r->status,
-            'date_enrolled'=>$r->date_enrolled,
-            'nationality'=>$r->nationality,
-            'national_card_number'=>$r->national_card_number,
-            'passport_number'=>$r->passport_number,
-            'phone'=>$r->phone,
-            'email'=>$r->email,
-            'state'=>$r->state,
-            'current_address'=>$r->current_address,
-            'created_at' => date('Y-m-d H:i:s'),
-            'updated_at' => date('Y-m-d H:i:s'),
- 
-        ]);
-
-       
-        flash('Student Added Successfully')->success();
-
-        return redirect()->route('showstudents', ['group_id' => $group->id]);
-    }
-
-    public function editStudent($group_id, $student_id)
-    {
-
-        $group = Group::find($group_id);
-
-        $student_with_id = Student::find($student_id);
-        //get current date
-        $today = Carbon::today();
-
-        $schoolyear = School_year::first();
-
-        $students = Student::where('group_id', '=', $group->id)->get();
-        $students_count = Student::where('group_id', '=', $group->id)->count();
-
-    
-        //get logged in user
-        $teacher_logged_in = Auth::guard('web_admin')->user();
-
-        
-        $reg_code = $teacher_logged_in->registration_code;
-
-        $teacher = Staffer::where('registration_code', '=', $reg_code)->first();
-
-      
-
-        return view('/admin.superadmin.schoolsetup.students.editstudent', compact('today', 'teacher', 'teacher_logged_in', 'schoolyear', 'students', 'group', 'students_count', 'student_with_id'));
-    }
-
-    public function postStudentUpdate(Request $r, $group_id, $student_id)
+    public function postStudentUpdate(Request $r, Student $student)
 
         {
-        
-            $group = Group::find($group_id);
-
-            $student_with_id = Student::find($student_id);
-            //get current date
-            $today = Carbon::today();
-
-            $schoolyear = School_year::first();
-
-            $students = Student::where('group_id', '=', $group->id)->get();
-            $students_count = Student::where('group_id', '=', $group->id)->count();
-
-        
-            //get logged in user
-            $teacher_logged_in = Auth::guard('web_admin')->user();
-
-            
-            $reg_code = $teacher_logged_in->registration_code;
-
-            $teacher = Staffer::where('registration_code', '=', $reg_code)->first();
-
              $this->validate(request(), [
 
-                'group_id' => 'required',
+                'student_number' => 'required',
                 'registration_code' => 'required',
                 'first_name' => 'required',
                 'last_name' => 'required',
+                'gender' => 'required',
+                'dob' => 'required',
                 'email' => 'required',
                 
                 ]);
 
 
                                 
-            $student_edit = Student::where('id', '=', $student_with_id->id)->first();
+            $student_edit = Student::where('id', '=', $student->id)->first();
 
 
             
-            $student_edit->group_id= $r->group_id;
+            $student_edit->student_number= $r->student_number;
             $student_edit->registration_code= $r->registration_code;
             $student_edit->first_name= $r->first_name;
             $student_edit->last_name= $r->last_name;
             $student_edit->gender= $r->gender;
             $student_edit->dob= $r->dob;
-            $student_edit->status= $r->status;
             $student_edit->date_enrolled= $r->date_enrolled;
             $student_edit->nationality= $r->nationality;
             $student_edit->national_card_number= $r->national_card_number;
@@ -302,14 +184,14 @@ class SetUpController extends Controller
 
             flash('Student Updated Successfully')->success();
 
-            return redirect()->route('showstudents', ['group_id' => $group->id]);
+            return redirect()->route('viewallstudents');
 
 
          }
 
-         public function deletestudent($student_id)
+         public function deleteStudent($student)
          {
-            Student::destroy($student_id);
+            Student::destroy($student);
 
             flash('Student has been deleted')->error();
 
@@ -317,17 +199,15 @@ class SetUpController extends Controller
          }
 
 
-        public function importRegisterStudents(Request $request, $group_id, $current_school_year_id)
+        public function importRegisterStudents(Request $request, Group $group)
         {
-           
-            $group = Group::find($group_id);
-            $current_school_year = School_year::find($current_school_year_id);
+            //get current date
+            $today = Carbon::today();
+            
+            //get current school year
+            $current_school_year = School_year::where('start_date', '<=', $today)->where('end_date', '>=', $today)->first();
 
-            $this->validate(request(), [
-
-                'student_id' => 'unique:student_registrations',
-                                
-                ]);
+            $current_term = Term::where([['start_date', '<=', $today], ['end_date', '>=', $today]])->first();
             
             if($request->hasFile('import_file')){
                 $path = $request->file('import_file')->getRealPath();
@@ -341,9 +221,10 @@ class SetUpController extends Controller
                             foreach ($value as $v) {        
                                 $insert[] = [
 
-                                    'student_id' => $v['student_id'],                                  
+                                    'student_id' => $v['student_id'],
+                                    'school_year_id' => $current_school_year->id,                           
                                     'group_id' => $group->id,
-                                    'school_year_id' => $current_school_year->id,
+                                    'term_id' => $current_term->id,
                                     'created_at' => date('Y-m-d H:i:s'),
                                     'updated_at' => date('Y-m-d H:i:s'),
                                     
