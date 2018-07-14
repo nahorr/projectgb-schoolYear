@@ -51,7 +51,7 @@
     </div><!-- /.page-header -->
 
     <div class="row">
-        <div class="col-sm-6">
+        <div class="col-sm-8">
             <div class="widget-box">
                 <div class="widget-header">
                     <h4 class="widget-title">Showing {{$term->term}} Courses for {{$group->name}} </h4>
