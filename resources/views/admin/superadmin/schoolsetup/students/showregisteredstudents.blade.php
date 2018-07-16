@@ -50,7 +50,7 @@
                         <h5 style="">
                             <strong>Print Students' Registsration Codes: <br>
                                 
-                                <a href="{{asset('/schoolsetup/students/printregisterstudentspdf') }}" target="_blank"><span style="color: red;">Click here to print all students and their IDs</span></a>
+                                <a href="{{asset('/schoolsetup/students/printregisterstudentspdf') }}" target="_blank"><span style="color: red;">Click here to print all students and their Registration codes</span></a>
                                 
                             </strong><br><br>
                            

@@ -293,6 +293,7 @@ class SetUpController extends Controller
                     
                     if(!empty($insert)){
                         Student::insert($insert);
+                        flash('Student(s) Uploaded Successfully')->success();
                         return redirect()->route('viewallstudents');
                     }
 
