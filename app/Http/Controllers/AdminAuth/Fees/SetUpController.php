@@ -25,11 +25,7 @@ class SetUpController extends Controller
     public function showFees()
     {
         
-              
-        //get current date
-        $today = Carbon::today();
 
-        $schoolyear = School_year::first();
 
         $fees_join = Fee::leftJoin('feetypes', 'fees.feetype_id', '=', 'feetypes.id')
                          ->leftJoin('groups', 'fees.group_id', '=', 'groups.id' )
@@ -38,27 +34,13 @@ class SetUpController extends Controller
                          ->get();
          //dd($fees_join);              
        
-        return view('/admin.superadmin.schoolsetup.fees.showfees', compact('today', 'schoolyear', 'fees_join'));
+        return view('admin.superadmin.schoolsetup.fees.showfees', compact('fees_join'));
     }
 
     public function addFee()
     {
-
-         //get current date
-        $today = Carbon::today();
-
-        $schoolyear = School_year::first();
-
-        $groups = Group::pluck('name', 'id');
-
-        $terms = Term::pluck('term', 'id');
-
-        $feetypes = Feetype::pluck('fee_type', 'id');
-
         
-
-
-        return view('/admin.superadmin.schoolsetup.fees.addfee', compact('today', 'schoolyear', 'groups', 'terms', 'feetypes'));
+        return view('admin.superadmin.schoolsetup.fees.addfee');
      }
 
     public function postFee(Request $r) 

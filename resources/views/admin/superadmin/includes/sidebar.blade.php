@@ -28,85 +28,34 @@
                         <b class="arrow"></b>
                     </li>
 
-
-                    <li>
-                        <a href="#" class="dropdown-toggle">
+                    <li {{{ (Request::is('schoolsetup/showschoolyear') ? 'class=active' : '') }}}>
+                        <a href="{{ url('/schoolsetup/showschoolyear') }}">
                             <i class="menu-icon fa fa-list"></i>
-                            <span class="menu-text"> Step 1: School Year </span>
-
-                            <b class="arrow fa fa-angle-down"></b>
+                            <span class="menu-text">Step 1: School Year</span>
                         </a>
 
                         <b class="arrow"></b>
-
-                        <ul class="submenu">
-                            <li >
-                                <a href="{{ url('/schoolsetup/showschoolyear') }}">
-                                    <i class="menu-icon fa fa-caret-right"></i>
-                                    Edit School year
-                                </a>
-
-                                <b class="arrow"></b>
-                            </li>
-                            
-                        </ul>
                     </li>
 
-                    <li>
-                        <a href="#" class="dropdown-toggle">
+                    <li {{{ (Request::is('schoolsetup/terms/schoolyears') ? 'class=active' : '') }}}>
+                        <a href="{{ url('/schoolsetup/terms/schoolyears') }}">
                             <i class="menu-icon fa fa-text-width"></i>
-                            <span class="menu-text"> Step 2: Terms </span>
-
-                            <b class="arrow fa fa-angle-down"></b>
+                            <span class="menu-text">Step 2: Terms</span>
                         </a>
 
                         <b class="arrow"></b>
-
-                        <ul class="submenu">
-                            <li >
-                                <a href="{{ url('/schoolsetup/terms/schoolyears') }}">
-                                    <i class="menu-icon fa fa-caret-right"></i>
-                                    View Terms
-                                </a>
-
-                                <b class="arrow"></b>
-                            </li>
-                           
-                        </ul>
                     </li>
-
-                    <li>
-                        <a href="#" class="dropdown-toggle">
+                   
+                   <li {{{ (Request::is('schoolsetup/showgroups') ? 'class=active' : '') }}}>
+                        <a href="{{ url('/schoolsetup/showgroups') }}">
                             <i class="menu-icon fa fa-object-group"></i>
-                            <span class="menu-text"> Step 3: Groups </span>
-
-                            <b class="arrow fa fa-angle-down"></b>
+                            <span class="menu-text">Step 3: Groups</span>
                         </a>
 
                         <b class="arrow"></b>
-
-                        <ul class="submenu">
-                            <li >
-                                <a href="{{ url('/schoolsetup/showgroups') }}">
-                                    <i class="menu-icon fa fa-caret-right"></i>
-                                    View Groups
-                                </a>
-
-                                <b class="arrow"></b>
-                            </li>
-                            <li >
-                                <a href="{{ url('/schoolsetup/addgroup') }}">
-                                    <i class="menu-icon fa fa-caret-right"></i>
-                                    Add a Group
-                                </a>
-
-                                <b class="arrow"></b>
-                            </li>
-                            
-                        </ul>
                     </li>
 
-
+      
                     <li {{{ (Request::is('schoolsetup/courses/schoolyears') ? 'class=active' : '') }}}>
                         <a href="{{ url('/schoolsetup/courses/schoolyears') }}">
                             <i class="menu-icon fa fa-book"></i>

@@ -51,6 +51,54 @@ class CourseSetUpController extends Controller
         return view('admin.superadmin.schoolsetup.showcoursesgroups', compact('schoolyear', 'term', 'courses_term'));
     }
 
+    public function bulkUploadCourses(Request $request, $schoolyear, $term)
+        {
+           
+            $schoolyear = School_year::find($schoolyear);
+
+            $term = Term::find($term);
+
+            if($request->hasFile('import_file')){
+                $path = $request->file('import_file')->getRealPath();
+
+                $data = Excel::load($path, function($reader) {})->get();
+
+                if(!empty($data) && $data->count()){
+
+                    foreach ($data->toArray() as $key => $value) {
+                        if(!empty($value)){
+                            foreach ($value as $v) {        
+                                $insert[] = [
+
+                                    'course_code' => $v['course_code'],
+                                    'name' => $v['course_name'],  
+                                    'term_id' => $term->id,
+                                    'group_id'=>Group::where('name', $v['group_name'])->first()->id,
+                                    'staffer_id' => Staffer::where('registration_code', $v['staffer_assigned_to'])->first()->id,
+                                    'created_at' => date('Y-m-d H:i:s'),
+                                    'updated_at' => date('Y-m-d H:i:s'),
+                                    
+                                    ];
+                            }
+                        }
+                    }
+
+                    
+                    if(!empty($insert)){
+                        Course::insert($insert);
+                        flash('Courses Bulk Uploaded Successfully')->success();
+                        return back();
+                    }
+
+                }
+
+            }
+
+            flash('Please Check your file, Something is wrong there')->error();
+            return back();
+        }
+    
+
     public function showCourses($schoolyear_id, $term_id, $group_id)
     {
 

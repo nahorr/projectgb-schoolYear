@@ -20,7 +20,7 @@
                                         <div class="col-sm-6">
                                             <div class="widget-box">
                                                 <div class="widget-header">
-                                                    <h4 class="widget-title">Add fee for {{$schoolyear->school_year}} School Year </h4>
+                                                    <h4 class="widget-title">Add fee for {{$current_school_year->school_year}} School Year </h4>
                                                     <span class="widget-toolbar">
                                                         <a href="{{asset('/schoolsetup/fees/showfees')}}">
                                                             <i class="ace-icon fa fa-cog"></i>
@@ -45,8 +45,8 @@
                                                         <select name="feetype_id" id="feetype_id">
                                                             @foreach($feetypes as $key=>$feetype)
 
-                                                                <option value="{{ $key }}">
-                                                                    {{ $feetype }}
+                                                                <option value="{{ $feetype->id }}">
+                                                                    {{ $feetype->fee_type }}
                                                                 </option>
 
                                                             @endforeach
@@ -64,10 +64,10 @@
                                                                 <div class="input-group">
                                                                     
                                                                      <select name="group_id" id="group_id">
-                                                                        @foreach($groups as $key=>$group)
+                                                                        @foreach($groups->where('id', '!=', 1) as $key=>$group)
 
-                                                                            <option value="{{ $key }}">
-                                                                                {{ $group }}
+                                                                            <option value="{{ $group->id }}">
+                                                                                {{ $group->name }}
                                                                             </option>
 
                                                                         @endforeach
@@ -79,16 +79,16 @@
 
                                                         <hr />
 
-                                                 <label for="term"><strong>Select Term</strong></label>
+                                                 <label for="term"><strong>Select Term(Current School Year Only)</strong></label>
                                                     <div class="row">
                                                             <div class="col-xs-8 col-sm-11">
                                                                 <div class="input-group">
                                                                     
                                                                      <select name="term_id" id="term_id">
-                                                                        @foreach($terms as $key=>$term)
+                                                                        @foreach($terms->where('school_year_id', $current_school_year->id) as $key=>$term)
 
-                                                                            <option value="{{ $key }}">
-                                                                                {{ $term }}
+                                                                            <option value="{{ $term->id }}">
+                                                                                {{ $term->term }}
                                                                             </option>
 
                                                                         @endforeach

@@ -60,6 +60,22 @@
                 </div>
 
             </form>
+
+             <br>
+        <div class="row">
+              <div class="col-md-12">
+                <div class="alert alert-info">
+                <h5 style="">
+                  <strong>Downlod Staffers and Registration Codes: <br>
+
+                  <a href="{{ URL::to('/schoolsetup/students/downloadExcelStudents/xls') }}"><button class="btn btn-success">Download Students xls</button></a>
+                  <a href="{{ URL::to('/schoolsetup/students/downloadExcelStudents/xlsx') }}"><button class="btn btn-success">Download Students xlsx</button></a>
+                  <a href="{{ URL::to('/schoolsetup/students/downloadExcelStudents/csv') }}"><button class="btn btn-success">Download Students CSV</button></a>
+
+              </h5>
+                </div>
+              </div>
+          </div>
             <br/>
            
            <strong><a href="{{asset('/schoolsetup/students/addstudent/'.$group->id)}}">

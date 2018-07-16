@@ -243,6 +243,7 @@ Route::group(['middleware' => 'admin_auth'], function(){
         Route::get('/schoolsetup/courses/schoolyears', 'AdminAuth\CourseSetUpController@schoolYears');
         Route::get('/schoolsetup/showcoursesterms/{schoolyear}', 'AdminAuth\CourseSetUpController@showCoursesTerms');
         Route::get('/schoolsetup/showcoursesgroups/{schoolyear}/{term}', 'AdminAuth\CourseSetUpController@showCoursesGroups');
+            Route::post('/schoolsetup/showcoursesgroups/bulkuploadcourses/{schoolyear}/{term}', 'AdminAuth\CourseSetUpController@bulkUploadCourses');   
         Route::get('/schoolsetup/showcourses/{schoolyear}/{term}/{group}', 'AdminAuth\CourseSetUpController@showCourses')->name('showcourses');
         Route::get('/schoolsetup/addcourse/{schoolyear}/{term}/{group}', 'AdminAuth\CourseSetUpController@addCourse');
         Route::post('/schoolsetup/postcourse/{schoolyear}/{term}/{group}', 'AdminAuth\CourseSetUpController@postCourse');
@@ -261,9 +262,7 @@ Route::group(['middleware' => 'admin_auth'], function(){
         Route::get('/schoolsetup/students/showregisteredstudents/{group}', 'AdminAuth\Students\SetUpController@showStudents')->name('showstudents');
         Route::post('/schoolsetup/students/postregisterstudent', 'AdminAuth\Students\SetUpController@postRegisterStudent');
         Route::get('/schoolsetup/students/postdeleteregisterstudent/{registration}', 'AdminAuth\Students\SetUpController@postDeleteRegisterStudent');
-        Route::get('/schoolsetup/students/printregisterstudentspdf', 'AdminAuth\Students\SetUpController@printRegisterStudentsPdf');
-
-        //Route::get('/schoolsetup/students/addstudent/{group}', 'AdminAuth\Students\SetUpController@addStudent');
+               Route::get('/schoolsetup/students/downloadExcelStudents/{type}', 'AdminAuth\Students\SetUpController@downloadExcelStudents');
         Route::get('/schoolsetup/students/addnewstudents', 'AdminAuth\Students\SetUpController@addNewStudents');
         Route::post('/schoolsetup/students/postaddnewstudents', 'AdminAuth\Students\SetUpController@postAddNewStudents');
         Route::get('/schoolsetup/students/viewallstudents', 'AdminAuth\Students\SetUpController@viewAllStudents')->name('viewallstudents');
@@ -286,10 +285,9 @@ Route::group(['middleware' => 'admin_auth'], function(){
         Route::post('/schoolsetup/staffers/postregisterstaffer', 'AdminAuth\Staffers\SetUpController@postRegisterStaffer');
         Route::get('/schoolsetup/staffers/editregisterstaffer/{registration}', 'AdminAuth\Staffers\SetUpController@editRegisterStaffer');
         Route::post('/schoolsetup/staffers/posteditregisterstaffer/{registration}', 'AdminAuth\Staffers\SetUpController@postEditRegisterStaffer');
-        Route::post('/schoolsetup/staffers/bulkregisterstaffers', 'AdminAuth\Staffers\SetUpController@bulkRegisterStaffers');
-
-        Route::get('/schoolsetup/staffers/printregisterstafferspdf', 'AdminAuth\Staffers\SetUpController@printRegisterStaffersPdf');
-        Route::get('/schoolsetup/staffers/printregistergroupspdf', 'AdminAuth\Staffers\SetUpController@printRegisterGroupsPdf');
+        Route::post('/schoolsetup/staffers/bulkregisterstaffers', 'AdminAuth\Staffers\SetUpController@bulkRegisterStaffers');   
+        Route::get('/schoolsetup/staffers/downloadExcelStaffers/{type}', 'AdminAuth\Staffers\SetUpController@downloadExcelStaffers');
+        Route::get('/schoolsetup/staffers/downloadExcelGroups/{type}', 'AdminAuth\Staffers\SetUpController@downloadExcelGroups');
         Route::get('/schoolsetup/staffers/postunregisterstaffer/{registration}', 'AdminAuth\Staffers\SetUpController@postUnRegisterStaffer');
         Route::get('/schoolsetup/staffers/stafferdetails/{staffer}', 'AdminAuth\Staffers\SetUpController@stafferDetails')->name('stafferdetail');
         Route::get('/schoolsetup/staffers/addstaffer', 'AdminAuth\Staffers\SetUpController@addStaffer');

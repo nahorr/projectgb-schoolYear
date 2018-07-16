@@ -27,30 +27,31 @@
 	              </div>
               </div>
         	</div>
-        	<div class="row">
-              <div class="col-md-12">
-	              <div class="alert alert-info">
-	                <h5 style=""><strong>Please note:<br>
-	                	<strong style="color: #FF0000;"> All school_year_id <span style="color: black;">must be equal to</span> {{$current_school_year->id}}</strong>. </strong><br>
-	                	<strong style="color: #FF0000;"> All term_id <span style="color: black;">must be equal to</span> {{$current_term->id}}</strong>. </strong><br>
-	                </h5>
-	                <h5 style="">
-	                	<strong>Print Staffers ID: <br>
-	                		
-	                		<a href="{{asset('/schoolsetup/staffers/printregisterstafferspdf') }}" target="_blank"><span style="color: red;">Click here to print all staffers and their IDs</span></a>
-	                		
-	                	</strong><br><br>
-	                	<strong>Print Groups ID: <br>
-	                		
-	                		<a href="{{asset('/schoolsetup/staffers/printregistergroupspdf') }}" target="_blank"><span style="color: darkred;">Click here to print all staffers and their IDs</span></a>
-	                		
-	                	</strong>
-	                </h5>
-	              </div>
-              </div>
-        	</div>
 
         </form>
+        <br>
+        <div class="row">
+              <div class="col-md-12">
+                <div class="alert alert-info">
+                <h5 style="">
+                  <strong>Downlod Staffers and Registration Codes: <br>
+
+                  <a href="{{ URL::to('/schoolsetup/staffers/downloadExcelStaffers/xls') }}"><button class="btn btn-success">Download Staffers xls</button></a>
+                  <a href="{{ URL::to('/schoolsetup/staffers/downloadExcelStaffers/xlsx') }}"><button class="btn btn-success">Download Staffers xlsx</button></a>
+                  <a href="{{ URL::to('/schoolsetup/staffers/downloadExcelStaffers/csv') }}"><button class="btn btn-success">Download Staffers CSV</button></a>
+
+                      
+                </strong><br><br>
+                <strong>Download Groups and Group Names: <br>
+                  <a href="{{ URL::to('/schoolsetup/staffers/downloadExcelGroups/xls') }}"><button class="btn btn-danger">Download Groups xls</button></a>
+                  <a href="{{ URL::to('/schoolsetup/staffers/downloadExcelGroups/xlsx') }}"><button class="btn btn-danger">Download Groups xlsx</button></a>
+                  <a href="{{ URL::to('/schoolsetup/staffers/downloadExcelGroups/csv') }}"><button class="btn btn-danger">Download Groups CSV</button></a>
+                   
+                </strong>
+              </h5>
+                </div>
+              </div>
+          </div>
         <br/>
     </div>
 
@@ -171,6 +172,7 @@
                 	   <table class="table table-striped table-bordered table-hover">
                             <thead>
                                 <th>#</th>
+                                <th>Registration Code</th>
                                 <th>Title</th>
                                 <th>First Name</th>
                                 <th>Last Name</th>
@@ -184,6 +186,7 @@
                                 @foreach ($current_staffers_registrations as $key=> $registration)
                                 <tr>
                                     <td>{{$key+1}}</td>
+                                    <td>{{ $registration->staffer->registration_code }}</td>
                                     <td>{{ $registration->staffer->title }}</td>
                                     <td>{{ $registration->staffer->first_name }}</td>
                                     <td>{{ $registration->staffer->last_name }}</td>

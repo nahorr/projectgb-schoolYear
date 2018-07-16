@@ -16,7 +16,7 @@
                             <div class="col-sm-6">
                                 <div class="widget-box">
                                     <div class="widget-header">
-                                        <h4 class="widget-title">Showing Fees for {{ $schoolyear->school_year}} school year </h4>
+                                        <h4 class="widget-title">Showing Fees for {{ $current_school_year->school_year}} school year </h4>
                                         <span class="widget-toolbar">
                                             <strong><a href="{{asset('/schoolsetup/fees/addfee')}}">
                                                 <i class="ace-icon fa fa-pencil-square-o fa-2x"></i>

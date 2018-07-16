@@ -22,6 +22,7 @@ use File;
 use App\StafferRegistration;
 use App\StudentRegistration;
 use PDF;
+use App\Feetype;
 
 Class SuperAdminNavComposer {	
 	
@@ -49,6 +50,8 @@ Class SuperAdminNavComposer {
         $teacher = Staffer::where('registration_code', '=', Auth::guard('web_admin')->user()->registration_code)->first();
 
         $groups = Group::get();
+
+        $feetypes = Feetype::get();
 
         //Staffers
         $staffers = Staffer::get();
@@ -89,6 +92,7 @@ Class SuperAdminNavComposer {
         ->with('teacher', $teacher)
         ->with('staffers', $staffers)
         ->with('groups', $groups)
+        ->with('feetypes', $feetypes)
         ->with('students', $students)
         ->with('current_staffers_registrations', $current_staffers_registrations)
         ->with('current_students_registrations', $current_students_registrations);   

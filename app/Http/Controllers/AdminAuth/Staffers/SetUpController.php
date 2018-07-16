@@ -21,6 +21,7 @@ use App\Admin;
 use Excel;
 use App\StafferRegistration;
 use PDF;
+use DB;
 
 
 class SetUpController extends Controller
@@ -135,10 +136,40 @@ class SetUpController extends Controller
         return back();
     }
 
+
+    public function downloadExcelStaffers($type)
+    {
+        $data = Staffer::get()->toArray();
+        return Excel::create('staffers_download', function($excel) use ($data) {
+            $excel->sheet('staffers', function($sheet) use ($data)
+            {
+                $sheet->fromArray($data);
+            });
+        })->download($type);
+    }
+
+    public function downloadExcelGroups($type)
+    {
+        $data = Group::get()->toArray();
+        return Excel::create('groups_download', function($excel) use ($data) {
+            $excel->sheet('groups', function($sheet) use ($data)
+            {
+                $sheet->fromArray($data);
+            });
+        })->download($type);
+    }
+    
     public function bulkRegisterStaffers(Request $request)
         {
             
-          
+            //get current date
+            $today = Carbon::today();
+            
+            //get current school year
+            $current_school_year = School_year::where('start_date', '<=', $today)->where('end_date', '>=', $today)->first();
+
+            $current_term = Term::where([['start_date', '<=', $today], ['end_date', '>=', $today]])->first();
+
             if($request->hasFile('import_file')){
                 $path = $request->file('import_file')->getRealPath();
 
@@ -152,10 +183,12 @@ class SetUpController extends Controller
                                 $insert[] = [
 
                                     
-                                    'staffer_id' => $v['staffer_id'],
-                                    'school_year_id' => $v['school_year_id'],
-                                    'term_id' => $v['term_id'],
-                                    'group_id'=>$v['group_id'],
+                                    'staffer_id' => Staffer::where('registration_code', $v['registration_code'])->firstOrFail()->id,
+                                    'school_year_id' => $current_school_year->id,
+                                    'term_id' => $current_term->id,
+                                    'group_id'=>Group::where('name', $v['group_name'])->firstOrFail()->id,
+                                    'created_at' => date('Y-m-d H:i:s'),
+                                    'updated_at' => date('Y-m-d H:i:s'),
                                     
                                     ];
                             }

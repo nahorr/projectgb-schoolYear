@@ -199,7 +199,18 @@ class SetUpController extends Controller
             return back();
          }
 
+        public function downloadExcelStudents($type)
+        {
+            $data = Student::get()->toArray();
+            return Excel::create('students_download', function($excel) use ($data) {
+                $excel->sheet('students', function($sheet) use ($data)
+                {
+                    $sheet->fromArray($data);
+                });
+            })->download($type);
+        }
 
+        
         public function importRegisterStudents(Request $request, Group $group)
         {
             //get current date

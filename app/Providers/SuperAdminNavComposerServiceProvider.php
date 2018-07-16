@@ -48,6 +48,8 @@
             'admin.superadmin.schoolsetup.staffers.printregistergroupspdf',
             'admin.superadmin.schoolsetup.staffers.addstaffer',
             'admin.superadmin.schoolsetup.staffers.editstaffer',
+            'admin.superadmin.schoolsetup.fees.showfees',
+            'admin.superadmin.schoolsetup.fees.addfee',
 
             ], 
             

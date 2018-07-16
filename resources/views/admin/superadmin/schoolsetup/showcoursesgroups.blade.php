@@ -5,12 +5,46 @@
 
     <div class="page-header">
         <h1>
-           {{$schoolyear->school_year}} {{$term->term}} Groups & Courses
-           <hr>
+           Bulk upload {{$schoolyear->school_year}} {{$term->term}} Courses - All Groups
             @include('flash::message')
                                             
         </h1>
+         <br>
+        <div class="row">
+              <div class="col-md-12">
+                <div class="alert alert-info">
+                <h5 style="">
+                  <strong>Downlod Staffers and Registration Codes: <br>
+
+                  <a href="{{ URL::to('/schoolsetup/staffers/downloadExcelStaffers/xls') }}"><button class="btn btn-success">Download Staffers xls</button></a>
+                  <a href="{{ URL::to('/schoolsetup/staffers/downloadExcelStaffers/xlsx') }}"><button class="btn btn-success">Download Staffers xlsx</button></a>
+                  <a href="{{ URL::to('/schoolsetup/staffers/downloadExcelStaffers/csv') }}"><button class="btn btn-success">Download Staffers CSV</button></a>
+
+                      
+                </strong><br><br>
+                <strong>Download Groups and Group Names: <br>
+                  <a href="{{ URL::to('/schoolsetup/staffers/downloadExcelGroups/xls') }}"><button class="btn btn-danger">Download Groups xls</button></a>
+                  <a href="{{ URL::to('/schoolsetup/staffers/downloadExcelGroups/xlsx') }}"><button class="btn btn-danger">Download Groups xlsx</button></a>
+                  <a href="{{ URL::to('/schoolsetup/staffers/downloadExcelGroups/csv') }}"><button class="btn btn-danger">Download Groups CSV</button></a>
+                   
+                </strong>
+              </h5>
+                </div>
+              </div>
+          </div>
+        <form style="border: 4px solid #a1a1a1;margin-top: 15px;padding: 20px;" action="{{ URL::to('/schoolsetup/showcoursesgroups/bulkuploadcourses', [$schoolyear->id, $term->id] ) }}" class="form-horizontal" method="post" enctype="multipart/form-data">
+
+             <input type="file" name="import_file" />
+             {{ csrf_field() }}
+             <br/>
+
+             <button class="btn btn-primary">Bulk Upload {{$schoolyear->school_year}} {{$term->term}} Courses</button>
+
+         </form>
+
     </div><!-- /.page-header -->
+
+    <h1 class="display-1">OR</h1>
 
     <div class="row">
         <div class="col-sm-4">

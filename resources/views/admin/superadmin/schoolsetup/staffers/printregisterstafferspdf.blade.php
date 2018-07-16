@@ -23,7 +23,7 @@
 <div class="page">
   <table class="table table-striped table-bordered table-hover">
     <thead>
-        <th>Staffer_ID</th>
+        <th>Registration Code</th>
         <th>Title</th>
         <th>First Name</th>
         <th>Last Name</th>
@@ -31,7 +31,7 @@
     <tbody>
         @foreach ($staffers as $key=> $staffer)
         <tr>
-            <td>{{ $staffer->id }}</td>
+            <td>{{ $staffer->registration_code }}</td>
             <td>{{ $staffer->title }}</td>
             <td>{{ $staffer->first_name }}</td>
             <td>{{ $staffer->last_name }}</td>
