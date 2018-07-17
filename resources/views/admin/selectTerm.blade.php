@@ -152,7 +152,7 @@
                                                 <a href="{{asset('/admin_home/'. $schoolyear->id)}}/{{$term->id}}">
                                                     @if($schoolyear->id == $current_school_year->id)
                                                         @if($term->id == $current_term->id)
-                                                            <button type="button" class="btn btn-success btn-sm">{{strtoupper($term->term)}} <span style="color: red">You are assigned to</span> {{$regs_teacher->group->name}}<br><span style="color: red">Current Term</span></button>
+                                                            <button type="button" class="btn btn-info btn-sm">{{strtoupper($term->term)}} <span style="color: red">You are assigned to</span> {{$regs_teacher->group->name}}<br><span style="color: red">Current Term</span></button>
                                                         @else
                                                             <button type="button" class="btn btn-success btn-sm">{{strtoupper($term->term)}} <span style="color: red">You are assigned to</span> {{$regs_teacher->group->name}}</button>
                                                         @endif

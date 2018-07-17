@@ -80,10 +80,10 @@ class SetUpController extends Controller
 
          $this->validate(request(), [
 
-            'staffer_id' => 'required',
-            'school_year_id' => 'required|unique_with:staffer_registrations,staffer_id',
+            'staffer_id' => 'required|unique_with:staffer_registrations,term_id',
+            'school_year_id' => 'required',
             'term_id' => 'required',
-            'group_id' => 'required|unique_with:staffer_registrations,term_id',
+            'group_id' => 'required',
 
             ]);
 
@@ -114,10 +114,10 @@ class SetUpController extends Controller
 
         $this->validate(request(), [
 
-            'staffer_id' => 'required',
+            'staffer_id' => 'required|unique_with:staffer_registrations,term_id',
             'school_year_id' => 'required',
             'term_id' => 'required',
-            'group_id' => 'required|unique_with:staffer_registrations,term_id',
+            'group_id' => 'required',
 
             ]);
 

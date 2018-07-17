@@ -50,7 +50,7 @@
 </head>
 <body>
 
-@foreach (@$join_students_regs->where('school_year_id', $schoolyear->id)->where('term_id', $term->id)->where('group_id', \App\StafferRegistration::where('school_year_id', '=', $schoolyear->id)->where('term_id', '=', $term->id)->first()->group_id ) as $reg_student)
+@foreach (@$join_students_regs->where('school_year_id', $schoolyear->id)->where('term_id', $term->id)->where('group_id', \App\StafferRegistration::where('school_year_id', '=', $schoolyear->id)->where('term_id', '=', $term->id)->where('staffer_id', $teacher->id)->first()->group_id ) as $reg_student)
    
 
 <div class="page1">
@@ -83,14 +83,22 @@
                      
               <div class="header text-center">
 
-              @foreach($student_users->where('registration_code', '=', $reg_student->registration_code ) as $student_user)
+              @foreach($student_users as $student_user)
+
+                @if($student_user->registration_code == $reg_student->student->registration_code && @$student_user->avatar !=null)
                
-                  
-                    <img src="{{ public_path('assets/img/students/'.@$student_user->avatar) }}" style="width: 120px; height: 120Spx; border-radius: 50%; margin-right: 5px;"> 
+                
+                  <img src="{{ public_path('assets/img/students/'.@$student_user->avatar) }}" style="width: 120px; height: 120Spx; border-radius: 50%; margin-right: 5px;"> 
+
+                @else
+
+                  <img src="{{ public_path('assets/img/students/default.jpg') }}" style="width: 120px; height: 120Spx; border-radius: 50%; margin-right: 5px;">
+
+                @endif
                     
               @endforeach
               <br>
-                <p class="bg-primary">{{@$reg_student->first_name}} {{@$reg_student->last_name}}</p>             
+                <p class="bg-primary">{{@$reg_student->student->first_name}} {{@$reg_student->student->last_name}}</p>             
               </div>
               
               </div>{{-- head-2 --}}
@@ -107,15 +115,15 @@
             <ul class="list-group">
               <li class="list-group-item justify-content-between">
                 Name:&nbsp;&nbsp;
-                <span class="label label-primary pull-right">{{@$reg_student->first_name}} {{@$reg_student->last_name}}</span>
+                <span class="label label-primary pull-right">{{@$reg_student->student->first_name}} {{@$reg_student->student->last_name}}</span>
               </li>
               <li class="list-group-item justify-content-between">
                 Age
-                <span class="label label-primary pull-right">{{ @$reg_student->dob }}</span>
+                <span class="label label-primary pull-right">{{ @$reg_student->student->dob->diffInYears($today) }}</span>
               </li>
               <li class="list-group-item justify-content-between">
                 Admission #: 
-                <span class="label label-primary pull-right">{{ @$reg_student->registration_code }}</span>
+                <span class="label label-primary pull-right">{{ @$reg_student->student->registration_code }}</span>
               </li>
           </ul>
           
@@ -126,15 +134,15 @@
           <ul class="list-group">
               <li class="list-group-item justify-content-between">
                 Sex:
-                <span class="label label-primary pull-right">{{ @$reg_student->gender}}</span>
+                <span class="label label-primary pull-right">{{ @$reg_student->student->gender}}</span>
               </li>
               <li class="list-group-item justify-content-between">
                 # of students in class:
-                <span class="label label-primary pull-right"> {{ @\App\StudentRegistration::where('school_year_id', '=', $schoolyear->id)->where('term_id', '=', $term->id)->where('group_id', \App\StafferRegistration::where('school_year_id', '=', $schoolyear->id)->where('term_id', '=', $term->id)->first()->group_id)->count() }}</span>
+                <span class="label label-primary pull-right"> {{ @\App\StudentRegistration::where('school_year_id', '=', $schoolyear->id)->where('term_id', '=', $term->id)->where('group_id', \App\StafferRegistration::where('school_year_id', '=', $schoolyear->id)->where('term_id', '=', $term->id)->where('staffer_id', $teacher->id)->first()->group_id)->count() }}</span>
               </li>
               <li class="list-group-item justify-content-between">
                 Admission Date: 
-                <span class="label label-primary pull-right">{{ @$reg_student->date_enrolled }}</span>
+                <span class="label label-primary pull-right">{{ @$reg_student->student->date_enrolled }}</span>
               </li>
           </ul>
 
@@ -148,12 +156,12 @@
               </li>
               <li class="list-group-item justify-content-between">
                 Class:
-                <span class="label label-primary pull-right">{{ @\App\StafferRegistration::where('school_year_id', '=', $schoolyear->id)->where('term_id', '=', $term->id)->first()->group->name }}</span>
+                <span class="label label-primary pull-right">{{ @\App\StafferRegistration::where('school_year_id', '=', $schoolyear->id)->where('term_id', '=', $term->id)->where('staffer_id', $teacher->id)->first()->group->name }}</span>
               </li>
-              @if(@$course_grades->where('student_id', '=', $reg_student->id)->count() != null )
+              @if(@$course_grades->where('student_id', '=', $reg_student->student->id)->count() != null )
               <li class="list-group-item justify-content-between">
                 Overall &#37; (Total): 
-                <span class="label label-primary pull-right">{{number_format(@$course_grades->where('student_id', '=', $reg_student->id)->sum('total')/@$course_grades->where('student_id', '=', $reg_student->id)->count()), 2}} &#37; ({{@$course_grades->where('student_id', '=', $reg_student->id)->sum('total')}})</span>
+                <span class="label label-primary pull-right">{{number_format(@$course_grades->where('student_id', '=', $reg_student->student->id)->sum('total')/@$course_grades->where('student_id', '=', $reg_student->student->id)->count()), 2}} &#37; ({{@$course_grades->where('student_id', '=', $reg_student->student->id)->sum('total')}})</span>
               </li>
               @else
               <li class="list-group-item justify-content-between">
@@ -183,19 +191,19 @@
               </li>
               <li class="list-group-item justify-content-between">
                 Times Attendance Taken:
-                <span class="label label-primary pull-right">{{ @$attendances->where('student_id', '=', $reg_student->id)->count() }}</span>
+                <span class="label label-primary pull-right">{{ @$attendances->where('student_id', '=', $reg_student->student->id)->count() }}</span>
               </li>
               <li class="list-group-item justify-content-between">
                 Times Present:
-                <span class="label label-primary pull-right">{{ @$attendances->where('student_id', '=', $reg_student->id)->where('attendance_code_id', '=', '1')->count() }}</span>
+                <span class="label label-primary pull-right">{{ @$attendances->where('student_id', '=', $reg_student->student->id)->where('attendance_code_id', '=', '1')->count() }}</span>
               </li>
               <li class="list-group-item justify-content-between">
                 Times absent:
-                <span class="label label-primary pull-right">{{ @$attendances->where('student_id', '=', $reg_student->id)->where('attendance_code_id', '=', '2')->count() }}</span>
+                <span class="label label-primary pull-right">{{ @$attendances->where('student_id', '=', $reg_student->student->id)->where('attendance_code_id', '=', '2')->count() }}</span>
               </li>
               <li class="list-group-item justify-content-between">
                 Times Late:
-                <span class="label label-primary pull-right">{{@$attendances->where('student_id', '=', $reg_student->id)->where('attendance_code_id', '=', '3')->count()}}</span>
+                <span class="label label-primary pull-right">{{@$attendances->where('student_id', '=', $reg_student->student->id)->where('attendance_code_id', '=', '3')->count()}}</span>
               </li>
            
           </ul>
@@ -210,7 +218,7 @@
               <li class="list-group-item justify-content-between">
                 <h5>HEALTH RECORD</h5>
               </li>
-            @foreach($health_records->where('student_id', '=', $reg_student->id) as $health_record)
+            @foreach($health_records->where('student_id', '=', $reg_student->student->id) as $health_record)
               <li class="list-group-item justify-content-between">
                 Student's Weight:
                 <span class="label label-primary pull-right">{{ @$health_record->weight }} kg</span>
@@ -243,47 +251,47 @@
                                             
                     <span class="label label-warning pull-right"> 
 
-                      {{-- @ordinal({{array_search($reg_student->id,  $pluck_mgb_total_term_grade_sorted) + 1}}) --}}
+                      {{-- @ordinal({{array_search($reg_student->student->id,  $pluck_mgb_total_term_grade_sorted) + 1}}) --}}
 
-                      @if (array_search($reg_student->id,  $pluck_mgb_total_term_grade_sorted) + 1 == 1)
+                      @if (array_search($reg_student->student->id,  $pluck_mgb_total_term_grade_sorted) + 1 == 1)
 
-                          {{ array_search($reg_student->id,  $pluck_mgb_total_term_grade_sorted) + 1 }}ST
+                          {{ array_search($reg_student->student->id,  $pluck_mgb_total_term_grade_sorted) + 1 }}ST
 
-                      @elseif( array_search($reg_student->id,  $pluck_mgb_total_term_grade_sorted) + 1 == 2 )
+                      @elseif( array_search($reg_student->student->id,  $pluck_mgb_total_term_grade_sorted) + 1 == 2 )
 
-                          {{ array_search($reg_student->id,  $pluck_mgb_total_term_grade_sorted) + 1 }}ND
+                          {{ array_search($reg_student->student->id,  $pluck_mgb_total_term_grade_sorted) + 1 }}ND
 
-                      @elseif( array_search($reg_student->id,  $pluck_mgb_total_term_grade_sorted) + 1 == 3 )
+                      @elseif( array_search($reg_student->student->id,  $pluck_mgb_total_term_grade_sorted) + 1 == 3 )
 
-                          {{ array_search($reg_student->id,  $pluck_mgb_total_term_grade_sorted) + 1 }}RD
+                          {{ array_search($reg_student->student->id,  $pluck_mgb_total_term_grade_sorted) + 1 }}RD
 
-                      @elseif( array_search($reg_student->id,  $pluck_mgb_total_term_grade_sorted) + 1 == 21 )
+                      @elseif( array_search($reg_student->student->id,  $pluck_mgb_total_term_grade_sorted) + 1 == 21 )
 
-                          {{ array_search($reg_student->id,  $pluck_mgb_total_term_grade_sorted) + 1 }}ST
+                          {{ array_search($reg_student->student->id,  $pluck_mgb_total_term_grade_sorted) + 1 }}ST
 
-                      @elseif( array_search($reg_student->id,  $pluck_mgb_total_term_grade_sorted) + 1 == 22 )
+                      @elseif( array_search($reg_student->student->id,  $pluck_mgb_total_term_grade_sorted) + 1 == 22 )
 
-                          {{ array_search($reg_student->id,  $pluck_mgb_total_term_grade_sorted) + 1 }}ND
+                          {{ array_search($reg_student->student->id,  $pluck_mgb_total_term_grade_sorted) + 1 }}ND
 
-                      @elseif( array_search($reg_student->id,  $pluck_mgb_total_term_grade_sorted) + 1 == 23 )
+                      @elseif( array_search($reg_student->student->id,  $pluck_mgb_total_term_grade_sorted) + 1 == 23 )
 
-                          {{ array_search($reg_student->id,  $pluck_mgb_total_term_grade_sorted) + 1 }}RD
+                          {{ array_search($reg_student->student->id,  $pluck_mgb_total_term_grade_sorted) + 1 }}RD
 
-                      @elseif( array_search($reg_student->id,  $pluck_mgb_total_term_grade_sorted) + 1 == 31 )
+                      @elseif( array_search($reg_student->student->id,  $pluck_mgb_total_term_grade_sorted) + 1 == 31 )
 
-                          {{ array_search($reg_student->id,  $pluck_mgb_total_term_grade_sorted) + 1 }}ST
+                          {{ array_search($reg_student->student->id,  $pluck_mgb_total_term_grade_sorted) + 1 }}ST
 
-                      @elseif( array_search($reg_student->id,  $pluck_mgb_total_term_grade_sorted) + 1 == 32 )
+                      @elseif( array_search($reg_student->student->id,  $pluck_mgb_total_term_grade_sorted) + 1 == 32 )
 
-                          {{ array_search($reg_student->id,  $pluck_mgb_total_term_grade_sorted) + 1 }}ND
+                          {{ array_search($reg_student->student->id,  $pluck_mgb_total_term_grade_sorted) + 1 }}ND
 
-                      @elseif( array_search($reg_student->id,  $pluck_mgb_total_term_grade_sorted) + 1 == 33 )
+                      @elseif( array_search($reg_student->student->id,  $pluck_mgb_total_term_grade_sorted) + 1 == 33 )
 
-                          {{ array_search($reg_student->id,  $pluck_mgb_total_term_grade_sorted) + 1 }}RD
+                          {{ array_search($reg_student->student->id,  $pluck_mgb_total_term_grade_sorted) + 1 }}RD
 
                       @else
 
-                          {{ array_search($reg_student->id,  $pluck_mgb_total_term_grade_sorted) + 1 }}TH
+                          {{ array_search($reg_student->student->id,  $pluck_mgb_total_term_grade_sorted) + 1 }}TH
 
                       @endif 
                     </span>
@@ -296,7 +304,7 @@
               <li class="list-group-item justify-content-between">
                   <h5>PASSED
                           
-                  @if( @$course_grades->where('student_id', '=', $reg_student->id)->count() > 0 && ( @$course_grades->where('student_id', '=', $reg_student->id)->sum('total')/@$course_grades->where('student_id', '=', $reg_student->id)->count() ) >= 50 )
+                  @if( @$course_grades->where('student_id', '=', $reg_student->student->id)->count() > 0 && ( @$course_grades->where('student_id', '=', $reg_student->student->id)->sum('total')/@$course_grades->where('student_id', '=', $reg_student->student->id)->count() ) >= 50 )
 
                   <span class="label label-primary pull-right"> YES </span>
                           
@@ -314,7 +322,7 @@
               <li class="list-group-item justify-content-between">
                   <h6>NEXT CLASS
                           
-                  @if(@$course_grades->where('student_id', '=', $reg_student->id)->count() > 0 &&( @$course_grades->where('student_id', '=', $reg_student->id)->sum('total')/@$course_grades->where('student_id', '=', $reg_student->id)->count() ) >= 50 && @$term->id == 3)
+                  @if(@$course_grades->where('student_id', '=', $reg_student->student->id)->count() > 0 &&( @$course_grades->where('student_id', '=', $reg_student->student->id)->sum('total')/@$course_grades->where('student_id', '=', $reg_student->student->id)->count() ) >= 50 && @$term->id == 3)
 
                   <span class="label label-primary pull-right"> {{ @$next_group->name}} </span>
                           
@@ -533,7 +541,7 @@
                 <div class="well well-sm">
                             
                   <strong>CLASS TEACHEAR'S COMMENT:</strong> <span> <i>
-                  @foreach(@$comment_all->where('student_id', '=', @$reg_student->id) as $comment)
+                  @foreach(@$comment_all->where('student_id', '=', @$reg_student->student->id) as $comment)
                       {{ @$comment->comment_teacher }}
                   @endforeach
                   </i></span>
@@ -541,7 +549,7 @@
                     <hr>
 
                       <p> <strong>DATE:</strong> <i><u>
-                      @foreach(@$comment_all->where('student_id', '=', @$reg_student->id) as $comment)
+                      @foreach(@$comment_all->where('student_id', '=', @$reg_student->student->id) as $comment)
                           {{ @$comment->created_at->toFormattedDateString() }}
                       @endforeach
                       </u></i>&nbsp;&nbsp;&nbsp;&nbsp;<strong>SIGNATURE: &nbsp;</strong><span class="teacher_signature"><u>{{(@$teacher->first_name)}}{{(@$teacher->last_name)}}</u></span></p>
@@ -607,7 +615,7 @@
                             <p>Observations on Conduct</p>
                             <h4>PSYCHOMOTOR</h4>
                           </li>
-                        @foreach($psychomotors->where('student_id', '=', $reg_student->id) as $psychomotor)
+                        @foreach($psychomotors->where('student_id', '=', $reg_student->student->id) as $psychomotor)
                           <li class="list-group-item justify-content-between">
                             Hand Writting
                             <span class="label label-primary pull-right">{{ @$psychomotor->hand_writting }}</span>
@@ -636,7 +644,7 @@
                         <p>Observations on Conduct</p>
                         <h4>EFFECTIVE AREAS</h4>
                         
-                    @foreach($effective_areas->where('student_id', '=', $reg_student->id) as $effective_area)  
+                    @foreach($effective_areas->where('student_id', '=', $reg_student->student->id) as $effective_area)  
                       </li>
                       <li class="list-group-item justify-content-between">
                         Punctuality
@@ -667,7 +675,7 @@
                         <p>Observations on Conduct</p>
                         <h5>LEARNING ACTIVITIES</h5>
                         
-                    @foreach($learnining_accademics->where('student_id', '=', $reg_student->id) as $learnining_accademic)    
+                    @foreach($learnining_accademics->where('student_id', '=', $reg_student->student->id) as $learnining_accademic)    
                       </li>
                       <li class="list-group-item justify-content-between">
                         Class Work

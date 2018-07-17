@@ -21,7 +21,7 @@
             <div class="card">
               <div class="header">
                   <h4 class="title">Take Attendance for today: {{$today->toFormattedDateString()}}</h4>
-                  <p class="category">Class: {{@\App\StafferRegistration::where('school_year_id', '=', $schoolyear->id)->where('term_id', '=', $term->id)->first()->group->name }} </p>
+                  <p class="category">Class: {{@\App\StafferRegistration::where('school_year_id', '=', $schoolyear->id)->where('term_id', '=', $term->id)->where('staffer_id', $teacher->id)->first()->group->name }} </p>
                   <p class="category">Current Term: {{$term->term}} </p>
                   <p class="category">Attendance Date: {{$today->toFormattedDateString()}} </p>
               </div>
@@ -45,7 +45,7 @@
                   </thead>
                   <tbody>
                     
-                      @foreach (@$join_students_regs->where('term_id', $term->id)->where('group_id', \App\StafferRegistration::where('school_year_id', '=', $schoolyear->id)->where('term_id', '=', $term->id)->first()->group_id ) as $key => $reg_student)
+                      @foreach (@$join_students_regs->where('term_id', $term->id)->where('group_id', \App\StafferRegistration::where('school_year_id', '=', $schoolyear->id)->where('term_id', '=', $term->id)->where('staffer_id', '=', $teacher->id)->first()->group_id ) as $key => $reg_student)
 
                                                              
                           <tr>
@@ -65,9 +65,9 @@
                             @endforeach
 
                             </td>
-                            <td>{{$reg_student->first_name}}</td>
+                            <td>{{$reg_student->student->first_name}}</td>
 
-                            <td>{{$reg_student->last_name}}</td>
+                            <td>{{$reg_student->student->last_name}}</td>
                            
                             <td>
                             @foreach($attendances as $attendance)

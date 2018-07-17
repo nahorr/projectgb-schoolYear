@@ -19,14 +19,14 @@
 </head>
 <body>
 
-@foreach (@$join_students_regs->where('term_id', $term->id)->where('group_id', \App\StafferRegistration::where('school_year_id', '=', $schoolyear->id)->where('term_id', '=', $term->id)->first()->group_id ) as $key => $student)
+@foreach (@$join_students_regs->where('term_id', $term->id)->where('group_id', \App\StafferRegistration::where('school_year_id', '=', $schoolyear->id)->where('term_id', '=', $term->id)->where('staffer_id', $teacher->id)->first()->group_id ) as $key => $student)
 
 <div class="page">
-  <div class="bg-danger text-white"><h2>Registration Information for {{@$student->first_name}} {{@$student->last_name}} </h2></div>
+  <div class="bg-danger text-white"><h2>Registration Information for {{@$student->student->first_name}} {{@$student->student->last_name}} </h2></div>
   <p>To be able to use the gradebook portable, you need to register.</p>
   <p>Follow the steps below to Register:</p>
   <ul>
-    <li>Visit the gradebook portal login page http://gb20162017.eginny.com/login</li>
+    <li>Visit the gradebook portal login page https://totalgrades.com/login</li>
     <li>Click on 'Register' on the top right corner of the page</li>
     <li>Enter your:
     <ol>
@@ -54,15 +54,15 @@
     </tr>
     <tr>
       <th scope="row">Firstname:</th>
-      <td>{{@$student->first_name}}</td>
+      <td>{{@$student->student->first_name}}</td>
     </tr>
     <tr>
       <th scope="row">Lastname:</th>
-      <td>{{@$student->last_name}}</td>
+      <td>{{@$student->student->last_name}}</td>
     </tr>
     <tr>
       <th scope="row">Registration Code:</th>
-      <td>{{@$student->registration_code}}</td>
+      <td>{{@$student->student->registration_code}}</td>
     </tr>
   </tbody>
 </table>

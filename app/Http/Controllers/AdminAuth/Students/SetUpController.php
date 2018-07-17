@@ -41,7 +41,7 @@ class SetUpController extends Controller
          $this->validate(request(), [
 
             'student_id' => 'required|unique_with:student_registrations,term_id',
-            'school_year_id' => 'required|unique_with:student_registrations,student_id',
+            'school_year_id' => 'required',
             'term_id' => 'required',
             'group_id' => 'required',
 

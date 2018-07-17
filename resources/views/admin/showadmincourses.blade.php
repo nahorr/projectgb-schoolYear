@@ -14,7 +14,7 @@
                         <div class="card">
                             <div class="header">
                                 <h4 class="title"><strong>{{ strtoupper($term->term) }} COURSES</strong><strong><p>{{ strtoupper($schoolyear->school_year) }} School Year</strong></p></h4>
-                                <p class="category"> <i class="fa fa-circle text-danger"></i> <strong>My Assigned Class:</strong> {{ @\App\StafferRegistration::where('school_year_id', '=', $schoolyear->id)->where('term_id', '=', $term->id)->first()->group->name }}</p>
+                                <p class="category"> <i class="fa fa-circle text-danger"></i> <strong>My Assigned Class:</strong> {{ @\App\StafferRegistration::where('school_year_id', '=', $schoolyear->id)->where('term_id', '=', $term->id)->where('staffer_id', '=', $teacher->id)->first()->group->name }}</p>
                             </div>
 
                                 <div class="content">
@@ -26,7 +26,7 @@
 
                                         </thead>
                                         <tbody>
-                                        @foreach ($term_courses->where('group_id', '=', @\App\StafferRegistration::where('school_year_id', '=', $schoolyear->id)->where('term_id', '=', $term->id)->first()->group_id) as $course)
+                                        @foreach ($term_courses->where('group_id', '=', @\App\StafferRegistration::where('school_year_id', '=', $schoolyear->id)->where('term_id', '=', $term->id)->where('staffer_id', '=', $teacher->id)->first()->group_id) as $course)
 
                                             <tr>
                                                 
@@ -76,7 +76,7 @@
 
                                         </thead>
                                         <tbody>
-                                            @foreach($term_courses->where('staffer_id', '=', @\App\StafferRegistration::where('school_year_id', '=', $schoolyear->id)->where('term_id', '=', $term->id)->first()->staffer_id) as $course)
+                                            @foreach($term_courses->where('staffer_id', '=', @\App\StafferRegistration::where('school_year_id', '=', $schoolyear->id)->where('term_id', '=', $term->id)->where('staffer_id', $teacher->id)->first()->staffer_id) as $course)
 
                                             <tr>
                                                 

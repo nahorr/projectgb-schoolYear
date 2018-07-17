@@ -24,7 +24,6 @@ class CreateStudentRegistrationsTable extends Migration
             $table->foreign('term_id')->references('id')->on('terms')->onDelete('cascade');
             $table->integer('group_id')->unsigned();
             $table->foreign('group_id')->references('id')->on('groups')->onDelete('cascade');
-            $table->unique(['student_id', 'school_year_id']);
             $table->unique(['student_id', 'term_id']);
             $table->timestamps();
         });

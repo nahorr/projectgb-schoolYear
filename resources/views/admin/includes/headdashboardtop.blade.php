@@ -50,7 +50,7 @@
                                 <div class="footer">
                                     <hr />
                                     <div class="stats">
-                                        <i class="ti-calendar"></i> You are assigned to class <span style="color: red">{{ @\App\StafferRegistration::where('school_year_id', '=', $schoolyear->id)->where('term_id', '=', $term->id)->where('staffer_id', '=', $teacher->id)->first()->group->name }}</span> this term.
+                                        <i class="ti-calendar"></i> Assigned To: <span style="color: red">{{ @\App\StafferRegistration::where('school_year_id', '=', $schoolyear->id)->where('term_id', '=', $term->id)->where('staffer_id', '=', $teacher->id)->first()->group->name }}</span>
                                     </div>
                                 </div>
                             </div>

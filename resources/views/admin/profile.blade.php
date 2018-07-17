@@ -48,8 +48,8 @@
                                     <div class="row">
                                         <div class="col-md-5">
                                             <div class="form-group">
-                                                <label>Current Class</label>
-                                                <input type="text" class="form-control border-input" disabled value="{{@\App\StafferRegistration::where('school_year_id', '=', $schoolyear->id)->where('term_id', '=', $term->id)->where('staffer_id', $teacher->id)->first()->group->name}}">
+                                                <label>Current Class </label>
+                                                <input type="text" class="form-control border-input" disabled value="{{@\App\StafferRegistration::where('school_year_id', '=', $current_school_year->id)->where('term_id', '=', $current_term->id)->where('staffer_id', $teacher->id)->first()->group->name}}">
                                             </div>
                                         </div>
                                         <div class="col-md-3">
