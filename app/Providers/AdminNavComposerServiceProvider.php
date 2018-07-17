@@ -42,6 +42,9 @@
             'admin.attendances.showstudents',
             'admin.attendances.addattendance',
             'admin.attendances.editattendance',
+            'admin.observationsonconduct',
+            'admin.effectiveareas.showstudents',
+            'admin.effectiveareas.addeffectivearea',
             ], 
             
             'App\Http\ViewComposers\AdminNavComposer'

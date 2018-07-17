@@ -77,7 +77,7 @@ Route::group(['middleware' => 'admin_auth'], function(){
 
     Route::get('/admin/printregcode/{student}/{schoolyear}/{term}', 'AdminAuth\HomeController@printRegCode');
     Route::get('/admin/printallregcode/{schoolyear}/{term}', 'AdminAuth\HomeController@printAllRegCode');
-    Route::get('/admin/observationsonconduct', 'AdminAuth\HomeController@observationsOnConduct');
+    Route::get('/admin/observationsonconduct/{schoolyear}/{term}', 'AdminAuth\HomeController@observationsOnConduct');
     //Route::get('/admin/emailcode', 'AdminAuth\HomeController@emailCode');
 
     //Print Students Report Cards
@@ -133,8 +133,8 @@ Route::group(['middleware' => 'admin_auth'], function(){
 
 
     //Effective Area
-    Route::get('/effectiveareas/showterms', 'AdminAuth\EffectiveAreas\CrudeController@showTerms');
-    Route::get('/effectiveareas/showstudents/{term}', 'AdminAuth\EffectiveAreas\CrudeController@showStudents')->name('showstudentseffectiveareas');
+    //Route::get('/effectiveareas/showterms', 'AdminAuth\EffectiveAreas\CrudeController@showTerms');
+    Route::get('/effectiveareas/showstudents/{schoolyear}/{term}', 'AdminAuth\EffectiveAreas\CrudeController@showStudents')->name('showstudentseffectiveareas');
     Route::get('/effectiveareas/addeffectivearea/{term}/{student}', 'AdminAuth\EffectiveAreas\CrudeController@addEffectiveArea');
     Route::post('/effectiveareas/posteffectivearea/{term}/{student}', 'AdminAuth\EffectiveAreas\CrudeController@postEffectiveArea');
     Route::get('/effectiveareas/editeffectivearea/{term}/{student}', 'AdminAuth\EffectiveAreas\CrudeController@editEffectiveArea');

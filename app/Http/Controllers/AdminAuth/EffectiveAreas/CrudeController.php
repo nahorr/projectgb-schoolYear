@@ -24,176 +24,31 @@ use \Crypt;
 
 class CrudeController extends Controller
 {
-    public function showTerms()
+    
+    public function showStudents(School_year $schoolyear, Term $term)
     {
 
-    	//get current date
-        $today = Carbon::today();
-
-        //get teacher's section and group
-        $teacher = Auth::guard('web_admin')->user();
-
-        $reg_code = $teacher->registration_code;
-
-        $teacher = Staffer::where('registration_code', '=', $reg_code)->first();
-
-
-        //get students in group_section
-        $students_in_group = Student::where('group_id', '=', $teacher->group_id)
-        ->get();
-
-               
-       $all_user = User::get();
-
-             
-        
-        $count = 0;
-        foreach ($students_in_group as $students) {
-        	$count = $count+1;
-        }
-
-        $group_teacher = Group::where('id', '=', $teacher->group_id)->first();
-        
-
-        //get terms
-        $terms = Term::get();
-
-        foreach ($terms as $t){
-            if ($today->between($t->start_date, $t->show_until )){
-                $current_term =  $t->term;
-
-            }
-                                                         
-        }
-
-        //get school school
-        $schoolyear = School_year::first();
-
-        
-
-        return view('/admin.effectiveareas.showterms', compact('today', 'count', 'group_teacher', 'current_term', 
-            'schoolyear', 'students_in_group', 'all_user', 'st_user',  'terms','t'));
-   
-    }
-
-    public function showStudents($term_id)
-    {
-
-    	$term = Term::find(Crypt::decrypt($term_id));
-    	//get current date
-        $today = Carbon::today();
-
-        //get teacher's section and group
-        $teacher = Auth::guard('web_admin')->user();
-
-        $reg_code = $teacher->registration_code;
-
-        $teacher = Staffer::where('registration_code', '=', $reg_code)->first();
-
-
-        //get students in group_section
-        $students_in_group = Student::where('group_id', '=', $teacher->group_id)
-        ->get();
-
-               
-       $all_user = User::get();
-
-             
-        
-        $count = 0;
-        foreach ($students_in_group as $students) {
-        	$count = $count+1;
-        }
-
-        $group_teacher = Group::where('id', '=', $teacher->group_id)->first();
-        
-
-        //get terms
-        $terms = Term::get();
-
-        foreach ($terms as $t){
-            if ($today->between($t->start_date, $t->show_until )){
-                $current_term =  $t->term;
-
-            }
-                                                         
-        }
-
-        //get school school
-        $schoolyear = School_year::first();
-
-        //get Hrecords
+        //get Effective Areas records
         $effectiveareas = EffectiveArea::join('students', 'effective_areas.student_id', '=', 'students.id')
         						->join('terms', 'effective_areas.term_id', '=', 'terms.id')
         						->select('effective_areas.*', 'terms.term', 'students.first_name', 'students.last_name')
         						->get();
-
-
-        
-        return view('/admin.effectiveareas.showstudents', compact('term','today', 'count', 'group_teacher', 'current_term', 
-            'schoolyear', 'students_in_group', 'all_user', 'st_user',  'terms','t', 'effectiveareas'));
-
-    }
-
-     public function addEffectiveArea($term_id, $student_id)
-    {
-
-    	$term = Term::find(Crypt::decrypt($term_id));
-    	$student = Student::find(Crypt::decrypt($student_id));
-    	//get current date
-        $today = Carbon::today();
-
-        //get teacher's section and group
-        $teacher = Auth::guard('web_admin')->user();
-
-        $reg_code = $teacher->registration_code;
-
-        $teacher = Staffer::where('registration_code', '=', $reg_code)->first();
-
-
-        //get students in group_section
-        $students_in_group = Student::where('group_id', '=', $teacher->group_id)
-        ->get();
-
-               
-       $all_user = User::get();
-
-             
-        
-        $count = 0;
-        foreach ($students_in_group as $students) {
-        	$count = $count+1;
-        }
-
-        $group_teacher = Group::where('id', '=', $teacher->group_id)->first();
-        
-
-        //get terms
-        $terms = Term::get();
-
-        foreach ($terms as $t){
-            if ($today->between($t->start_date, $t->show_until )){
-                $current_term =  $t->term;
-
-            }
-                                                         
-        }
-
-        //get school school
-        $schoolyear = School_year::first();
-
        
-
-        
-        return view('/admin.effectiveareas.addeffectivearea', compact('term', 'student', 'today', 'count', 'group_teacher', 'current_term', 
-            'schoolyear', 'students_in_group', 'all_user', 'st_user',  'terms','t'));
+        return view('admin.effectiveareas.showstudents', compact('schoolyear', 'term', 'effectiveareas'));
 
     }
 
-    public function postEffectiveArea(Request $r, $term_id, $student_id) 
+     public function addEffectiveArea(School_year $schoolyear, Term $term, Student $student)
     {
-         $term = Term::find(Crypt::decrypt($term_id));
-         $student = Student::find(Crypt::decrypt($student_id));
+        
+        return view('admin.effectiveareas.addeffectivearea', compact('schoolyear', 'term', 'student'));
+
+    }
+
+    public function postEffectiveArea(Request $r, $term, $student) 
+    {
+         $term = Term::find(Crypt::decrypt($term));
+         $student = Student::find(Crypt::decrypt($student));
     	           
 
         $this->validate(request(), [
@@ -224,7 +79,7 @@ class CrudeController extends Controller
        
         flash('Effective Area Added Successfully')->success();
 
-        return redirect()->route('showstudentseffectiveareas', [Crypt::encrypt($term->id), Crypt::encrypt($student->id)]);
+        return redirect()->route('showstudentseffectiveareas', [$current_school_year->id, Crypt::encrypt($term->id)]);
     }
 
     public function editEffectiveArea($term_id, $student_id)

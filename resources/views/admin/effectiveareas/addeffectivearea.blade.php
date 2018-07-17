@@ -5,7 +5,7 @@
         <div class="content">
             <div class="container-fluid">
                 <div class="row">
-                     @include('admin.includes.headdashboardtop')
+                     
                 </div>
                 <div class="row">
 

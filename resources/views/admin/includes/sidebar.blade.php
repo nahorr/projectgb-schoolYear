@@ -60,7 +60,7 @@
                 </li>
 
                 <li {{{ (Request::is('admin/observationsonconduct') ? 'class=active' : '') }}}>
-                    <a href="{{ url('/admin/observationsonconduct') }}">
+                    <a href="{{ url('/admin/observationsonconduct/' .$schoolyear->id) }}/{{$term->id}}">
                         <i class="ti-check-box"></i>
                         <p style="font-size: 11px;">Observations on Conduct</p>
                     </a>

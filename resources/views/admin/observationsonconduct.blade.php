@@ -14,7 +14,7 @@
                   </div>
                   </div>
                 </div>
-
+                @if($term->id == $current_term->id)
                 <div class="row">
 
                     <div class="col-md-12">
@@ -37,7 +37,7 @@
                                 <tr>
                                   <th scope="row">1</th>
                                   <td>
-                                    <a href="{{ url('/effectiveareas/showterms') }}">
+                                    <a href="{{ url('/effectiveareas/showstudents/'.$schoolyear->id) }}/{{$term->id}}">
                                         <i class="ti-check-box"></i>
                                         Effective Areas
                                     </a>
@@ -49,7 +49,7 @@
                                 <tr>
                                   <th scope="row">2</th>
                                   <td>
-                                    <a href="{{ url('/psychomotors/showterms') }}">
+                                    <a href="{{ url('/psychomotors/'.$schoolyear->id) }}/{{$term->id}}">
                                         <i class="ti-check-box"></i>
                                         Psychomotors
                                     </a>
@@ -61,7 +61,7 @@
                                 <tr>
                                   <th scope="row">3</th>
                                   <td>
-                                    <a href="{{ url('/learningandaccademics/showterms') }}">
+                                    <a href="{{ url('/learningandaccademics/'.$schoolyear->id) }}/{{$term->id}}">
                                         <i class="ti-check-box"></i>
                                         Learning and Accademics
                                     </a>
@@ -75,12 +75,21 @@
                         </div>
                                 
                                 
-                                    <hr>
-                                    
-                                </div>
-                            </div>
-                        </div>
+                        <hr>
+                        
                     </div>
+                </div>
+            </div>
+        </div>
+        @else
+        <div class="row">
+          <div class="col-md-12">
+          <div class="alert alert-warning">
+            <h5><strong>Term Has Ended!</strong> please go to <a href="{{ url('/admin/observationsonconduct/' .$current_school_year->id) }}/{{$current_term->id}}">current term</a> </h5>
+          </div>
+          </div>
+        </div>
+        @endif
                 </div>
               
                 </div>
