@@ -42,23 +42,6 @@
                   </div>
                   </div>
                 </div>
-
-                <div class="row">
-                  <div class="col-md-12">
-                      <div class="alert alert-info">
-                        
-                        <h5 style="">
-                            <strong>Print Students' Registsration Codes: <br>
-                                
-                                <a href="{{asset('/schoolsetup/students/printregisterstudentspdf') }}" target="_blank"><span style="color: red;">Click here to print all students and their Registration codes</span></a>
-                                
-                            </strong><br><br>
-                           
-                        </h5>
-                      </div>
-                  </div>
-                </div>
-
             </form>
 
              <br>

@@ -31,13 +31,13 @@
                                 <p class="category">You have 
 
                              
-                                {{ @\App\StudentRegistration::where('school_year_id', '=', $schoolyear->id)->where('term_id', '=', $term->id)->where('group_id', \App\StafferRegistration::where('school_year_id', '=', $schoolyear->id)->where('term_id', '=', $term->id)->first()->group_id)->count() }}
+                               {{ @\App\StudentRegistration::where('school_year_id', '=', $schoolyear->id)->where('term_id', '=', $term->id)->where('group_id', \App\StafferRegistration::where('school_year_id', '=', $schoolyear->id)->where('term_id', '=', $term->id)->first()->group_id)->count() }}
                              
 
                                 students in your class this term</p>
                                 <p>School Year: {{$schoolyear->school_year}}</p>
                                 <p>Term: {{$term->term}}</p>
-                                <p>Class: {{ @\App\StafferRegistration::where('school_year_id', '=', $schoolyear->id)->where('term_id', '=', $term->id)->first()->group->name }}</p>
+                                <p>Class: {{ @\App\StafferRegistration::where('school_year_id', '=', $schoolyear->id)->where('term_id', '=', $term->id)->where('staffer_id', '=', $teacher->id)->first()->group->name }}</p>
                             </div>
                             <div class="content">
                             <div class="table-responsive">
@@ -58,7 +58,7 @@
                             </thead>
                             <tbody> 
                                                           
-                                @foreach (@$join_students_regs->where('term_id', $term->id)->where('group_id', \App\StafferRegistration::where('school_year_id', '=', $schoolyear->id)->where('term_id', '=', $term->id)->first()->group_id ) as $key => $reg_student)
+                                @foreach (@$join_students_regs->where('term_id', $term->id)->where('group_id', \App\StafferRegistration::where('school_year_id', '=', $schoolyear->id)->where('term_id', '=', $term->id)->where('staffer_id', '=', $teacher->id)->first()->group_id ) as $key => $reg_student)
 
 
                                                                              
@@ -82,8 +82,8 @@
                                       @endforeach
 
                                        </td>
-                                      <td>{{$reg_student->first_name}}</td>
-                                      <td>{{$reg_student->last_name}}</td>
+                                      <td>{{$reg_student->student->first_name}}</td>
+                                      <td>{{$reg_student->student->last_name}}</td>
                                       <td>
                                         @foreach ($comments as $comment) 
                                           @if (@$comment->student_id == @$reg_student->student->id && $comment->term_id == $term->id) 

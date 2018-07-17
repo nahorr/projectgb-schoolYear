@@ -285,7 +285,7 @@ class SetUpController extends Controller
                                     'dob'=>$v['dob'],
                                     'date_enrolled'=>$v['date_enrolled'],
                                     'date_graduated'=>$v['date_graduated'],
-                                    'date_unenrolled'=>$v['date_enrolled'],
+                                    'date_unenrolled'=>$v['date_unenrolled'],
                                     'nationality'=>$v['nationality'],
                                     'national_card_number'=>$v['national_card_number'],
                                     'passport_number'=>$v['passport_number'],

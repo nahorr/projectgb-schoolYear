@@ -71,8 +71,9 @@ Route::group(['middleware' => 'admin_auth'], function(){
 
     //select school year page
     Route::get('/admin_home', 'AdminAuth\HomeController@selectTerm')->name('selectTerm');
-    //Route::get('/admin_home/selectterm', 'AdminAuth\HomeController@selectTerm')->name('selectTerm');
-    Route::get('/admin_home/{schoolyear}/{term}', 'AdminAuth\HomeController@index')->name('adminhomeSchoolyearTerm');
+    
+        //Route::get('/admin_home/selectterm', 'AdminAuth\HomeController@selectTerm')->name('selectTerm');
+        Route::get('/admin_home/{schoolyear}/{term}', 'AdminAuth\HomeController@index')->name('adminhomeSchoolyearTerm');
 
     Route::get('/admin/printregcode/{student}/{schoolyear}/{term}', 'AdminAuth\HomeController@printRegCode');
     Route::get('/admin/printallregcode/{schoolyear}/{term}', 'AdminAuth\HomeController@printAllRegCode');
