@@ -73,8 +73,8 @@ class CourseSetUpController extends Controller
                                     'course_code' => $v['course_code'],
                                     'name' => $v['course_name'],  
                                     'term_id' => $term->id,
-                                    'group_id'=>Group::where('name', $v['group_name'])->firstOrFail()->id,
-                                    'staffer_id' => Staffer::where('registration_code', $v['staffer_assigned_to'])->firstOrFail()->id,
+                                    'group_id'=>Group::where('name', $v['group_name'])->first()->id,
+                                    //'staffer_id' => Staffer::where('registration_code', $v['staffer_assigned_to'])->first()->id,
                                     'created_at' => date('Y-m-d H:i:s'),
                                     'updated_at' => date('Y-m-d H:i:s'),
                                     

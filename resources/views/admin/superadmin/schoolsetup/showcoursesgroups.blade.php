@@ -41,6 +41,15 @@
              <button class="btn btn-primary">Bulk Upload {{$schoolyear->school_year}} {{$term->term}} Courses</button>
 
          </form>
+         <hr>
+            <div class="row">
+              <div class="col-md-12">
+                <div class="alert alert-info">
+                  <h5 style=""><strong>Download sample file to use as template to Bulk Upload <strong style="color: #FF0000;"> Courses</strong>. </strong><a href="{{ URL::to( '/sample-files/sample-BULK_courses-upload.ods')  }}" target="_blank"><i class="fa fa-hand-o-right fa-2x" aria-hidden="true"></i><strong style="color: #FF0000">Sample Bulk Upload Courses File</strong></a></h5>
+                  Please use <strong style="color: #FF0000;">open office</strong> for best result. Excel may throw some errors due to white spaces.
+                </div>
+              </div>
+          </div>
 
     </div><!-- /.page-header -->
 
