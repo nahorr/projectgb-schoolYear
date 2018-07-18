@@ -45,11 +45,8 @@ class CrudeController extends Controller
 
     }
 
-    public function postEffectiveArea(Request $r, $term, $student) 
-    {
-         $term = Term::find(Crypt::decrypt($term));
-         $student = Student::find(Crypt::decrypt($student));
-    	           
+    public function postEffectiveArea(Request $r, School_year $schoolyear, Term $term, Student $student) 
+    { 
 
         $this->validate(request(), [
 
@@ -79,81 +76,26 @@ class CrudeController extends Controller
        
         flash('Effective Area Added Successfully')->success();
 
-        return redirect()->route('showstudentseffectiveareas', [$current_school_year->id, Crypt::encrypt($term->id)]);
+        return redirect()->route('showstudentseffectiveareas', [$schoolyear->id, $term->id]);
     }
 
-    public function editEffectiveArea($term_id, $student_id)
+    public function editEffectiveArea(School_year $schoolyear, Term $term, Student $student)
     {
 
-    	 $term = Term::find(Crypt::decrypt($term_id));
-         $student = Student::find(Crypt::decrypt($student_id));
-    	//get current date
-        $today = Carbon::today();
-
-        //get teacher's section and group
-        $teacher = Auth::guard('web_admin')->user();
-
-        $reg_code = $teacher->registration_code;
-
-        $teacher = Staffer::where('registration_code', '=', $reg_code)->first();
-
-
-        //get students in group_section
-        $students_in_group = Student::where('group_id', '=', $teacher->group_id)
-        ->get();
-
-               
-       $all_user = User::get();
-
-             
-        
-        $count = 0;
-        foreach ($students_in_group as $students) {
-        	$count = $count+1;
-        }
-
-        $group_teacher = Group::where('id', '=', $teacher->group_id)->first();
-        
-
-        //get terms
-        $terms = Term::get();
-
-        foreach ($terms as $t){
-            if ($today->between($t->start_date, $t->show_until )){
-                $current_term =  $t->term;
-
-            }
-                                                         
-        }
-
-        //get school school
-        $schoolyear = School_year::first();
-
-        //get Hrecords
-        /*$hrecords = HealthRecord::join('students', 'health_records.student_id', '=', 'students.id')
-        						->join('terms', 'health_records.term_id', '=', 'terms.id')
-        						->select('health_records.*', 'terms.term', 'students.first_name', 'students.last_name')
-        						->get();*/
 
         $effectivearea = EffectiveArea::where('student_id', '=', $student->id)
         					   ->where('term_id', '=', $term->id)
         					   ->first();
         
-        return view('/admin.effectiveareas.editeffectivearea', compact('term', 'student', 'today', 'count', 'group_teacher', 'current_term', 
-            'schoolyear', 'students_in_group', 'all_user', 'st_user',  'terms','t', 'effectivearea'));
+        return view('admin.effectiveareas.editeffectivearea', compact('schoolyear', 'term', 'student', 'effectivearea'));
 
     }
 
-    public function postEffectiveAreaUpdate(Request $r,$term_id, $student_id)
+    public function postEffectiveAreaUpdate(Request $r, School_year $schoolyear, Term $term, Student $student)
 
         {
-            $term = Term::find(Crypt::decrypt($term_id));
-            $student = Student::find(Crypt::decrypt($student_id));
-                
-
-            $this->validate(request(), [
-
-                
+            
+            $this->validate(request(), [  
 	            
 	            'punctuality' => 'required|numeric|max:5|min:1',
 	            'creativity' => 'required|numeric|max:5|min:1',
@@ -162,7 +104,6 @@ class CrudeController extends Controller
                 
                 ]);
 
-	        
                                           
 	        $effectivarea_edit = EffectiveArea::where('term_id', '=', $term->id)
 	                            ->where('student_id', '=', $student->id)
@@ -182,14 +123,14 @@ class CrudeController extends Controller
 
             flash('Effective Area Updated Successfully')->success();
 
-            return redirect()->route('showstudentseffectiveareas', [Crypt::encrypt($term->id), Crypt::encrypt($student->id)]);
+            return redirect()->route('showstudentseffectiveareas', [$schoolyear->id, $term->id]);
 
 
          }
 
-         public function deleteEffectiveArea($effectivearea_id)
+         public function deleteEffectiveArea($effectivearea)
          {
-            EffectiveArea::destroy(Crypt::decrypt($effectivearea_id));
+            EffectiveArea::destroy(Crypt::decrypt($effectivearea));
 
             flash('Effective Area has been deleted')->error();
 

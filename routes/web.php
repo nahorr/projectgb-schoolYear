@@ -135,29 +135,29 @@ Route::group(['middleware' => 'admin_auth'], function(){
     //Effective Area
     //Route::get('/effectiveareas/showterms', 'AdminAuth\EffectiveAreas\CrudeController@showTerms');
     Route::get('/effectiveareas/showstudents/{schoolyear}/{term}', 'AdminAuth\EffectiveAreas\CrudeController@showStudents')->name('showstudentseffectiveareas');
-    Route::get('/effectiveareas/addeffectivearea/{term}/{student}', 'AdminAuth\EffectiveAreas\CrudeController@addEffectiveArea');
-    Route::post('/effectiveareas/posteffectivearea/{term}/{student}', 'AdminAuth\EffectiveAreas\CrudeController@postEffectiveArea');
-    Route::get('/effectiveareas/editeffectivearea/{term}/{student}', 'AdminAuth\EffectiveAreas\CrudeController@editEffectiveArea');
-    Route::post('/effectiveareas/posteffectiveareaupdate/{term}/{student}', 'AdminAuth\EffectiveAreas\CrudeController@postEffectiveAreaUpdate');
+    Route::get('/effectiveareas/addeffectivearea/{schoolyear}/{term}/{student}', 'AdminAuth\EffectiveAreas\CrudeController@addEffectiveArea');
+    Route::post('/effectiveareas/posteffectivearea/{schoolyear}/{term}/{student}', 'AdminAuth\EffectiveAreas\CrudeController@postEffectiveArea');
+    Route::get('/effectiveareas/editeffectivearea/{schoolyear}/{term}/{student}', 'AdminAuth\EffectiveAreas\CrudeController@editEffectiveArea');
+    Route::post('/effectiveareas/posteffectiveareaupdate/{schoolyear}/{term}/{student}', 'AdminAuth\EffectiveAreas\CrudeController@postEffectiveAreaUpdate');
     Route::get('/effectiveareas/posteffectiveareadelete/{effectivearea}', 'AdminAuth\EffectiveAreas\CrudeController@deleteEffectiveArea');
 
 
     //psychomotors
-    Route::get('/psychomotors/showterms', 'AdminAuth\Psychomotors\CrudeController@showTerms');
-    Route::get('/psychomotors/showstudents/{term}', 'AdminAuth\Psychomotors\CrudeController@showStudents')->name('showstudentspsychomotors');
-    Route::get('/psychomotors/addpsychomotor/{term}/{student}', 'AdminAuth\Psychomotors\CrudeController@addPsychomotor');
-    Route::post('/psychomotors/postpsychomotor/{term}/{student}', 'AdminAuth\Psychomotors\CrudeController@postPsychomotor');
-    Route::get('/psychomotors/editpsychomotor/{term}/{student}', 'AdminAuth\Psychomotors\CrudeController@editPsychomotor');
-    Route::post('/psychomotors/postpsychomotorupdate/{term}/{student}', 'AdminAuth\Psychomotors\CrudeController@postPsychomotorUpdate');
+    //Route::get('/psychomotors/showterms', 'AdminAuth\Psychomotors\CrudeController@showTerms');
+    Route::get('/psychomotors/showstudents/{schoolyear}/{term}', 'AdminAuth\Psychomotors\CrudeController@showStudents')->name('showstudentspsychomotors');
+    Route::get('/psychomotors/addpsychomotor/{schoolyear}/{term}/{student}', 'AdminAuth\Psychomotors\CrudeController@addPsychomotor');
+    Route::post('/psychomotors/postpsychomotor/{schoolyear}/{term}/{student}', 'AdminAuth\Psychomotors\CrudeController@postPsychomotor');
+    Route::get('/psychomotors/editpsychomotor/{schoolyear}/{term}/{student}', 'AdminAuth\Psychomotors\CrudeController@editPsychomotor');
+    Route::post('/psychomotors/postpsychomotorupdate/{schoolyear}/{term}/{student}', 'AdminAuth\Psychomotors\CrudeController@postPsychomotorUpdate');
     Route::get('/psychomotors/postpsychomotordelete/{psychomotor}', 'AdminAuth\Psychomotors\CrudeController@deletePsychomotor');
 
     //Learning and Accademics
-    Route::get('/learningandaccademics/showterms', 'AdminAuth\LearningAndAccademics\CrudeController@showTerms');
-    Route::get('/learningandaccademics/showstudents/{term}', 'AdminAuth\LearningAndAccademics\CrudeController@showStudents')->name('showstudentslearningandaccademics');
-    Route::get('/learningandaccademics/addlearningandaccademic/{term}/{student}', 'AdminAuth\LearningAndAccademics\CrudeController@addLearningAndAccademic');
-    Route::post('/learningandaccademics/postlearningandaccademic/{term}/{student}', 'AdminAuth\LearningAndAccademics\CrudeController@postLearningAndAccademic');
-    Route::get('/learningandaccademics/editlearningandaccademic/{term}/{student}', 'AdminAuth\LearningAndAccademics\CrudeController@editLearningAndAccademic');
-    Route::post('/learningandaccademics/postlearningandaccademicupdate/{term}/{student}', 'AdminAuth\LearningAndAccademics\CrudeController@postLearningAndAccademicUpdate');
+    //Route::get('/learningandaccademics/showterms', 'AdminAuth\LearningAndAccademics\CrudeController@showTerms');
+    Route::get('/learningandaccademics/showstudents/{schoolyear}/{term}', 'AdminAuth\LearningAndAccademics\CrudeController@showStudents')->name('showstudentslearningandaccademics');
+    Route::get('/learningandaccademics/addlearningandaccademic/{schoolyear}/{term}/{student}', 'AdminAuth\LearningAndAccademics\CrudeController@addLearningAndAccademic');
+    Route::post('/learningandaccademics/postlearningandaccademic/{schoolyear}/{term}/{student}', 'AdminAuth\LearningAndAccademics\CrudeController@postLearningAndAccademic');
+    Route::get('/learningandaccademics/editlearningandaccademic/{schoolyear}/{term}/{student}', 'AdminAuth\LearningAndAccademics\CrudeController@editLearningAndAccademic');
+    Route::post('/learningandaccademics/postlearningandaccademicupdate/{schoolyear}/{term}/{student}', 'AdminAuth\LearningAndAccademics\CrudeController@postLearningAndAccademicUpdate');
     Route::get('/learningandaccademics/postlearningandaccademicdelete/{learningandaccademic}', 'AdminAuth\LearningAndAccademics\CrudeController@deleteLearningAndAccademic');
 
     //Attendance

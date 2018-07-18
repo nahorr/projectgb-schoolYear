@@ -20,20 +20,21 @@
                             </div>
                               <hr>
                             <div class="content">
-                              <form class="form-group" action="{{ url('/learningandaccademics/postlearningandaccademic', [Crypt::encrypt($term->id), Crypt::encrypt($student->id)]) }}" method="POST">
+                              <form class="form-group" action="{{ url('/learningandaccademics/postlearningandaccademic', [$schoolyear->id, $term->id, $student->id]) }}" method="POST">
                               {{ csrf_field() }}
                                       <div class="row">
                                           <div class="col-md-8">
                                               <div class="form-group">
                                                   <label>
-                                                    @foreach ($all_user as $st_user)
+                                                    <strong>Student: {{$student->first_name}} {{$student->last_name}} </strong> 
+                                                    @foreach ($all_users as $st_user)
 
                                                       @if ($st_user->registration_code == $student->registration_code)
 
                                                         
                                                           <strong>
                                                           <img class="avatar border-white" src="{{asset('assets/img/students/'.$st_user->avatar) }}" alt="..."/>
-                                                          {{$student->first_name}} {{$student->last_name}} 
+                                                          
                                                           </strong>
                                                       @endif
                                                     @endforeach

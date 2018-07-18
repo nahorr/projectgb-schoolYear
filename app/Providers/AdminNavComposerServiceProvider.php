@@ -45,6 +45,13 @@
             'admin.observationsonconduct',
             'admin.effectiveareas.showstudents',
             'admin.effectiveareas.addeffectivearea',
+            'admin.effectiveareas.editeffectivearea',
+            'admin.psychomotors.showstudents',
+            'admin.psychomotors.addpsychomotor',
+            'admin.psychomotors.editpsychomotor',
+            'admin.learningandaccademics.showstudents',
+            'admin.learningandaccademics.addlearningandaccademic',
+            'admin.learningandaccademics.editlearningandaccademic',
             ], 
             
             'App\Http\ViewComposers\AdminNavComposer'

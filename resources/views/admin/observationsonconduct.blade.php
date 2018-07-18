@@ -49,7 +49,7 @@
                                 <tr>
                                   <th scope="row">2</th>
                                   <td>
-                                    <a href="{{ url('/psychomotors/'.$schoolyear->id) }}/{{$term->id}}">
+                                    <a href="{{ url('/psychomotors/showstudents/'.$schoolyear->id) }}/{{$term->id}}">
                                         <i class="ti-check-box"></i>
                                         Psychomotors
                                     </a>
@@ -61,7 +61,7 @@
                                 <tr>
                                   <th scope="row">3</th>
                                   <td>
-                                    <a href="{{ url('/learningandaccademics/'.$schoolyear->id) }}/{{$term->id}}">
+                                    <a href="{{ url('/learningandaccademics/showstudents/'.$schoolyear->id) }}/{{$term->id}}">
                                         <i class="ti-check-box"></i>
                                         Learning and Accademics
                                     </a>

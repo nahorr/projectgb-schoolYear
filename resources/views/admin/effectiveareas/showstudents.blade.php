@@ -77,7 +77,7 @@
                                      <td>
                                       @foreach($effectiveareas as $effectivearea)
 
-                                        @if($effectivearea->student_id == $student->id && $term->id == $effectivearea->term_id)
+                                        @if($effectivearea->student_id == $reg_student->student->id && $term->id == $effectivearea->term_id)
 
                                            {{$effectivearea->creativity}}
 
@@ -90,7 +90,7 @@
                                      <td>
                                       @foreach($effectiveareas as $effectivearea)
 
-                                        @if($effectivearea->student_id == $student->id && $term->id == $effectivearea->term_id)
+                                        @if($effectivearea->student_id == $reg_student->student->id && $term->id == $effectivearea->term_id)
 
                                            {{$effectivearea->reliability}}
 
@@ -104,7 +104,7 @@
                                      <td>
                                       @foreach($effectiveareas as $effectivearea)
 
-                                        @if($effectivearea->student_id == $student->id && $term->id == $effectivearea->term_id)
+                                        @if($effectivearea->student_id == $reg_student->student->id && $term->id == $effectivearea->term_id)
 
                                            {{$effectivearea->neatness}}
 
@@ -117,12 +117,12 @@
                                                                                
                                       <td>
 
-                                      <strong><a href="{{asset('/effectiveareas/addeffectivearea/'.$term->id) }}/{{$reg_student->student->id}}"><i class="fa fa-plus fa-2x" aria-hidden="true"></i>&nbsp;&nbsp;Add</a>
+                                      <strong><a href="{{asset('/effectiveareas/addeffectivearea/'.$schoolyear->id) }}/{{$term->id}}/{{$reg_student->student->id}}"><i class="fa fa-plus fa-2x" aria-hidden="true"></i>&nbsp;&nbsp;Add</a>
                                      
                                       </td>
                                       <td>
 
-                                      <strong><a href="{{asset('/effectiveareas/editeffectivearea/'.$term->id) }}/{{$reg_student->student->id}}"><i class="fa fa-pencil-square-o fa-2x" aria-hidden="true"></i>&nbsp;&nbsp;edit</a></strong>
+                                      <strong><a href="{{asset('/effectiveareas/editeffectivearea/'.$schoolyear->id) }}/{{$term->id}}/{{$reg_student->student->id}}"><i class="fa fa-pencil-square-o fa-2x" aria-hidden="true"></i>&nbsp;&nbsp;edit</a></strong>
                                      
                                       </td>
 
