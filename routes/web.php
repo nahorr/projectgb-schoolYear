@@ -123,12 +123,12 @@ Route::group(['middleware' => 'admin_auth'], function(){
     Route::get('/postcommentdelete/{comment}', 'AdminAuth\CommentCrudController@deleteComment');
 
     //Health Records
-    Route::get('/healthrecords/showterms', 'AdminAuth\HealthRecords\CrudeController@showTerms');
-    Route::get('/healthrecords/showstudents/{term}', 'AdminAuth\HealthRecords\CrudeController@showStudents')->name('showstudentshrecord');
-    Route::get('/healthrecords/addhrecord/{term}/{student}', 'AdminAuth\HealthRecords\CrudeController@addHRecord');
-    Route::post('/healthrecords/posthrecord/{term}/{student}', 'AdminAuth\HealthRecords\CrudeController@postHRecord');
-    Route::get('/healthrecords/edithrecord/{term}/{student}', 'AdminAuth\HealthRecords\CrudeController@editHRecord');
-    Route::post('/healthrecords/posthrecordupdate/{term}/{student}', 'AdminAuth\HealthRecords\CrudeController@postHRecordUpdate');
+    //Route::get('/healthrecords/showterms', 'AdminAuth\HealthRecords\CrudeController@showTerms');
+    Route::get('/healthrecords/showstudents/{schoolyear}/{term}', 'AdminAuth\HealthRecords\CrudeController@showStudents')->name('showstudentshrecord');
+    Route::get('/healthrecords/addhrecord/{schoolyear}/{term}/{student}', 'AdminAuth\HealthRecords\CrudeController@addHRecord');
+    Route::post('/healthrecords/posthrecord/{schoolyear}/{term}/{student}', 'AdminAuth\HealthRecords\CrudeController@postHRecord');
+    Route::get('/healthrecords/edithrecord/{schoolyear}/{term}/{student}', 'AdminAuth\HealthRecords\CrudeController@editHRecord');
+    Route::post('/healthrecords/posthrecordupdate/{schoolyear}/{term}/{student}', 'AdminAuth\HealthRecords\CrudeController@postHRecordUpdate');
     Route::get('/healthrecords/posthrecorddelete/{hrecord}', 'AdminAuth\HealthRecords\CrudeController@deleteHRecord');
 
 

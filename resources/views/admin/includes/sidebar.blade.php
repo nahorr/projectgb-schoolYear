@@ -62,18 +62,19 @@
                 <li {{{ (Request::is('admin/observationsonconduct') ? 'class=active' : '') }}}>
                     <a href="{{ url('/admin/observationsonconduct/'.$schoolyear->id) }}/{{ $term->id }}">
                         <i class="ti-check-box"></i>
-                        <p style="font-size: 11px;">Observations on Conduct</p>
+                        <p>Observations</p>
                     </a>
                 </li>
 
         
-                <li {{{ (Request::is('healthrecords/showterms') ? 'class=active' : '') }}}>
-                    <a href="{{ url('/healthrecords/showterms') }}">
+                <li {{{ (Request::is('healthrecords/showstudents') ? 'class=active' : '') }}}>
+                    <a href="{{ url('/healthrecords/showstudents/'.$schoolyear->id) }}/{{ $term->id}}">
                         <i class="fa fa-medkit"></i>
-                        <p>Health Record</p>
+                        <p>Health Records</p>
                     </a>
                 </li>
-
+                
+                <!--
                 <li {{{ (Request::is('groupevents/showgroupevents') ? 'class=active' : '') }}}>
                     <a href="{{ url('/groupevents/showgroupevents') }}">
                         <i class="fa fa-calendar-plus-o"></i>
@@ -89,7 +90,8 @@
                         <p>Activities - Students</p>
                     </a>
                 </li>
-
+                -->
+                
                 <li {{{ (Request::is('admin/banstudents') ? 'class=active' : '') }}}>
                     <a href="{{ url('/admin/banstudents') }}">
                         <i class="fa fa-users"></i>

@@ -20,7 +20,8 @@
                         <div class="card">
                             <div class="header">
                                 <h4 class="title">You can Add/Edit/Delete Health Records here</h4>
-                                <p class="category">Class: {{$group_teacher->name}} </p>
+                                <p class="category">Class: {{@\App\StafferRegistration::where('school_year_id', '=', $schoolyear->id)->where('term_id', '=', $term->id)->where('staffer_id', $teacher->id)->first()->group->name}} </p>
+                                <p class="category">Current Term: {{$current_term->term}} {{$current_school_year->school_year}} </p>
                             </div>
                             <div class="content">
                             <div class="table-responsive">
@@ -41,7 +42,7 @@
                               </tr>
                             </thead>
                             <tbody>
-                                    @foreach($students_in_group as $student)
+                                   @foreach (@$join_students_regs->where('school_year_id', $schoolyear->id)->where('term_id', $term->id)->where('group_id', \App\StafferRegistration::where('school_year_id', '=', $schoolyear->id)->where('term_id', '=', $term->id)->where('staffer_id', $teacher->id)->first()->group_id ) as $reg_student)
 
                                       
 
@@ -49,21 +50,21 @@
                                     <tr>
                                       
                                       <td>
-                                      @foreach ($all_user as $st_user)
+                                      @foreach ($all_users as $st_user)
 
-                                        @if ($st_user->registration_code == $student->registration_code)
+                                        @if ($st_user->registration_code == $reg_student->student->registration_code)
                                       <img class="avatar border-white" src="{{asset('assets/img/students/'.$st_user->avatar) }}" alt="..."/>
                                       
                                       @endif
                                      @endforeach
                                       </td>
-                                      <td>{{$student->first_name}}</td>
-                                      <td>{{$student->last_name}}</td>
+                                      <td>{{$reg_student->student->first_name}}</td>
+                                      <td>{{$reg_student->student->last_name}}</td>
                                      
                                       <td>
                                       @foreach($hrecords as $hrecord)
 
-                                        @if($hrecord->student_id == $student->id && $term->id == $hrecord->term_id)
+                                        @if($hrecord->student_id == $reg_student->student->id && $term->id == $hrecord->term_id)
 
                                            {{$hrecord->weight}}
 
@@ -76,7 +77,7 @@
                                      <td>
                                       @foreach($hrecords as $hrecord)
 
-                                        @if($hrecord->student_id == $student->id && $term->id == $hrecord->term_id)
+                                        @if($hrecord->student_id == $reg_student->student->id && $term->id == $hrecord->term_id)
 
                                            {{$hrecord->height}}
 
@@ -89,7 +90,7 @@
                                      <td>
                                       @foreach($hrecords as $hrecord)
 
-                                        @if($hrecord->student_id == $student->id && $term->id == $hrecord->term_id)
+                                        @if($hrecord->student_id == $reg_student->student->id && $term->id == $hrecord->term_id)
 
                                            {{$hrecord->comment_nurse}}
 
@@ -102,7 +103,7 @@
                                      <td>
                                       @foreach($hrecords as $hrecord)
 
-                                        @if($hrecord->student_id == $student->id && $term->id == $hrecord->term_id)
+                                        @if($hrecord->student_id == $reg_student->student->id && $term->id == $hrecord->term_id)
 
                                            {{$hrecord->comment_doctor}}
 
@@ -115,18 +116,18 @@
                                                                                
                                       <td>
 
-                                      <strong><a href="{{asset('/healthrecords/addhrecord/'.Crypt::encrypt($term->id)) }}/{{Crypt::encrypt($student->id)}}"><i class="fa fa-plus fa-2x" aria-hidden="true"></i>&nbsp;&nbsp;Add HRecord</a>
+                                      <strong><a href="{{asset('/healthrecords/addhrecord/'.$schoolyear->id) }}/{{$term->id}}/{{$reg_student->student->id}}"><i class="fa fa-plus fa-2x" aria-hidden="true"></i>&nbsp;&nbsp;Add HRecord</a>
                                      
                                       </td>
                                       <td>
 
-                                      <strong><a href="{{asset('/healthrecords/edithrecord/'. Crypt::encrypt($term->id)) }}/{{Crypt::encrypt($student->id)}}"><i class="fa fa-pencil-square-o fa-2x" aria-hidden="true"></i>&nbsp;&nbsp;edit HRecord</a></strong>
+                                      <strong><a href="{{asset('/healthrecords/edithrecord/'.$schoolyear->id) }}/{{$term->id}}/{{$reg_student->student->id}}"><i class="fa fa-pencil-square-o fa-2x" aria-hidden="true"></i>&nbsp;&nbsp;edit HRecord</a></strong>
                                      
                                       </td>
 
                                       <td>
                                       @foreach($hrecords as $hrecord)
-                                        @if($hrecord->student_id == $student->id && $term->id == $hrecord->term_id)
+                                        @if($hrecord->student_id == $reg_student->student->id && $term->id == $hrecord->term_id)
                                           <strong>
                                           <a href="{{asset('/healthrecords/posthrecorddelete/'.Crypt::encrypt($hrecord->id)) }}" onclick="return confirm('Are you sure you want to Delete this record?')" >
                                           <i class="fa fa-times fa-2x" aria-hidden="true"></i>&nbsp;&nbsp;

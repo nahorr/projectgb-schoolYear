@@ -23,183 +23,30 @@ use \Crypt;
 
 class CrudeController extends Controller
 {
-    public function showTerms()
+    
+    public function showStudents(School_year $schoolyear, Term $term)
     {
-
-    	//get current date
-        $today = Carbon::today();
-
-        //get teacher's section and group
-        $teacher = Auth::guard('web_admin')->user();
-
-        $reg_code = $teacher->registration_code;
-
-        $teacher = Staffer::where('registration_code', '=', $reg_code)->first();
-
-
-        //get students in group_section
-        $students_in_group = Student::where('group_id', '=', $teacher->group_id)
-        ->get();
-
-               
-       $all_user = User::get();
-
-             
-        
-        $count = 0;
-        foreach ($students_in_group as $students) {
-        	$count = $count+1;
-        }
-
-        $group_teacher = Group::where('id', '=', $teacher->group_id)->first();
-        
-
-        //get terms
-        $terms = Term::get();
-
-        foreach ($terms as $t){
-            if ($today->between($t->start_date, $t->show_until )){
-                $current_term =  $t->term;
-
-            }
-                                                         
-        }
-
-        //get school school
-        $schoolyear = School_year::first();
-
-        
-
-        return view('/admin.healthrecords.showterms', compact('today', 'count', 'group_teacher', 'current_term', 
-            'schoolyear', 'students_in_group', 'all_user', 'st_user',  'terms','t'));
-   
-    }
-
-    public function showStudents($term_id)
-    {
-
-    	$term = Term::find(Crypt::decrypt($term_id));
-    	//get current date
-        $today = Carbon::today();
-
-        //get teacher's section and group
-        $teacher = Auth::guard('web_admin')->user();
-
-        $reg_code = $teacher->registration_code;
-
-        $teacher = Staffer::where('registration_code', '=', $reg_code)->first();
-
-
-        //get students in group_section
-        $students_in_group = Student::where('group_id', '=', $teacher->group_id)
-        ->get();
-
-               
-       $all_user = User::get();
-
-             
-        
-        $count = 0;
-        foreach ($students_in_group as $students) {
-        	$count = $count+1;
-        }
-
-        $group_teacher = Group::where('id', '=', $teacher->group_id)->first();
-        
-
-        //get terms
-        $terms = Term::get();
-
-        foreach ($terms as $t){
-            if ($today->between($t->start_date, $t->show_until )){
-                $current_term =  $t->term;
-
-            }
-                                                         
-        }
-
-        //get school school
-        $schoolyear = School_year::first();
 
         //get Hrecords
         $hrecords = HealthRecord::join('students', 'health_records.student_id', '=', 'students.id')
         						->join('terms', 'health_records.term_id', '=', 'terms.id')
         						->select('health_records.*', 'terms.term', 'students.first_name', 'students.last_name')
         						->get();
-
-
-        
-        return view('/admin.healthrecords.showstudents', compact('term','today', 'count', 'group_teacher', 'current_term', 
-            'schoolyear', 'students_in_group', 'all_user', 'st_user',  'terms','t', 'hrecords'));
+    
+        return view('admin.healthrecords.showstudents', compact( 'schoolyear', 'term', 'hrecords'));
 
     }
 
-     public function addHRecord($term_id, $student_id)
+     public function addHRecord(School_year $schoolyear, Term $term, Student $student)
     {
-
-    	$term = Term::find(Crypt::decrypt($term_id));
-    	$student = Student::find(Crypt::decrypt($student_id));
-    	//get current date
-        $today = Carbon::today();
-
-        //get teacher's section and group
-        $teacher = Auth::guard('web_admin')->user();
-
-        $reg_code = $teacher->registration_code;
-
-        $teacher = Staffer::where('registration_code', '=', $reg_code)->first();
-
-
-        //get students in group_section
-        $students_in_group = Student::where('group_id', '=', $teacher->group_id)
-        ->get();
-
-               
-       $all_user = User::get();
-
-             
         
-        $count = 0;
-        foreach ($students_in_group as $students) {
-        	$count = $count+1;
-        }
-
-        $group_teacher = Group::where('id', '=', $teacher->group_id)->first();
-        
-
-        //get terms
-        $terms = Term::get();
-
-        foreach ($terms as $t){
-            if ($today->between($t->start_date, $t->show_until )){
-                $current_term =  $t->term;
-
-            }
-                                                         
-        }
-
-        //get school school
-        $schoolyear = School_year::first();
-
-        //get Hrecords
-        $hrecords = HealthRecord::join('students', 'health_records.student_id', '=', 'students.id')
-        						->join('terms', 'health_records.term_id', '=', 'terms.id')
-        						->select('health_records.*', 'terms.term', 'students.first_name', 'students.last_name')
-        						->get();
-
-
-        
-        return view('/admin.healthrecords.addhrecord', compact('term', 'student', 'today', 'count', 'group_teacher', 'current_term', 
-            'schoolyear', 'students_in_group', 'all_user', 'st_user',  'terms','t', 'hrecords'));
+        return view('admin.healthrecords.addhrecord', compact( 'schoolyear', 'term', 'student'));
 
     }
 
-    public function postHRecord(Request $r, $term_id, $student_id) 
+    public function postHRecord(Request $r, School_year $schoolyear, Term $term, Student $student) 
     {
-         $term = Term::find(Crypt::decrypt($term_id));
-        $student = Student::find(Crypt::decrypt($student_id));
-    	           
-
+         
         $this->validate(request(), [
 
             'student_id' => 'required|unique_with:health_records,term_id',
@@ -228,81 +75,24 @@ class CrudeController extends Controller
        
         flash('Health Record Added Successfully')->success();
 
-        return redirect()->route('showstudentshrecord', [Crypt::encrypt($term->id), Crypt::encrypt($student->id)]);
+        return redirect()->route('showstudentshrecord', [$schoolyear->id, $term->id]);
     }
 
-    public function editHRecord($term_id, $student_id)
+    public function editHRecord(School_year $schoolyear, Term $term, Student $student)
     {
-
-    	$term = Term::find(Crypt::decrypt($term_id));
-        $student = Student::find(Crypt::decrypt($student_id));
-    	//get current date
-        $today = Carbon::today();
-
-        //get teacher's section and group
-        $teacher = Auth::guard('web_admin')->user();
-
-        $reg_code = $teacher->registration_code;
-
-        $teacher = Staffer::where('registration_code', '=', $reg_code)->first();
-
-
-        //get students in group_section
-        $students_in_group = Student::where('group_id', '=', $teacher->group_id)
-        ->get();
-
-               
-       $all_user = User::get();
-
-             
-        
-        $count = 0;
-        foreach ($students_in_group as $students) {
-        	$count = $count+1;
-        }
-
-        $group_teacher = Group::where('id', '=', $teacher->group_id)->first();
-        
-
-        //get terms
-        $terms = Term::get();
-
-        foreach ($terms as $t){
-            if ($today->between($t->start_date, $t->show_until )){
-                $current_term =  $t->term;
-
-            }
-                                                         
-        }
-
-        //get school school
-        $schoolyear = School_year::first();
-
-        //get Hrecords
-        /*$hrecords = HealthRecord::join('students', 'health_records.student_id', '=', 'students.id')
-        						->join('terms', 'health_records.term_id', '=', 'terms.id')
-        						->select('health_records.*', 'terms.term', 'students.first_name', 'students.last_name')
-        						->get();*/
-
         $hrecord = HealthRecord::where('student_id', '=', $student->id)
-        					   ->where('term_id', '=', $term->id)
-        					   ->first();
-        
-        return view('/admin.healthrecords.edithrecord', compact('term', 'student', 'today', 'count', 'group_teacher', 'current_term', 
-            'schoolyear', 'students_in_group', 'all_user', 'st_user',  'terms','t', 'hrecord'));
+                               ->where('term_id', '=', $term->id)
+                               ->first();
+
+        return view('admin.healthrecords.edithrecord', compact( 'schoolyear', 'term', 'student', 'hrecord'));
 
     }
 
-    public function postHRecordUpdate(Request $r,$term_id, $student_id)
+    public function postHRecordUpdate(Request $r, School_year $schoolyear, Term $term, Student $student)
 
         {
         
-            $term = Term::find(Crypt::decrypt($term_id));
-            $student = Student::find(Crypt::decrypt($student_id));
-
             $this->validate(request(), [
-
-                
 	            
 	            'weight' => 'required',
 	            'height' => 'required',
@@ -316,9 +106,7 @@ class CrudeController extends Controller
 	        $hrecord_edit = HealthRecord::where('term_id', '=', $term->id)
 	                            ->where('student_id', '=', $student->id)
 	                            ->first();
-
-
-            
+          
             $hrecord_edit->weight= $r->weight;
             $hrecord_edit->height= $r->height;
             $hrecord_edit->comment_nurse= $r->comment_nurse;
@@ -331,14 +119,14 @@ class CrudeController extends Controller
 
             flash('Health Record Updated Successfully')->success();
 
-            return redirect()->route('showstudentshrecord', [Crypt::encrypt($term->id), Crypt::encrypt($student->id)]);
+            return redirect()->route('showstudentshrecord', [$schoolyear->id, $term->id]);
 
 
          }
 
-         public function deleteHRecord($hrecord_id)
+         public function deleteHRecord($hrecord)
          {
-            HealthRecord::destroy(Crypt::decrypt($hrecord_id));
+            HealthRecord::destroy(Crypt::decrypt($hrecord));
 
             flash('Health record has been deleted')->error();
 

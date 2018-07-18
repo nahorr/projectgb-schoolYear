@@ -52,6 +52,9 @@
             'admin.learningandaccademics.showstudents',
             'admin.learningandaccademics.addlearningandaccademic',
             'admin.learningandaccademics.editlearningandaccademic',
+            'admin.healthrecords.showstudents',
+            'admin.healthrecords.addhrecord',
+            'admin.healthrecords.edithrecord',
             ], 
             
             'App\Http\ViewComposers\AdminNavComposer'
