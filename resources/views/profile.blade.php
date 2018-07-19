@@ -3,7 +3,7 @@
 @section('content')
         <div class="content">
             <div class="container-fluid">
-            <div class="row">
+                <div class="row">
                     @include('layouts.includes.headdashboardtop')
                 </div>
 
@@ -17,11 +17,11 @@
                             </div>
                             <div class="content">
                                 <div class="author">
-                                  <img class="avatar border-white" src="{{asset('assets/img/students/'.$user->avatar) }}" alt="..."/>
-                                  <h4 class="title">{{ $user->name }}<br />
+                                  <img class="avatar border-white" src="{{asset('assets/img/students/'.Auth::user()->avatar) }}" alt="..."/>
+                                  <h4 class="title">{{ Auth::user()->name }}<br />
                                      <a href="#"><small>@Studentname</small></a>
                                   </h4>
-                                  <form enctype="multipart/form-data" action="/profile" method="POST">
+                                  <form enctype="multipart/form-data" action="{{url('profile', [$schoolyear->id, $term->id])}}" method="POST">
                                       <div class="form-group">
                                         <label>Update Profile Image</label>
                                         <input type="file" class="form-control-file" name="avatar" style="margin-left: 28%; margin-right: 35%; padding-top: 5px; padding-bottom: 5px;">
@@ -49,7 +49,7 @@
                                         <div class="col-md-5">
                                             <div class="form-group">
                                                 <label>Class</label>
-                                                <input type="text" class="form-control border-input" disabled value="{{$student_group->name}}">
+                                                <input type="text" class="form-control border-input" disabled value="{{ @\App\StudentRegistration::where('school_year_id', '=', $schoolyear->id)->where('term_id', '=', $term->id)->where('student_id', '=', $student->id)->first()->group->name }}">
                                             </div>
                                         </div>
                                         <div class="col-md-3">
@@ -61,7 +61,7 @@
                                         <div class="col-md-4">
                                             <div class="form-group">
                                                 <label for="exampleInputEmail1">Email address</label>
-                                                <input type="email" class="form-control border-input" disabled value="{{$user->email}}">
+                                                <input type="email" class="form-control border-input" disabled value="{{Auth::user()->email}}">
                                             </div>
                                         </div>
                                     </div>

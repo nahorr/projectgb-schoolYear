@@ -7,8 +7,9 @@
                 <div class="row">
                      @include('layouts.includes.headdashboardtop')
                 </div>
+
                 <div class="row">
-                 <div class="col-md-12">
+                    <div class="col-md-12">
                         <div class="card">
                             <div class="header">
                                 <h4 class="title">Today's Attendance Record </h4>
@@ -60,254 +61,166 @@
                                     
                                     <hr>
                                     <div class="stats">
-                                        <i class="fa fa-users" aria-hidden="true"></i> There are {{$class_members_count}} students in your class.
+                                        <i class="fa fa-users" aria-hidden="true"></i> Your teacher is: {{ @$students_teacher->staffer->first_name }} {{ @$students_teacher->staffer->last_name }}.
                                     </div>
                                 </div>
                             </div>
                         </div>
                     </div>
                 </div>
-                
                 <div class="row">
-                    <div class="col-md-6">
-                        <div class="card">
-                            <div class="header">
-                                <h4 class="title"><strong>Courses by term</strong></h4>
-                                <p class="category"> School Year: &nbsp;&nbsp;{{ $school_year->school_year}}</p>
-                            </div>
-                            <br>
-                            <div class="row>">
-                             <div class="alert alert-success" style="margin-right: 2%; margin-left: 2%">
-                                      
-                                <p>Selecet a term to view courses and grades.</p>
+                            <div class="col-md-6">
+                                <div class="card">
+                                    <div class="header">
+                                        <h4 class="title"><strong>Courses by term</strong></h4>
+                                        <p class="category"> School Year: &nbsp;&nbsp;{{ $schoolyear->school_year}}</p>
+                                    </div>
+                                    <br>
+                                    <div class="row>">
+                                     <div class="alert alert-success" style="margin-right: 2%; margin-left: 2%">
+                                              
+                                        <p>Selecet a term to view courses and grades.</p>
 
-                            </div>
-                            </div>
-                            <div class="content">
-                                <table class="table table-striped">
-                                    <thead>
-                                        <th>TERM</th>
-                                        <th>START DATE</th>
-                                        <th>END DATE</th>
-                                    </thead>
-                                    <tbody>
-                                        @foreach ($terms as $term)
+                                    </div>
+                                    </div>
+                                    <div class="content">
+                                        <table class="table table-hover table-bordered  table-striped">
+                                            <thead>
+                                                <th>TERM</th>
+                                                <th>START DATE</th>
+                                                <th>END DATE</th>
+                                            </thead>
+                                            <tbody>
+                                                @foreach ($terms as $schoolyear_term)
 
-                                        <tr>
-                                            <td><strong><a href="{{asset('/terms/' .Crypt::encrypt($term->id)) }}" >{{ $term->term }}</a></strong></td>
-                                            <td>{{ $term->start_date->toFormattedDateString() }}</td>
-                                            <td>{{ $term->end_date->toFormattedDateString() }}</td>
-                                           
-                                        </tr>
-                                     @endforeach
-                                        
-                                    </tbody>
-                                </table>
+                                                    @if($schoolyear_term->school_year_id == $schoolyear->id)
 
-                                <div class="footer">
-                                    <div class="chart-legend">
-                                        <i class="fa fa-circle text-info"></i> 
-                                        <strong>
-                                           @foreach ($terms as $term)
-                                                    @if ($today->between($term->start_date, $term->show_until ))
-                                                        Current Term: {{ $term->term }}
+                                                <tr>
+                                                    <td><strong><a href="{{asset('/terms/' .Crypt::encrypt($schoolyear_term->id)) }}" >{{ $schoolyear_term->term }}</a></strong></td>
+                                                    <td>{{ $schoolyear_term->start_date->toFormattedDateString() }}</td>
+                                                    <td>{{ $schoolyear_term->end_date->toFormattedDateString() }}</td>
+                                                   
+                                                </tr>
                                                     @endif
-                                                    
                                                 @endforeach
-                                        </strong>
-                                    </div>
-                                    <hr>
-                                    
-                                    <div class="stats">
-                                        
-                                        <p>You can view courses by term by selecting a term or click on the current course link on the left sidebar panel to view your current courses.</p>
-                                    </div>
-                                  
-                                </div>
-                            </div>
-                        </div>
-                    </div>
-                    
-                    <div class="col-md-6">
-                        <div class="card">
-                            <div class="header">
-                                <h4 class="title"><strong>Year Statistics</strong></h4>
-                                <p class="category">
-                                    {{@$school_year->school_year}} School Year
-                                </p>
-                            </div>
-                            <div class="content">
+                                                
+                                            </tbody>
+                                        </table>
 
-                            {!! $school_class_student_chart->render() !!}
-                                
-                                
-
-
-
-                                <div class="footer">
-                                   <div class="chart-legend">
-                                        <i class="fa fa-circle text-primary"></i> Minimum: {{@$school_min}}
-                                        <i class="fa fa-circle text-danger"></i> Maximum: {{@$school_max}}
-                                        <i class="fa fa-circle text-warning"></i> Average: {{number_format(@$school_avg, 1)}}
-                                        
-                                    </div> 
-                                    <hr>
-                                   <div class="stats">
-                                        <i class="ti-reload"></i> 
-                                        @foreach ($terms as $term)
-                                        @if ($today->between($term->start_date, $term->show_until ))
-                                            Current Term: {{ $term->term }} 
-                                        @endif
-                                        
-                                    @endforeach 
-                                    <p>Above bar charts show your curent term statistics(Minimum, Maximum, and Average) so far for the {{@$school_year->school_year}} School Year. It gives an indication on how you are doing compared to the rest of your class and the school as a whole. The graph is dynamic - it will change from time to time as new grades are entered and as some grades are edited or deleted.</p>
+                                        <div class="footer">
+                                            <div class="chart-legend">
+                                                <i class="fa fa-circle text-info"></i> 
+                                                <strong>Term: {{ $term->term }}</strong>
+                                            </div>
+                                            <hr>
+                                            
+                                            <div class="stats">
+                                                
+                                                <p>You can view courses by term by selecting a term or click on the current course link on the left sidebar panel to view your current courses.</p>
+                                            </div>
+                                          
+                                        </div>
                                     </div>
                                 </div>
                             </div>
-                        </div>
-                    </div>
-                     
-                   
-                    </div>
+                            
+                            <div class="col-md-6">
+                                <div class="card">
+                                    <div class="header">
+                                        <h4 class="title"><strong>Year Statistics</strong></h4>
+                                        <p class="category">
+                                            {{@$schoolyear->school_year}} School Year
+                                        </p>
+                                    </div>
+                                    <div class="content">
 
-                    <div class="row">
-                        <div class="col-md-6">
-                        <div class="card">
-                            <div class="header">
-                                <h4 class="title">Class Members </h4>
-                                <p class="category">Class teacher : {{@$student_teacher->first_name}} {{@$student_teacher->last_name}} </p>
-                                
-                            </div>
-                            <div class="content">
-                                <table class="table table-striped">
-                                    <thead>
-                                        <th>Faces</th>
-                                        <th>First Name</th>
-                                        <th>Last Name</th>
+                                    {!! $school_class_student_chart->render() !!}
                                         
-                                    </thead>
-                                    <tbody>
                                         
-                                         @foreach ($class_members as $member)
 
-                                            
 
-                                        <tr>
-                                            <td>
-                                            @foreach($all_users as $st_user)
 
-                                                @if($member->registration_code == $st_user->registration_code)
-
-                                                <img class="avatar border-white" src="{{asset('assets/img/students/'.$st_user->avatar) }}" alt="..."/>
-                                                @if($st_user->registration_code == $user->registration_code)
-                                                    Awesome You!
-                                                @endif
-                                            @endif
-                                        @endforeach
-                                            </td>
-                                            <td>{{$member->first_name }} </td>
-                                            <td> {{ $member->last_name }}</td>
-                                            
-                                           
-                                        </tr>
-
-                                            
-                                     @endforeach
-                                        
-                                    </tbody>
-                                </table>
-                                {{-- <div class="pagination"> {{ $class_members->links() }} </div> --}}
-                                <div class="footer">
-                                    
-                                    <hr>
-                                    <div class="stats">
-                                        <i class="fa fa-users" aria-hidden="true"></i> There are {{$class_members_count}} students in your class.
+                                        <div class="footer">
+                                           <div class="chart-legend">
+                                                <i class="fa fa-circle text-primary"></i> Minimum: {{@$school_min}}
+                                                <i class="fa fa-circle text-danger"></i> Maximum: {{@$school_max}}
+                                                <i class="fa fa-circle text-warning"></i> Average: {{number_format(@$school_avg, 1)}}
+                                                
+                                            </div> 
+                                            <hr>
+                                           <div class="stats">
+                                                <i class="ti-reload"></i>Term: {{ $term->term }} 
+                                               
+                                            <p>Above bar charts show your curent term statistics(Minimum, Maximum, and Average) so far for the {{@$school_year->school_year}} School Year. It gives an indication on how you are doing compared to the rest of your class and the school as a whole. The graph is dynamic - it will change from time to time as new grades are entered and as some grades are edited or deleted.</p>
+                                            </div>
+                                        </div>
                                     </div>
                                 </div>
                             </div>
-                        </div>
-                    </div>
-                    <div class="col-md-6">
-                        <div class="card" >
-                            <div class="header">
-                                <div class="row">
-                                    <div class="col-md-8">
-                                    <h5 class="title"><strong>
-                                      
-                                            @foreach ($terms as $term)
-                                                        @if ($today->between($term->start_date, $term->show_until ))
-                                                           Events: {{ $term->term }}
+                             
+                           
+                            </div>
+
+                            <div class="row">
+                                <div class="col-md-12">
+                                <div class="card">
+                                    <div class="header">
+                                        <h4 class="title">Class Members </h4>
+                                        <p class="category">Class teacher : {{@$students_teacher->staffer->first_name}} {{@$students_teacher->staffer->last_name}} </p>
+                                        
+                                    </div>
+                                    <div class="content">
+                                        <table class="table table-bordered table-hover">
+                                            <thead>
+                                                <th>Faces</th>
+                                                <th>First Name</th>
+                                                <th>Last Name</th>
+                                                
+                                            </thead>
+                                            <tbody>
+                                                
+                                                 @foreach ($class_members as $member)
+
+                                                    
+
+                                                <tr>
+                                                    <td>
+                                                    @foreach($all_users as $st_user)
+
+                                                        @if($member->student->registration_code == $st_user->registration_code)
+
+                                                        <img class="avatar border-white" src="{{asset('assets/img/students/'.$st_user->avatar) }}" alt="..."/>
+                                                        @if($st_user->registration_code == Auth::user()->registration_code)
+                                                            Awesome You!
                                                         @endif
-                                                        
-                                                    @endforeach
-                                                </strong></h5>
+                                                    @endif
+                                                @endforeach
+                                                    </td>
+                                                    <td>{{$member->student->first_name }} </td>
+                                                    <td> {{ $member->student->last_name }}</td>
+                                                    
+                                                   
+                                                </tr>
+
+                                                    
+                                             @endforeach
+                                                
+                                            </tbody>
+                                        </table>
+                                        {{-- <div class="pagination"> {{ $class_members->links() }} </div> --}}
+                                        <div class="footer">
+                                            
+                                            <hr>
+                                            <div class="stats">
+                                                <i class="fa fa-users" aria-hidden="true"></i> There are {{ $class_members->count()}} students in your class.
+                                            </div>
                                         </div>
-                                        <div class="col-md-4">
-                                                <h5 class="title pull-right"> {{ @$student_group->name}}</h5>
-                                        </div>
-                                </div>
-                                <br>
-                                <div class="row">
-                                    <div class="col-md-4 ">
-                                       <p class="text-info alert alert-success">Active: {{ @$active_events }}</p>
-                                    </div>
-                                    <div class="col-md-4"> 
-                                       <p class="text-success alert alert-info"> Upcomming: {{ @$upcomming_events}}</p>
-                                    </div> 
-                                    <div class="col-md-4">
-                                       <p class="text-danger alert alert-warning" >Expired: {{ @$expired_events}}</p>
                                     </div>
                                 </div>
                             </div>
-                            <div class="content">
-                              <table class="table table-striped">
-                                    <thead>
-                                        <th>#</th>
-                                        <th>Type</th>
-                                        <th>Description</th>
-                                        <th>Start Date</th>
-                                        <th>End date</th>
-                                        <th>Status</th>
-                                    </thead>
-                                    <tbody>
-                                        @foreach ($events as $key => $event)
-
-                                        <tr>
-                                            <td>{{ $key+1 }}</td>
-                                            <td>{{ $event->type }}</td>
-                                            <td>{{ $event->description }}</td>
-                                            <td>{{ $event->start_date->toFormattedDateString() }}</td>
-                                            <td>{{ $event->end_date->toFormattedDateString() }}</td>
-                                            <td>
-                                              @if($today->between(@$event->start_date, @$event->end_date))
-                                              Active
-                                              @elseif($today->lt(@$event->start_date))
-                                              Up Comming
-                                              @elseif($today->gt(@$event->end_date))
-                                              Expired
-                                              @endif
-
-                                            </td>
-                                           
-                                        </tr>
-                                     @endforeach
-                                        
-                                    </tbody>
-                                </table>
-                                <div class="pagination"> {{ $events->links() }} </div>
-
-                            </div>
                         </div>
-                        </div>
+               
 
-
-                    
-                   
-                </div>
-
-                </div>
             </div>
         </div>
- </div>
-</div>
 @endsection

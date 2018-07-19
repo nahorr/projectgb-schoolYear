@@ -16,6 +16,8 @@ use App\Term;
 use File;
 use App\Group;
 use App\Staffer;
+use App\StafferRegistration;
+use App\StudentRegistration;
 
 
 class UserController extends Controller
@@ -27,57 +29,25 @@ class UserController extends Controller
     }
 
 
-    public function profile(){
+    public function profile(School_year $schoolyear, Term $term)
+    {         
+        $students_teacher = StafferRegistration::with('staffer')->with('school_year')->with('term')->with('group')->where('school_year_id', '=', $schoolyear->id)->where('term_id', '=', $term->id)->where('group_id', StudentRegistration::where('school_year_id', '=', $schoolyear->id)->where('term_id', '=', $term->id)->where('student_id', '=', Student::where('registration_code', '=', Auth::user()->registration_code)->first()->id)->first()->group_id)->first();
 
-        
-                
-
-        return view('/profile');
-
-        
-
-    	
+        return view('profile', compact('schoolyear', 'term', 'students_teacher'));
+	
     }
 
-    public function update_avatar(Request $request){
-
+    public function update_avatar(Request $request, School_year $schoolyear, Term $term)
+    {
     
-        $user = Auth::user();
-
-        $reg_code = $user->registration_code;
-
-        $student = Student::where('registration_code', '=', $reg_code)->first();
-
-        
-
-        $student_group = Group::where('id','=', $student->group_id)->first();
-
-
-
-
-        $next_group = Group::where('id','=', $student->group_id+2)->first();
-
-        
-        $student_teacher = Staffer::where('group_id', '=', $student_group->id )->first();
-
-        $students_all = Student::where('group_id', '=', $student_group->id)->get();
-
-                              
-        //get term
-
-        $terms = Term::get();
-
-    	
-
         // Handle the user upload of avatar
     	if($request->hasFile('avatar')){
-            //$user = Auth::user();
     		$avatar = $request->file('avatar');
     		$filename = time() . '.' . $avatar->getClientOriginalExtension();
 
             // Delete current image before uploading new image
-            if ($user->avatar !== 'default.jpg') {
-                 $file = public_path('assets/img/students/' . $user->avatar);
+            if (Auth::user()->avatar !== 'default.jpg') {
+                 $file = public_path('assets/img/students/' . Auth::user()->avatar);
 
                 if (File::exists($file)) {
                     unlink($file);
@@ -88,11 +58,12 @@ class UserController extends Controller
     		Image::make($avatar)->resize(300, 300)->save( public_path('assets/img/students/' . $filename ) );
 
     		//$user = Auth::user();
-    		$user->avatar = $filename;
-    		$user->save();
+    		Auth::user()->avatar = $filename;
+    		Auth::user()->save();
     	}
 
-    	return view('/profile', compact('user', 'student', 'student_group', 'student_teacher') );
+    	        return redirect()->route('userprofile', [ $schoolyear->id, $term->id]);
+
 
     }
 }

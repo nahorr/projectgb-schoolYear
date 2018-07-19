@@ -55,6 +55,7 @@
             'admin.healthrecords.showstudents',
             'admin.healthrecords.addhrecord',
             'admin.healthrecords.edithrecord',
+            'admin/banstudents',
             ], 
             
             'App\Http\ViewComposers\AdminNavComposer'

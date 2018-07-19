@@ -22,56 +22,10 @@ use \Crypt;
 
 class BanController extends Controller
 {
-    public function banstudents()
-    {
+    public function banstudents(School_year $schoolyear, Term $term)
+    {        
 
-    	//get current date
-        $today = Carbon::today();
-
-        //get teacher's section and group
-        $teacher = Auth::guard('web_admin')->user();
-
-        $reg_code = $teacher->registration_code;
-
-        $teacher = Staffer::where('registration_code', '=', $reg_code)->first();
-
-
-        //get students in group_section
-        $students_in_group = Student::where('group_id', '=', $teacher->group_id)
-        ->get();
-
-               
-       $all_user = User::get();
-
-             
-        
-        $count = 0;
-        foreach ($students_in_group as $students) {
-        	$count = $count+1;
-        }
-
-        $group_teacher = Group::where('id', '=', $teacher->group_id)->first();
-
-        //get terms
-        $terms = Term::get();
-
-        foreach ($terms as $t){
-            if ($today->between($t->start_date, $t->show_until )){
-                $current_term =  $t->term;
-
-            }
-                                                         
-        }
-        
-
-               
-        //get school school
-        $schoolyear = School_year::first();
-
-        
-
-        return view('/admin/banstudents', compact('today', 'count', 'teacher', 'group_teacher', 'current_term', 
-            'schoolyear', 'students_in_group', 'all_user', 'st_user', 'terms'));
+        return view('admin/banstudents', compact('schoolyear','term'));
     }
 
     public function posteditBan(Request $r, $user_id)

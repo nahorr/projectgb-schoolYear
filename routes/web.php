@@ -28,14 +28,15 @@ Route::get('/videos', 'HomePublicController@videos');
 
 Auth::routes();
 
-Route::get('/home', 'HomeController@index')->name('home');
+Route::get('/home', 'HomeController@selectTerm')->name('selectTerm');
+Route::get('/home/{schoolyear}/{term}', 'HomeController@index')->name('home');
 
 
 //for user profile avatar
 
-Route::get('/profile', 'UserController@profile');
+Route::get('/profile/{schoolyear}/{term}', 'UserController@profile')->name('userprofile');
 
-Route::post('/profile', 'UserController@update_avatar');
+Route::post('/profile/{schoolyear}/{term}', 'UserController@update_avatar');
 
 
 //Admin/staff Registeration and login
@@ -88,9 +89,9 @@ Route::group(['middleware' => 'admin_auth'], function(){
 
 
     //Ban and UnBan Students
-    Route::get('/admin/banstudents', 'AdminAuth\BanController@banStudents');
-    Route::post('/admin/posteditban/{student}', 'AdminAuth\BanController@posteditBan');
-    Route::post('/admin/posteditunban/{student}', 'AdminAuth\BanController@posteditUnBan');
+    Route::get('/admin/banstudents/{schoolyear}/{term}', 'AdminAuth\BanController@banStudents');
+    Route::post('/admin/posteditban/{schoolyear}/{term}/{student}', 'AdminAuth\BanController@posteditBan');
+    Route::post('/admin/posteditunban/{schoolyear}/{term}/{student}', 'AdminAuth\BanController@posteditUnBan');
 
     //for staffer profile avatar
 

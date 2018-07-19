@@ -19,6 +19,9 @@ use App\Feetype;
 use App\School;
 use App\LoginActivity;
 use Location;
+use App\StafferRegistration;
+use App\StudentRegistration;
+use App\User;
 
 
 
@@ -43,60 +46,71 @@ Class NavComposer {
 	public function compose(View $view)
     {
         
-    	//get current date
+    	//initialize number for irregular table numbering
+        $number_init = 1;
+
+        //get current date
         $today = Carbon::today();
 
         //school
         $school = School::first();
 
-        //get Authenticated user
-        $user = Auth::user();
+        //get school years
+        $school_years = School_year::orderBy('start_date', 'desc')->get();
 
-        //get user reg code
-        $reg_code = $user->registration_code;
-
-        //get student 
-        $student = Student::where('registration_code', '=', $reg_code)->first();
-
-        //get studnt group
-        $student_group = Group::where('id','=', $student->group_id)->first();
-
-        $student_teacher = Staffer::where('group_id', '=', $student_group->id )->first();
-
-              
-        //get school year
-        $school_year = School_year::first();
+        //get current school year
+        $current_school_year = School_year::where([['start_date', '<=', $today], ['end_date', '>=', $today]])->first();
 
         //get term
         $terms = Term::get();
 
-       
+        $current_term = Term::where([['start_date', '<=', $today], ['end_date', '>=', $today]])->first();
+
+        //Students, Users and Registrations
+        $all_users = User::get();
+
+        $student = Student::where('registration_code', '=', Auth::user()->registration_code)->first();
+
+        $registrations_student = StudentRegistration::with('student')->with('school_year')->with('term')->with('group')->where('student_id', '=', $student->id)->get();
+
+        //teachers
+        $registrations_teachers = StafferRegistration::with('staffer')->with('school_year')->with('term')->with('group')->get();
+
+        
         $feetype = Feetype::get();
 
         //login Activity skip 1
-        $login_activity = LoginActivity::where('user_id', '=', $user->id)->orderBy('created_at', 'desc')->skip(1)->take(1)->first();;
+        $login_activity = LoginActivity::where('user_id', '=', Auth::user()->id)->orderBy('created_at', 'desc')->skip(1)->take(1)->first();;
 
         //get ip address of logged in user
         $ip_address = $this->getIp();
 
         $location = Location::get($ip_address);
         
-        
+        //dd($registrations_teachers);
         
         //put variables in views
         $view
-        ->with('school', $school)
+        ->with('number_init', $number_init )
         ->with('today', $today )
-        ->with('user', $user )
-        ->with('reg_code', $reg_code )
+        ->with('school', $school) 
+        ->with('all_users', $all_users )
+        //->with('reg_code', $reg_code )
         ->with('student', $student )
-        ->with('student_group', $student_group )
-        ->with('school_year', $school_year )
+        //->with('student_group', $student_group )
+        //->with('school_year', $school_year )
+        ->with('school_years', $school_years )
+        ->with('current_school_year', $current_school_year)
+        ->with('current_term', $current_term)
+        ->with('registrations_student', $registrations_student)
+        ->with('registrations_teachers', $registrations_teachers)
         ->with('terms', $terms )
+        //->with('students_teacher', $students_teacher )
+        ->with('feetype', $feetype)
         ->with('login_activity', $login_activity)
         ->with('ip_address', $ip_address)
-        ->with('location', $location)
-        ->with('student_teacher', $student_teacher );
+        ->with('location', $location);
+        //->with('student_teacher', $student_teacher );
         
 
     }

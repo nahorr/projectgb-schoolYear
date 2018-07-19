@@ -91,9 +91,9 @@
                     </a>
                 </li>
                 -->
-                
+
                 <li {{{ (Request::is('admin/banstudents') ? 'class=active' : '') }}}>
-                    <a href="{{ url('/admin/banstudents') }}">
+                    <a href="{{ url('/admin/banstudents/'.$schoolyear->id) }}/{{ $term->id}}">
                         <i class="fa fa-users"></i>
                         <p>Ban Students</p>
                     </a>

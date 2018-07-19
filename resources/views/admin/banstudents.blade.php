@@ -22,8 +22,10 @@
                     <div class="col-md-12">
                         <div class="card">
                             <div class="header">
-                                <h4 class="title">Registered Students in Your class</h4>
+                                <h4 class="title">Students in your class who have registered: </h4>
                                 <p class="category">Teacher Name: <strong>{{@$teacher->first_name}}  {{@$teacher->last_name}}</strong></p>
+                                <p class="category">Class: {{@\App\StafferRegistration::where('school_year_id', '=', $schoolyear->id)->where('term_id', '=', $term->id)->where('staffer_id', $teacher->id)->first()->group->name}} </p>
+                                <p class="category">Current Term: {{$current_term->term}} {{$current_school_year->school_year}} </p>
                             </div>
                             <div class="content">
                             <div class="table-responsive">
@@ -44,9 +46,10 @@
                             </thead>
                             <tbody>
                             
-                                @foreach ($students_in_group as $key => $student)
-                                  @foreach ($all_user as $st_user)
-                                   @if ($st_user->registration_code == $student->registration_code) 
+                                 @foreach (@$join_students_regs->where('school_year_id', $schoolyear->id)->where('term_id', $term->id)->where('group_id', \App\StafferRegistration::where('school_year_id', '=', $schoolyear->id)->where('term_id', '=', $term->id)->where('staffer_id', $teacher->id)->first()->group_id ) as $key=>$reg_student)
+
+                                  @foreach ($all_users as $st_user)
+                                   @if ($st_user->registration_code == $reg_student->student->registration_code) 
                                
                                       <tr>
 
@@ -56,8 +59,8 @@
                                         <img class="avatar border-white" src="{{asset('assets/img/students/'.$st_user->avatar) }}" alt="..."/>
                                         </td>
 
-                                        <td>{{$student->first_name}}</td>
-                                        <td>{{$student->last_name}}</td>
+                                        <td>{{$reg_student->student->first_name}}</td>
+                                        <td>{{$reg_student->student->last_name}}</td>
                                         <td>{{$st_user->email}}</td>
                                                                                 
                                       <td>

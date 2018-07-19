@@ -6,7 +6,7 @@
     <link rel="icon" type="image/png" sizes="96x96" href="{{asset('assets/img/favicon.png')}}">
     <meta http-equiv="X-UA-Compatible" content="IE=edge,chrome=1" />
 
-    <title>Totalgrades - Dashboard</title>
+    <title>Totalgrades -Student Dashboard</title>
 
     <meta content='width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=0' name='viewport' />
     <meta name="viewport" content="width=device-width" />
@@ -35,9 +35,9 @@
 
 <div class="wrapper">
 
- @include('layouts.includes.sidebar')
 
-    <div class="main-panel">
+
+    <div class="main-panel" style="float: none; width: calc(100%);">
         <nav class="navbar navbar-default">
             <div class="container-fluid">
                 <div class="navbar-header">
@@ -51,7 +51,7 @@
                 </div>
                 <div class="collapse navbar-collapse">
                     <ul class="nav navbar-nav navbar-right">
-                        
+                       
                         <li>
                             <a href="{{ url('/home') }}" class="dropdown-toggle" data-toggle="dropdown">
                                 <i class="ti-calendar"></i>
@@ -101,7 +101,63 @@
         </nav>
 
         
-        @yield('content')
+        <div class="content">
+            <div class="row" style="margin-left: 25%; margin-right: 25%;">
+                <div class="table-responsive">
+              
+                    <table class="table table-bordered table-hover" table-responsive>
+                            <thead>
+                                <tr class="info">
+                                    <th class="text-center"><strong>#</strong></th>
+                                    <th class="text-center"><strong>School Year</strong></th>
+                                    <th class="text-center"><strong>Start Date</strong></th>
+                                    <th class="text-center"><strong>End Date</strong></th>
+                                    <th class="text-center"><strong>Terms</strong></th>
+                                </tr>
+                            </thead>
+                            <tbody> 
+                                                              
+                                @foreach ($school_years as $key=>$schoolyear)                         
+                                                                             
+                                    <tr>
+                                        <td class="text-center">{{$number_init++}}</td>
+                                        <td class="text-center">
+                                            @if($schoolyear->id == $current_school_year->id)
+                                                {{$schoolyear->school_year}} - <p><strong><mark style="color: green;">Current Year</mark></strong></p>
+                                            @else
+                                                {{$schoolyear->school_year}} 
+                                            @endif
+                                        </td>
+                                        <td class="text-center">{{$schoolyear->start_date->toFormattedDateString()}}</td>
+                                        <td class="text-center">{{$schoolyear->end_date->toFormattedDateString()}}</td>
+                                        <td class="text-center">
+                                            @foreach ($terms as $term)
+                                                @foreach ($registrations_student->where('school_year_id', '=', $schoolyear->id)->where('term_id', '=', $term->id) as $regs_student)
+                                                <a href="{{asset('/home/'. $schoolyear->id)}}/{{$term->id}}">
+                                                    @if($schoolyear->id == $current_school_year->id)
+                                                        @if($term->id == $current_term->id)
+                                                            <button type="button" class="btn btn-info btn-sm">{{strtoupper($term->term)}}<br> <span style="color: red">Class: </span> {{$regs_student->group->name}}<br><span style="color: red">Current Term</span></button>
+                                                        @else
+                                                            <button type="button" class="btn btn-success btn-sm">{{strtoupper($term->term)}}<br> <span style="color: red">Class: </span> {{$regs_student->group->name}}</button>
+                                                        @endif
+                                                    @else
+                                                            <button type="button" class="btn btn-primary btn-sm">{{strtoupper($term->term)}}<br> <span style="color: red">Class:</span> {{$regs_student->group->name}}</button>
+                                                    @endif
+                                                </a>
+                                                <br>
+                                                <br>
+                                                @endforeach
+                                            @endforeach
+                                        </td>
+                                    </tr>
+
+                                @endforeach
+                            </tbody>
+                    </table>
+
+                </div>
+            </div>
+        </div>
 
         @include('layouts.includes.footer')
         

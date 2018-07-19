@@ -17,12 +17,19 @@
                 <li {{{ (Request::is('home') ? 'class=active' : '') }}}>
                     <a href="{{ url('/home') }}">
                         <i class="ti-panel"></i>
-                        <p>Dashboard</p>
+                        <p>Select Term</p>
+                    </a>
+                </li>
+                
+                <li {{{ (Request::is('home') ? 'class=active' : '') }}}>
+                    <a href="{{ url('/home/'.$schoolyear->id) }}/{{$term->id}}">
+                        <i class="ti-dashboard"></i>
+                        <p>Term Dashboard</p>
                     </a>
                 </li>
 
                 <li {{{ (Request::is('profile') ? 'class=active' : '') }}}>
-                    <a href="{{ url('/profile') }}">
+                    <a href="{{ url('/profile/'.$schoolyear->id) }}/{{$term->id}}">
                         <i class="ti-user"></i>
                         <p>Student Profile</p>
                     </a>

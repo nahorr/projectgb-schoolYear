@@ -16,10 +16,12 @@
         View::composer(
             [
 
-            
-            '/layouts/includes/dashboard',
-            '/home', 
-            '/profile', 
+            'selectTerm',
+            'layouts/includes/dashboard',
+            'layouts.includes.headdashboardtop',
+            'layouts.includes.sidebar',
+            'home', 
+            'profile', 
             '/courses',  
             '/show', 
             '/reportCard', 
