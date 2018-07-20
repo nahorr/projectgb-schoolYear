@@ -29,15 +29,14 @@ class UserController extends Controller
     }
 
 
-    public function profile(School_year $schoolyear, Term $term)
+    public function profile(School_year $schoolyear)
     {         
-        $students_teacher = StafferRegistration::with('staffer')->with('school_year')->with('term')->with('group')->where('school_year_id', '=', $schoolyear->id)->where('term_id', '=', $term->id)->where('group_id', StudentRegistration::where('school_year_id', '=', $schoolyear->id)->where('term_id', '=', $term->id)->where('student_id', '=', Student::where('registration_code', '=', Auth::user()->registration_code)->first()->id)->first()->group_id)->first();
-
-        return view('profile', compact('schoolyear', 'term', 'students_teacher'));
+        
+        return view('profile',compact('schoolyear'));
 	
     }
 
-    public function update_avatar(Request $request, School_year $schoolyear, Term $term)
+    public function update_avatar(Request $request, School_year $schoolyear)
     {
     
         // Handle the user upload of avatar
@@ -62,7 +61,7 @@ class UserController extends Controller
     		Auth::user()->save();
     	}
 
-    	        return redirect()->route('userprofile', [ $schoolyear->id, $term->id]);
+    	        return redirect()->route('userprofile', [ $schoolyear->id ]);
 
 
     }

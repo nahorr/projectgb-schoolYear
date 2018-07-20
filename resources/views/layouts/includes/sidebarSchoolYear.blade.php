@@ -11,26 +11,36 @@
                     <img src="{{asset('/assets/img/logo/logo.jpg')}}" style="width: 120px; height: 120px; border-radius: 50%; margin-right: 25px;">
                 </a>
             </div>
+            <br>
+            <div class="col-md-8 col-md-offset-2">
+                <select name="school_year_id" id="dynamic_select_schoolyear">
+                <option selected disabled>Select School Year</option>
+                      @foreach($school_years as $key => $school_year)
+                            <option value="{{ $school_year->id }}" >
+                                <a href="{{ url('/home/'.$school_year->id) }}">{{ $school_year->school_year }}</a>
+                            </option>
 
+                      @endforeach
+                </select>
+               
+            </div>
+            
+            <br>
 
+            @foreach($school_years as $school_year)
+
+            @if($school_year->id == $current_school_year->id)
             <ul class="nav">
-
-                <li {{{ (Request::is('home') ? 'class=active' : '') }}}>
-                    <a href="{{ url('/home') }}">
-                        <i class="fa fa-university"></i>
-                        <p>School Years</p>
-                    </a>
-                </li>
                 
                 <li {{{ (Request::is('home') ? 'class=active' : '') }}}>
-                    <a href="{{ url('/home/'.$schoolyear->id) }}">
+                    <a href="{{ url('/home/'.$school_year->id) }}">
                         <i class="ti-dashboard"></i>
-                        <p>Dashboard</p>
+                        <p>Term Dashboard</p>
                     </a>
                 </li>
 
                 <li {{{ (Request::is('profile') ? 'class=active' : '') }}}>
-                    <a href="{{ url('/profile/'.$schoolyear->id) }}">
+                    <a href="{{ url('/profile/'.$school_year->id) }}">
                         <i class="ti-user"></i>
                         <p>Student Profile</p>
                     </a>
@@ -38,21 +48,21 @@
 
                 
                 <li {{{ (Request::is('courses') ? 'class=active' : '') }}}>
-                    <a href="{{ url('/courses/'.$schoolyear->id) }}">
+                    <a href="{{ url('/courses/'.$school_year->id) }}">
                         <i class="ti-view-list-alt"></i>
                         <p>Current Courses</p>
                     </a>
                 </li>
 
                 <li {{{ (Request::is('reportcards') ? 'class=active' : '') }}}>
-                    <a href="{{ url('/reportcards/'.$schoolyear->id) }}">
+                    <a href="{{ url('/reportcards/'.$school_year->id) }}">
                         <i class="ti-check-box"></i>
                         <p>Report Cards</p>
                     </a>
                 </li>
 
-                <li {{{ (Request::is('attendances') ? 'class=active' : '') }}}>
-                    <a href="{{ url('/attendances/'.$schoolyear->id) }}">
+                <li {{{ (Request::is('attendances/terms') ? 'class=active' : '') }}}>
+                    <a href="{{ url('/attendances/terms') }}">
                         <i class="ti-calendar"></i>
                         <p>Attendance Record</p>
                     </a>
@@ -93,8 +103,20 @@
                 
                 
             </ul>
-
-
+            @endif
+            @endforeach
+            <script>
+                $(function(){
+                  // bind change event to select
+                  $('#dynamic_select_schoolyear').on('change', function () {
+                      var url = $(this).val(); // get selected value
+                      if (url) { // require a URL
+                          window.location = url; // redirect
+                      }
+                      return false;
+                  });
+                });
+            </script>
         </div>
     </div>
     

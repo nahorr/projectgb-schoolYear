@@ -45,20 +45,21 @@ class HomeController extends Controller
      * @return \Illuminate\Http\Response
      */
 
-    public function selectTerm()
+    public function index()
     {
 
-        return view('selectTerm');
+        return view('home');
     }
 
-
-    public function index(School_year $schoolyear, Term $term)
+    public function homeSchoolYear(School_year $schoolyear)
     {
         
-        $students_teacher = StafferRegistration::with('staffer')->with('school_year')->with('term')->with('group')->where('school_year_id', '=', $schoolyear->id)->where('term_id', '=', $term->id)->where('group_id', StudentRegistration::where('school_year_id', '=', $schoolyear->id)->where('term_id', '=', $term->id)->where('student_id', '=', Student::where('registration_code', '=', Auth::user()->registration_code)->first()->id)->first()->group_id)->first();       
+
+        $students_teachers = @StafferRegistration::with('staffer')->with('school_year')->with('term')->with('group')->where('school_year_id', '=', $schoolyear->id)->where('group_id', StudentRegistration::where('school_year_id', '=', $schoolyear->id)->where('student_id', '=', Student::where('registration_code', '=', Auth::user()->registration_code)->first()->id)->first()->group_id)->get(); 
+            
 
 
-        $class_members = StudentRegistration::where('school_year_id', '=', $schoolyear->id)->where('term_id', '=', $term->id)->where('group_id', '=', StudentRegistration::where('school_year_id', '=', $schoolyear->id)->where('term_id', '=', $term->id)->where('student_id', '=', Student::where('registration_code', '=', Auth::user()->registration_code)->first()->id)->first()->group_id)->get();
+        $class_members = @StudentRegistration::where('school_year_id', '=', $schoolyear->id)->where('student_id', '=', Student::where('registration_code', '=', Auth::user()->registration_code)->first()->id)->get();
        
         //Attendance
         $attendance_today = Attendance::join('attendance_codes', 'attendances.attendance_code_id', '=', 'attendance_codes.id')
@@ -95,16 +96,16 @@ class HomeController extends Controller
         $student_avg = Grade::where('student_id', '=', Student::where('registration_code', '=', Auth::user()->registration_code)->first()->id)->avg('total');
 
         //class statistics - school year
-        $student_class_max = Course::join('grades', 'courses.id', '=', 'grades.course_id')
-                ->where('courses.group_id', '=', StudentRegistration::where('school_year_id', '=', $schoolyear->id)->where('term_id', '=', $term->id)->where('student_id', '=', Student::where('registration_code', '=', Auth::user()->registration_code)->first()->id)->first()->group_id)
+        $student_class_max = @Course::join('grades', 'courses.id', '=', 'grades.course_id')
+                ->where('courses.group_id', '=', StudentRegistration::where('school_year_id', '=', $schoolyear->id)->where('student_id', '=', Student::where('registration_code', '=', Auth::user()->registration_code)->first()->id)->first()->group_id)
                 ->max('total');
 
-        $student_class_min = Course::join('grades', 'courses.id', '=', 'grades.course_id')
-                ->where('courses.group_id', '=', StudentRegistration::where('school_year_id', '=', $schoolyear->id)->where('term_id', '=', $term->id)->where('student_id', '=', Student::where('registration_code', '=', Auth::user()->registration_code)->first()->id)->first()->group_id)
+        $student_class_min = @Course::join('grades', 'courses.id', '=', 'grades.course_id')
+                ->where('courses.group_id', '=', StudentRegistration::where('school_year_id', '=', $schoolyear->id)->where('student_id', '=', Student::where('registration_code', '=', Auth::user()->registration_code)->first()->id)->first()->group_id)
                 ->min('total'); 
 
-        $student_class_avg = Course::join('grades', 'courses.id', '=', 'grades.course_id')
-                ->where('courses.group_id', '=', StudentRegistration::where('school_year_id', '=', $schoolyear->id)->where('term_id', '=', $term->id)->where('student_id', '=', Student::where('registration_code', '=', Auth::user()->registration_code)->first()->id)->first()->group_id)
+        $student_class_avg = @Course::join('grades', 'courses.id', '=', 'grades.course_id')
+                ->where('courses.group_id', '=', StudentRegistration::where('school_year_id', '=', $schoolyear->id)->where('student_id', '=', Student::where('registration_code', '=', Auth::user()->registration_code)->first()->id)->first()->group_id)
                 ->avg('total');        
                
 
@@ -127,7 +128,7 @@ class HomeController extends Controller
                 ->labels(['Minimum', 'Maximum', 'Average']); 
 
         
-        return view('home', compact('students_teacher', 'schoolyear', 'term', 'class_members', 'attendance_today', 'att_code','school_max', 'school_min', 'school_avg', 'school_class_student_chart'));
+        return view('homeSchoolYear', compact('students_teacher', 'schoolyear', 'term', 'class_members', 'attendance_today', 'att_code','school_max', 'school_min', 'school_avg', 'school_class_student_chart'));
     }
 
     

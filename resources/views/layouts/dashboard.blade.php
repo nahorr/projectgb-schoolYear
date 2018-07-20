@@ -35,7 +35,10 @@
 
 <div class="wrapper">
 
- @include('layouts.includes.sidebar')
+
+
+    @include('layouts.includes.sidebar')
+
 
     <div class="main-panel">
         <nav class="navbar navbar-default">

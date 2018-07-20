@@ -16,11 +16,12 @@
         View::composer(
             [
 
-            'selectTerm',
+            //'selectTerm',
             'layouts/includes/dashboard',
             'layouts.includes.headdashboardtop',
             'layouts.includes.sidebar',
-            'home', 
+            'home',
+            'homeSchoolYear',
             'profile', 
             '/courses',  
             '/show', 

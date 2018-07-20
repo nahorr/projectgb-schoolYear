@@ -1,226 +1,205 @@
-@extends('layouts.dashboard')
+<!doctype html>
+<html lang="en">
+<head>
+    <meta charset="utf-8" />
+    <link rel="apple-touch-icon" sizes="76x76" href="{asset('assets/img/apple-icon.png')}}">
+    <link rel="icon" type="image/png" sizes="96x96" href="{{asset('assets/img/favicon.png')}}">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge,chrome=1" />
 
-@section('content')
+    <title>Totalgrades -Student Dashboard</title>
 
-        <div class="content">
+    <meta content='width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=0' name='viewport' />
+    <meta name="viewport" content="width=device-width" />
+
+
+    <!-- Bootstrap core CSS     -->
+    
+    <link href="{{asset('assets/css/bootstrap.min.css')}}" rel="stylesheet" />
+
+        <!-- Animation library for notifications   -->
+    <link href="{{asset('assets/css/animate.min.css')}}" rel="stylesheet"/>
+
+    <!--  Paper Dashboard core CSS    -->
+    <link href="{{asset('assets/css/paper-dashboard.css')}}" rel="stylesheet"/>
+
+     
+    <!--  Fonts and icons     -->
+    <link href="https://maxcdn.bootstrapcdn.com/font-awesome/latest/css/font-awesome.min.css" rel="stylesheet">
+    <link href='https://fonts.googleapis.com/css?family=Muli:400,300' rel='stylesheet' type='text/css'>
+    <link href="{{asset('assets/css/themify-icons.css')}}" rel="stylesheet">
+
+    {!! Charts::assets() !!}
+
+</head>
+<body>
+
+<div class="wrapper">
+
+
+
+    <div class="main-panel" style="float: none; width: calc(100%);">
+        <nav class="navbar navbar-default">
             <div class="container-fluid">
-                <div class="row">
-                     @include('layouts.includes.headdashboardtop')
+                <div class="navbar-header">
+                    <button type="button" class="navbar-toggle">
+                        <span class="sr-only">Toggle navigation</span>
+                        <span class="icon-bar bar1"></span>
+                        <span class="icon-bar bar2"></span>
+                        <span class="icon-bar bar3"></span>
+                    </button>
+                    <a class="navbar-brand" href="{{ url('/home') }}">{{@$school->name}}</a>
                 </div>
+                <div class="collapse navbar-collapse">
+                    <ul class="nav navbar-nav navbar-right">
+                       
+                        <li>
+                            <a href="{{ url('/home') }}" class="dropdown-toggle" data-toggle="dropdown">
+                                <i class="ti-calendar"></i>
+                                <p>{{ $today->toFormattedDateString() }}</p>
+                            </a>
+                        </li>
+                        <li class="dropdown">
 
-                <div class="row">
-                    <div class="col-md-12">
-                        <div class="card">
-                            <div class="header">
-                                <h4 class="title">Today's Attendance Record </h4>
-                                <p class="category"> </p>
-                                <div class="stats">
-                                    <i class="fa fa-calendar-check-o" aria-hidden="true"></i> Today's date : {{$today->toFormattedDateString()}}
+                              <a href="" class="dropdown-toggle" data-toggle="dropdown" role="button" aria-expanded="false" style="position:relative; padding-left:50px;">
+                                <img src="{{asset('/assets/img/students/'. Auth::user()->avatar )}}" style="width:32px; height:32px; position:absolute; top:10px; left:10px; border-radius:50%">
+                                {{ Auth::user()->name }} <span class="caret"></span>
+                              </a>
+                              
+                              <ul class="dropdown-menu">
+
+                                <li><a href="{{ url('/profile') }}"><i class="fa fa-btn fa-user"></i>Profile</a></li>
+                                <li><a href="{{ url('/courses') }}"><i class="fa fa-list-ul"></i>My Courses</a></li>
+                                <!--<li><a href="{{ url('/currentreportcard') }}"><i class="fa fa-check-square-o"></i>Report card</a></li>-->
+                                <li>
+                                    <a href="{{ route('logout') }}"
+                                        onclick="event.preventDefault();
+                                            document.getElementById('logout-form').submit();">
+                                            <i class="fa fa-btn fa-sign-out"></i>Logout
+                                    </a>
+
+                                    <form id="logout-form" action="{{ route('logout') }}" method="POST" style="display: none;">
+                                        {{ csrf_field() }}
+                                    </form>
+                                </li>
+
+                                
+                                
+                              </ul>
+                        </li>
+                        <!--
+                        <li>
+                            <a href="#">
+                                <i class="ti-settings"></i>
+                                <p>Settings</p>
+                            </a>
+                        </li>
+                        -->
+                    </ul>
+
+                </div>
+            </div>
+        </nav>
+
+        
+                <div class="content">
+
+        
+           
+           
+              <div class="row" style="margin-left: 25%; margin-right: 25%;">
+
+               
+                @foreach($school_years as $schoolyear)
+                @if(\App\StudentRegistration::where('school_year_id', $schoolyear->id)->where('student_id', \App\Student::where('registration_code', '=', Auth::user()->registration_code)->first()->id)->count() > 0)
+                <div class="col-lg-6 col-sm-6">
+                  <a href="{{ url('/home/'.$schoolyear->id)}}">
+                    <div class="card">
+                        <div class="content">
+                            <div class="row">
+                                <div class="col-xs-5">
+                                  @if( $schoolyear->id == $current_school_year->id)
+                                    <div class="icon-big icon-success text-center">
+                                        <i class="fa fa-university" aria-hidden="true"></i>
+                                    </div>
+                                    @else
+                                    <div class="icon-big icon-warning text-center">
+                                        <i class="fa fa-university" aria-hidden="true"></i>
+                                    </div>
+                                    @endif
+                                </div>
+                                <div class="col-xs-7">
+                                    <div class="numbers">
+                                      @if( $schoolyear->id == $current_school_year->id)
+                                        <p class="text-success">Current School Year</p>
+                                        <p class="text-success">{{$schoolyear->school_year}}</p>
+                                        @else
+                                        <p>School Year</p>
+                                        <p>{{$schoolyear->school_year}}</p>
+                                        @endif
+                                    </div>
                                 </div>
                             </div>
-                            <div class="content">
-
-                                @if($attendance_today === null)
-
-                                   <div class="alert alert-info">
-                                      
-                                      <p>You have no attendance record yet!</p>
-                                    </div>
-                           
-
-                                @elseif($attendance_today->code_name === 'Present')
-
-                                    <div class="alert alert-success">
-                                      <p><strong>Welldone {{$student->first_name}}! </p>
-                                      <br>
-                                      <p><strong>Keep it up! </strong> </p>
-                                      <br>
-                                      <p>Your are {{$attendance_today->code_name}} today. You were also on time!</p>
-                                    </div>
-
-                                @elseif($attendance_today->code_name === 'Late')
-                                    <div class="alert alert-warning">
-                                      <p><strong>Good Job {{$student->first_name}}! </p>
-                                      <br>
-                                      <p><strong>But you can make it on time next time! </strong> </p>
-                                      <br>
-                                      <p>Your were a bit {{$attendance_today->code_name}} today!</p>
-                                    </div>
-                                @elseif($attendance_today->code_name === 'Absent')
-                                    <div class="alert alert-danger">
-                                      <p><strong>We miss you {{$student->first_name}}! </p>
-                                      <br>
-                                      <p><strong>Hope you are doing great! </strong> </p>
-                                      <br>
-                                      <p>Your were {{$attendance_today->code_name}} tody. We look forward to seeing your awesome face tomorrow. </p>
-                                    </div>
-                                @endif
-
-                                                          
-                                <div class="footer">
+                            <div class="footer">
+                                <hr />
+                                <div class="stats">
+                                  @if( $schoolyear->id == $current_school_year->id)
                                     
-                                    <hr>
-                                    <div class="stats">
-                                        <i class="fa fa-users" aria-hidden="true"></i> Your teacher is: {{ @$students_teacher->staffer->first_name }} {{ @$students_teacher->staffer->last_name }}.
-                                    </div>
+                                    <span class="text-success"> <i class="ti-calendar icon-success"></i> Start Date: {{$schoolyear->start_date->toFormatteddateString()}} <i class="ti-calendar icon-success"></i> End Date: {{$schoolyear->end_date->toFormatteddateString()}}</span>
+                                  @else
+                                  <span> <i class="ti-calendar icon-warning"></i> Start Date: {{$schoolyear->start_date->toFormatteddateString()}} <i class="ti-calendar icon-warning"></i> End Date: {{$schoolyear->end_date->toFormatteddateString()}}</span>
+                                  @endif
                                 </div>
                             </div>
                         </div>
                     </div>
+                  </a>
                 </div>
-                <div class="row">
-                            <div class="col-md-6">
-                                <div class="card">
-                                    <div class="header">
-                                        <h4 class="title"><strong>Courses by term</strong></h4>
-                                        <p class="category"> School Year: &nbsp;&nbsp;{{ $schoolyear->school_year}}</p>
-                                    </div>
-                                    <br>
-                                    <div class="row>">
-                                     <div class="alert alert-success" style="margin-right: 2%; margin-left: 2%">
-                                              
-                                        <p>Selecet a term to view courses and grades.</p>
+                @endif
+             @endforeach 
 
-                                    </div>
-                                    </div>
-                                    <div class="content">
-                                        <table class="table table-hover table-bordered  table-striped">
-                                            <thead>
-                                                <th>TERM</th>
-                                                <th>START DATE</th>
-                                                <th>END DATE</th>
-                                            </thead>
-                                            <tbody>
-                                                @foreach ($terms as $schoolyear_term)
+              </div>
+            
 
-                                                    @if($schoolyear_term->school_year_id == $schoolyear->id)
-
-                                                <tr>
-                                                    <td><strong><a href="{{asset('/terms/' .Crypt::encrypt($schoolyear_term->id)) }}" >{{ $schoolyear_term->term }}</a></strong></td>
-                                                    <td>{{ $schoolyear_term->start_date->toFormattedDateString() }}</td>
-                                                    <td>{{ $schoolyear_term->end_date->toFormattedDateString() }}</td>
-                                                   
-                                                </tr>
-                                                    @endif
-                                                @endforeach
-                                                
-                                            </tbody>
-                                        </table>
-
-                                        <div class="footer">
-                                            <div class="chart-legend">
-                                                <i class="fa fa-circle text-info"></i> 
-                                                <strong>Term: {{ $term->term }}</strong>
-                                            </div>
-                                            <hr>
-                                            
-                                            <div class="stats">
-                                                
-                                                <p>You can view courses by term by selecting a term or click on the current course link on the left sidebar panel to view your current courses.</p>
-                                            </div>
-                                          
-                                        </div>
-                                    </div>
-                                </div>
-                            </div>
-                            
-                            <div class="col-md-6">
-                                <div class="card">
-                                    <div class="header">
-                                        <h4 class="title"><strong>Year Statistics</strong></h4>
-                                        <p class="category">
-                                            {{@$schoolyear->school_year}} School Year
-                                        </p>
-                                    </div>
-                                    <div class="content">
-
-                                    {!! $school_class_student_chart->render() !!}
-                                        
-                                        
-
-
-
-                                        <div class="footer">
-                                           <div class="chart-legend">
-                                                <i class="fa fa-circle text-primary"></i> Minimum: {{@$school_min}}
-                                                <i class="fa fa-circle text-danger"></i> Maximum: {{@$school_max}}
-                                                <i class="fa fa-circle text-warning"></i> Average: {{number_format(@$school_avg, 1)}}
-                                                
-                                            </div> 
-                                            <hr>
-                                           <div class="stats">
-                                                <i class="ti-reload"></i>Term: {{ $term->term }} 
-                                               
-                                            <p>Above bar charts show your curent term statistics(Minimum, Maximum, and Average) so far for the {{@$school_year->school_year}} School Year. It gives an indication on how you are doing compared to the rest of your class and the school as a whole. The graph is dynamic - it will change from time to time as new grades are entered and as some grades are edited or deleted.</p>
-                                            </div>
-                                        </div>
-                                    </div>
-                                </div>
-                            </div>
-                             
-                           
-                            </div>
-
-                            <div class="row">
-                                <div class="col-md-12">
-                                <div class="card">
-                                    <div class="header">
-                                        <h4 class="title">Class Members </h4>
-                                        <p class="category">Class teacher : {{@$students_teacher->staffer->first_name}} {{@$students_teacher->staffer->last_name}} </p>
-                                        
-                                    </div>
-                                    <div class="content">
-                                        <table class="table table-bordered table-hover">
-                                            <thead>
-                                                <th>Faces</th>
-                                                <th>First Name</th>
-                                                <th>Last Name</th>
-                                                
-                                            </thead>
-                                            <tbody>
-                                                
-                                                 @foreach ($class_members as $member)
-
-                                                    
-
-                                                <tr>
-                                                    <td>
-                                                    @foreach($all_users as $st_user)
-
-                                                        @if($member->student->registration_code == $st_user->registration_code)
-
-                                                        <img class="avatar border-white" src="{{asset('assets/img/students/'.$st_user->avatar) }}" alt="..."/>
-                                                        @if($st_user->registration_code == Auth::user()->registration_code)
-                                                            Awesome You!
-                                                        @endif
-                                                    @endif
-                                                @endforeach
-                                                    </td>
-                                                    <td>{{$member->student->first_name }} </td>
-                                                    <td> {{ $member->student->last_name }}</td>
-                                                    
-                                                   
-                                                </tr>
-
-                                                    
-                                             @endforeach
-                                                
-                                            </tbody>
-                                        </table>
-                                        {{-- <div class="pagination"> {{ $class_members->links() }} </div> --}}
-                                        <div class="footer">
-                                            
-                                            <hr>
-                                            <div class="stats">
-                                                <i class="fa fa-users" aria-hidden="true"></i> There are {{ $class_members->count()}} students in your class.
-                                            </div>
-                                        </div>
-                                    </div>
-                                </div>
-                            </div>
-                        </div>
-               
 
             </div>
-        </div>
-@endsection
+
+
+        @include('layouts.includes.footer')
+        
+
+    </div>
+</div>
+
+
+</body>
+   
+
+    <!--   Core JS Files   -->
+    <script src="{{asset('assets/js/jquery-1.10.2.js')}}" type="text/javascript"></script>
+    <script src="{{asset('assets/js/bootstrap.min.js')}}" type="text/javascript"></script>
+
+    <!--  Checkbox, Radio & Switch Plugins -->
+    <script src="{{asset('assets/js/bootstrap-checkbox-radio.js')}}"></script>
+
+    <!--  Charts Plugin -->
+    <script src="{{asset('assets/js/chartist.min.js')}}"></script>
+
+    <!--  Notifications Plugin    -->
+    <script src="{{asset('assets/js/bootstrap-notify.js')}}"></script>
+
+    <!--  Google Maps Plugin    -->
+    <script type="text/javascript" src="https://maps.googleapis.com/maps/api/js"></script>
+
+     <!-- Paper Dashboard Core javascript and methods for Demo purpose -->
+    <script src="{{asset('assets/js/paper-dashboard.js')}}"></script>
+    
+    <script type="text/javascript">
+        $(document).ready(function(){
+
+            demo.initChartist();
+
+           
+        });
+    </script>
+
+</html>

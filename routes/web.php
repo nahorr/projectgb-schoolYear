@@ -28,15 +28,16 @@ Route::get('/videos', 'HomePublicController@videos');
 
 Auth::routes();
 
-Route::get('/home', 'HomeController@selectTerm')->name('selectTerm');
-Route::get('/home/{schoolyear}/{term}', 'HomeController@index')->name('home');
+//Route::get('/home', 'HomeController@selectTerm')->name('selectTerm');
+Route::get('/home', 'HomeController@index')->name('home');
+Route::get('/home/{schoolyear}', 'HomeController@homeSchoolYear')->name('homeSchoolYear');
 
 
 //for user profile avatar
 
-Route::get('/profile/{schoolyear}/{term}', 'UserController@profile')->name('userprofile');
+Route::get('/profile/{schoolyear}', 'UserController@profile')->name('userprofile');
 
-Route::post('/profile/{schoolyear}/{term}', 'UserController@update_avatar');
+Route::post('/profile/{schoolyear}', 'UserController@update_avatar');
 
 
 //Admin/staff Registeration and login
