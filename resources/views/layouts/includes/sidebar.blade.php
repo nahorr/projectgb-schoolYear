@@ -37,8 +37,8 @@
                 </li>
 
                 
-                <li {{{ (Request::is('courses') ? 'class=active' : '') }}}>
-                    <a href="{{ url('/courses/'.$schoolyear->id) }}">
+                <li {{{ (Request::is('currentcourses') ? 'class=active' : '') }}}>
+                    <a href="{{ url('/currentcourses/'.$schoolyear->id) }}">
                         <i class="ti-view-list-alt"></i>
                         <p>Current Courses</p>
                     </a>

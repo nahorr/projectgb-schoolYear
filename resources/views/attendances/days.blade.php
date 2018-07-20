@@ -9,11 +9,11 @@
                 </div>
                 
                 <div class="row">
-                    <div class="col-md-6">
+                    <div class="col-md-8">
                         <div class="card">
                             <div class="header">
                                 <h4 class="title"><strong>Attendance by term</strong></h4>
-                                <p class="category"> School Year: &nbsp;&nbsp;{{ $school_year->school_year}}</p>
+                                <p class="category"> School Year: &nbsp;&nbsp;{{ $schoolyear->school_year}}</p>
                             </div>
                             <div class="content">
                                 <table class="table table-hover table-bordered">

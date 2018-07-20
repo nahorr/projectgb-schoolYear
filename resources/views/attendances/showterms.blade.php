@@ -13,7 +13,7 @@
                         <div class="card">
                             <div class="header">
                                 <h4 class="title"><strong>Attendance by term</strong></h4>
-                                <p class="category"> School Year: &nbsp;&nbsp;{{ $school_year->school_year}}</p>
+                                <p class="category"> School Year: &nbsp;&nbsp;{{ $schoolyear->school_year}}</p>
                             </div>
                             <div class="content">
                                 <table class="table table-striped">
@@ -23,10 +23,10 @@
                                         <th>END DATE</th>
                                     </thead>
                                     <tbody>
-                                        @foreach ($terms as $term)
+                                        @foreach ($terms->where('school_year_id', $schoolyear->id) as $term)
 
                                         <tr>
-                                            <td><strong><a href="{{asset('/attendances/days/' .Crypt::encrypt($term->id)) }}" >{{ $term->term }}</a></strong></td>
+                                            <td><strong><a href="{{asset('/attendances/days/' .$schoolyear->id) }}/{{Crypt::encrypt($term->id)}}" >{{ $term->term }}</a></strong></td>
                                             <td>{{ $term->start_date->toFormattedDateString() }}</td>
                                             <td>{{ $term->end_date->toFormattedDateString() }}</td>
                                            
@@ -38,7 +38,7 @@
 
                                 <div class="footer">
                                     <div class="chart-legend">
-                                        <i class="fa fa-circle text-info"></i> <strong>Click on a term above to view attendance record</strong>
+                                        <i class="fa fa-circle text-info"></i> <strong>Click on a term above to view attendance records for that term</strong>
                                     </div>
                                     <hr>
                                     <!--

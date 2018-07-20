@@ -13,7 +13,7 @@
 
           <div class="panel panel-info">
                         
-              <div class="panel-heading"><h4>{{ Auth::user()->name }} {{$term->term}} Report card<a href="{{ url('/reportcards') }}" class="pull-right" >Back</a></h4></div>
+              <div class="panel-heading"><h4>{{ Auth::user()->name }} {{$term->term}} Report card<a href="{{ url('/reportcards/'.$schoolyear->id) }}" class="pull-right" >Back</a></h4></div>
 
               <div class="pagebreak">
 

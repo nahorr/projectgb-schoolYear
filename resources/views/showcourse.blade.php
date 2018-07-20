@@ -9,7 +9,13 @@
                 </div>
                 @if($grade === null || $chart_ca === null || $class_highest === null || $class_lowest === null || $class_average === null)
 
-                    No grades tp view yet
+                <div class="row">
+                  <div class="col-md-12">
+                  <div class="alert alert-info">
+                    <h5><strong>You have no grades for this course yet!</strong> Please check back later or contact your teacher</h5>
+                  </div>
+                  </div>
+                </div>
 
                 @endif
                 <div class="row">
@@ -18,17 +24,7 @@
                         <div class="card">
                             <div class="header">
                                 <h4 class="title"><strong>{{ @$course->name }}</strong></h4>
-                                <p class="category">
-                                    @foreach($terms as $term)
-
-                                        @if($today->between($term->start_date, $term->show_until))
-
-                                            {{$term->term}}
-
-                                        @endif
-
-                                    @endforeach
-                                </p>
+                                <p class="category">{{$term->term}}</p>
                             </div>
                             <div class="content">
                                 
@@ -77,17 +73,7 @@
                         <div class="card">
                             <div class="header">
                                 <h4 class="title"><strong>{{ $course->name }}</strong></h4>
-                                <p class="category">
-                                    @foreach($terms as $term)
-
-                                        @if($today->between($term->start_date, $term->show_until))
-
-                                            {{$term->term}}
-
-                                        @endif
-                                        
-                                    @endforeach
-                                </p>
+                                <p class="category">{{$term->term}}</p>
                             </div>
                             <div class="content">
                          
@@ -150,17 +136,7 @@
                                         @endif</strong>
 
                                 </a></h4>
-                                <p class="category">
-                                    @foreach($terms as $term)
-
-                                        @if($today->between($term->start_date, $term->show_until))
-
-                                            {{$term->term}}
-
-                                        @endif
-                                        
-                                    @endforeach
-                                </p>
+                                <p class="category">{{$term->term}}</p>
                             </div>
                             <div class="content">
 
@@ -181,17 +157,7 @@
                         <div class="card">
                             <div class="header">
                                 <h4 class="title">{{ $course->name }}</h4>
-                                <p class="category">
-                                    @foreach($terms as $term)
-
-                                        @if($today->between($term->start_date, $term->show_until))
-
-                                            {{$term->term}}
-
-                                        @endif
-                                        
-                                    @endforeach
-                                </p>
+                                <p class="category">{{$term->term}}</p>
                             </div>
                             <div class="content">
                          

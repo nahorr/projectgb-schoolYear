@@ -26,7 +26,7 @@
                                         
 
                                             
-                                    <li><strong><i class="fa fa-circle text-info"></i>&nbsp;<a href="{{asset('/courses/'.Crypt::encrypt($course->id))}}" >{{ $course->course_code}}&nbsp;&nbsp;{{ $course->name }}</a></strong></li></br >
+                                    <li><strong><i class="fa fa-circle text-info"></i>&nbsp;<a href="{{asset('/showcourse/'.$schoolyear->id)}}/{{$term->id}}/{{Crypt::encrypt($course->id)}}" >{{ $course->course_code}}&nbsp;&nbsp;{{ $course->name }}</a></strong></li></br >
                                            
                                    
                                     
@@ -37,7 +37,7 @@
                                 <div class="footer">
                                     <hr>
                                     <div class="stats">
-                                        <i class="ti-reload"></i> Total # of courses this term : {{ $count }}
+                                        <i class="ti-reload"></i> Total # of courses this term : {{ $term_courses->count() }}
                                     </div>
                                 </div>
                             </div>
@@ -48,14 +48,7 @@
                         <div class="card">
                             <div class="header">
                                 <h4 class="title"><strong>Term Statistics</strong></h4>
-                                <p class="category">
-                                    @foreach ($terms as $term)
-                                        @if ($today->between($term->start_date, $term->show_until ))
-                                            Current Term: {{ $term->term }} 
-                                        @endif
-                                        
-                                    @endforeach 
-                                </p>
+                                <p class="category">Term: {{ $term->term }}</p>
                             </div>
                             <div class="content">
 

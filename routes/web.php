@@ -39,6 +39,39 @@ Route::get('/profile/{schoolyear}', 'UserController@profile')->name('userprofile
 
 Route::post('/profile/{schoolyear}', 'UserController@update_avatar');
 
+//route for courses - students
+Route::get('/currentcourses/{schoolyear}', 'CourseController@index');
+Route::get('/showcourse/{schoolyear}/{term}/{course}', 'CourseController@showCourse');
+
+//route for terms
+//Route::get('/courses', 'CourseController@index');
+Route::get('/showtermcourses/{schoolyear}/{term}', 'TermController@showTermCourses');
+
+//route for report card
+Route::get('/currentreportcard', 'CurrentReportCardController@index');
+
+Route::get('/reportcards/{schoolyear}', 'ReportCardsController@index');
+Route::get('/showtermreportcard/{schoolyear}/{term}', 'ReportCardsController@showReportCardTerms');
+
+Route::get('/pdfreportcard/{term}', 'ReportCardsController@pdfshow');
+
+//Attendance
+Route::get('/attendances/{schoolyear}', 'AttendancesController@showTerms');
+Route::get('/attendances/days/{schoolyear}/{term}', 'AttendancesController@showDays');
+
+//Daily Activities
+Route::get('/dailyactivity/activities', 'DailyActivity\CrudeController@showActivities');
+
+//Disciplinary Record Activities
+Route::get('/discipline/records', 'Discipline\CrudeController@showDRecords');
+
+//Messages and replies to Teacher
+Route::get('/messages/messagetoteacher', 'Messages\MessageToTeacher\CrudeController@showMessages');
+Route::get('/messages/viewmessage/{message}', 'Messages\MessageToTeacher\CrudeController@viewMessages');
+Route::get('/messages/sendmessagetoteacher/{teacher}', 'Messages\MessageToTeacher\CrudeController@sendMessageToTeacher');
+Route::post('/messages/postsendmessagetoteacher/{teacher}', 'Messages\MessageToTeacher\CrudeController@postSendMessageToTeacher');
+
+
 
 //Admin/staff Registeration and login
 
@@ -381,36 +414,3 @@ Route::group(['middleware' => 'admin_auth'], function(){
 
 
 
-
-
-//route for courses
-Route::get('/courses', 'CourseController@index');
-Route::get('/courses/{course}', 'CourseController@show');
-
-//route for terms
-//Route::get('/courses', 'CourseController@index');
-Route::get('/terms/{courses}', 'TermController@show');
-
-//route for report card
-Route::get('/currentreportcard', 'CurrentReportCardController@index');
-
-Route::get('/reportcards', 'ReportCardsController@index');
-Route::get('/reportcards/{term}', 'ReportCardsController@show');
-
-Route::get('/pdfreportcard/{term}', 'ReportCardsController@pdfshow');
-
-//Attendance
-Route::get('/attendances/terms', 'AttendancesController@showTerms');
-Route::get('/attendances/days/{term}', 'AttendancesController@showDays');
-
-//Daily Activities
-Route::get('/dailyactivity/activities', 'DailyActivity\CrudeController@showActivities');
-
-//Disciplinary Record Activities
-Route::get('/discipline/records', 'Discipline\CrudeController@showDRecords');
-
-//Messages and replies to Teacher
-Route::get('/messages/messagetoteacher', 'Messages\MessageToTeacher\CrudeController@showMessages');
-Route::get('/messages/viewmessage/{message}', 'Messages\MessageToTeacher\CrudeController@viewMessages');
-Route::get('/messages/sendmessagetoteacher/{teacher}', 'Messages\MessageToTeacher\CrudeController@sendMessageToTeacher');
-Route::post('/messages/postsendmessagetoteacher/{teacher}', 'Messages\MessageToTeacher\CrudeController@postSendMessageToTeacher');

@@ -67,14 +67,14 @@
                                           <div class="col-md-6">
                                               <div class="form-group">
                                                   <label><strong>1st CA: (max is 10, min is 0)</strong></label>
-                                                  <input type="number" name="first_ca" class="form-control border-input" required="required">
+                                                  <input type="number" step=".01" name="first_ca" class="form-control border-input" required="required">
                                               </div>
                                           </div>
 
                                           <div class="col-md-6">
                                               <div class="form-group">
                                                   <label><strong>2nd CA: (max is 10, min is 0)</strong></label>
-                                                  <input type="number" name="second_ca" class="form-control border-input" required="required" >
+                                                  <input type="number"  step=".01" name="second_ca" class="form-control border-input" required="required" >
                                               </div>
                                           </div>
 
@@ -87,14 +87,14 @@
                                           <div class="col-md-6">
                                               <div class="form-group">
                                                   <label><strong>3rd CA: (max is 10, min is 0)</strong> </label>
-                                                  <input type="number" name="third_ca" class="form-control border-input" required="required">
+                                                  <input type="number"  step=".01" name="third_ca" class="form-control border-input" required="required">
                                               </div>
                                           </div>
 
                                             <div class="col-md-6">
                                               <div class="form-group">
                                                   <label><strong>4th CA: (max is 10, min is 0)</strong></label>
-                                                  <input type="number" name="fourth_ca" class="form-control border-input" required="required" >
+                                                  <input type="number"  step=".01" name="fourth_ca" class="form-control border-input" required="required" >
                                               </div>
                                           </div>
                                           
@@ -103,7 +103,7 @@
                                           <div class="col-md-6">
                                               <div class="form-group">
                                                   <label><strong>Final Exam: (max is 60, min is 0)</strong> </label>
-                                                  <input type="number" name="exam" class="form-control border-input" required="required">
+                                                  <input type="number"  step=".01" name="exam" class="form-control border-input" required="required">
                                               </div>
                                           </div>
 

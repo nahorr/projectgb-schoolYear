@@ -14,10 +14,10 @@
                             <div class="card">
                                 <div class="header">
                                     <h4 class="title"><strong>Report Cards</strong></h4>
-                                    <p class="category">School Year: {{ $school_year->school_year}}</p>
+                                    <p class="category">School Year: {{ $schoolyear->school_year}}</p>
                                 </div>
                                 <div class="content">
-                                    <table class="table table-striped text-center">
+                                    <table class="table table-bordered table-hover text-center">
                                         <thead>
                                             <th class="text-center"><strong>Terms</strong></th>
                                             <th class="text-center"><strong>Start Date</strong></th>
@@ -29,7 +29,7 @@
 
                                         </thead>
                                         <tbody>
-                                            @foreach ($terms as $term)
+                                            @foreach ($terms->where('school_year_id', $schoolyear->id) as $term)
 
                                             <tr>
                                                 <td>{{ $term->term }}</td>
@@ -37,8 +37,23 @@
                                                 <td>{{ $term->end_date->toFormattedDateString() }}</td>
                                                 <td>{{ $student->first_name }}</td>
                                                 <td>{{ $student->last_name }}</td>
-                                                <td>{{ $student_group->name }}</td>
-                                                <td><a href="{{asset('/reportcards/'.Crypt::encrypt($term->id)) }}" style="font-size: 16px; font-weight: bold;">VIEW&nbsp;<i class="fa fa-check-square-o fa-2x"></i></a>
+                                                <td>
+                                                    @foreach($student_registered_groups as $student_group)
+                                                        @if($student_group->term_id == $term->id)
+                                                         {{ $student_group->group->name }}
+                                                        @else
+                                                            <span class="bg-danger"><strike>Not Registered</strike></span>
+                                                        @endif
+                                                    @endforeach
+                                                </td>
+                                                <td>
+                                                    @foreach($student_registered_groups as $student_group)
+                                                        @if($student_group->term_id == $term->id)
+                                                            <a href="{{asset('/showtermreportcard/'.$schoolyear->id) }}/{{Crypt::encrypt($term->id)}}" style="font-size: 16px; font-weight: bold;">VIEW&nbsp;<i class="fa fa-check-square-o fa-2x"></i></a>
+                                                        @else
+                                                            <span class="bg-danger"><strike>Not Registered</strike></span>
+                                                        @endif
+                                                    @endforeach
                                                 {{-- <a href="{{asset('/pdfreportcard/'.Crypt::encrypt($term->id)) }}">Print&nbsp;<i class="fa fa-print" aria-hidden="true"></i></a> --}}
                                                 </td>
                                                
@@ -49,16 +64,13 @@
                                     </table>
 
                                     <div class="footer">
-                                    @foreach ($terms as $term)
-                                                    @if ($today->between($term->start_date, $term->show_until ))
+                                    
                                         <div class="chart-legend">
-                                            <a href="{{asset('/reportcards/'.Crypt::encrypt($term->id)) }}"> <i class="fa fa-circle text-info"></i> <strong>
-                                                        Current term is {{ $term->term }} 
+                                            <a href="{{asset('/showtermreportcard/'.$schoolyear->id) }}/{{Crypt::encrypt($current_term->id)}}"> <i class="fa fa-circle text-info"></i> <strong>
+                                                        Current term is {{ $current_term->term }} 
                                                     </strong></a>
                                         </div>
-                                            @endif
-                                                    
-                                        @endforeach
+                                            
                                         <hr>
                                         <!--
                                         <div class="stats">

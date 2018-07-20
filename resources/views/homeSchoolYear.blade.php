@@ -98,7 +98,7 @@
                                     
                                     <hr>
                                     <div class="stats">
-                                        <i class="fa fa-users" aria-hidden="true"></i> Total # of records in  {{$schoolyear->school_year}}: {{ $attendance_records->where('student_id', $student->id)->count() }}
+                                        <i class="fa fa-users" aria-hidden="true"></i> Total # of records in  {{$schoolyear->school_year}}: {{ $join_term_attendance->where('student_id', $student->id)->where('school_year_id', $schoolyear->id)->count() }}
                                     </div>
                                 </div>
                             </div>
@@ -136,7 +136,7 @@
                                             @if($schoolyear_term->school_year_id == $schoolyear->id)
 
                                         <tr>
-                                            <td><strong><a href="{{asset('/terms/' .Crypt::encrypt($schoolyear_term->id)) }}" >{{ $schoolyear_term->term }}</a></strong></td>
+                                            <td><strong><a href="{{asset('/showtermcourses/'.$schoolyear->id) }}/{{Crypt::encrypt($schoolyear_term->id)}}">{{ $schoolyear_term->term }}</a></strong></td>
                                             <td>{{ $schoolyear_term->start_date->toFormattedDateString() }}</td>
                                             <td>{{ $schoolyear_term->end_date->toFormattedDateString() }}</td>
                                            

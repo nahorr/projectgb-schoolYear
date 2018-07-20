@@ -153,6 +153,9 @@ Class NavComposer {
                 ->dataset('Class', [$student_class_min_current,$student_class_max_current,$student_class_avg_current])
                 // Setup what the values mean
                 ->labels(['Minimum', 'Maximum', 'Average']); 
+
+
+        $current_courses = Course::where('term_id', $current_term->id)->where('group_id', '=', StudentRegistration::where('school_year_id', '=', $current_school_year->id)->where('term_id', '=', $current_term->id)->where('student_id', '=', Student::where('registration_code', '=', Auth::user()->registration_code)->first()->id)->first()->group_id)->get();
         
         //dd($registrations_teachers);
         
@@ -195,7 +198,8 @@ Class NavComposer {
         ->with('student_class_max_current', $student_class_max_current)
         ->with('student_class_min_current', $student_class_min_current)
         ->with('student_class_avg_current', $student_class_avg_current)
-        ->with('school_class_student_chart_current', $school_class_student_chart_current);
+        ->with('school_class_student_chart_current', $school_class_student_chart_current)
+        ->with('current_courses', $current_courses);
         
 
     }

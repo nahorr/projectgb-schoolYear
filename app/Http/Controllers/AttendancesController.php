@@ -22,63 +22,26 @@ use \Crypt;
 
 class AttendancesController extends Controller
 {
-    public function showTerms()
+    public function showTerms(School_year $schoolyear)
     {
-                
+                        
 
-        
-        //get current date
-        $today = Carbon::today();
-
-        //get Authenticated user
-        $user = Auth::user();
-
-        //all_users
-        $all_users = User::get();
-
-        //get user reg code
-        $reg_code = $user->registration_code;
-
-
-        $student = Student::where('registration_code', '=', $reg_code)->first();
-
-        $student_group = Group::where('id','=', $student->group_id)->first();
-
-        
-
-        return view('/attendances/terms');
+        return view('attendances.showterms', compact('schoolyear'));
     }
 
-    public function showDays($term_id)
+    public function showDays(School_year $schoolyear, $term)
     {
                 
 
-        $term = Term::find(Crypt::decrypt($term_id));
-
-        //get current date
-        $today = Carbon::today();
-
-        //get Authenticated user
-        $user = Auth::user();
-
-        //all_users
-        $all_users = User::get();
-
-        //get user reg code
-        $reg_code = $user->registration_code;
-
-
-        $student = Student::where('registration_code', '=', $reg_code)->first();
-
-        $student_group = Group::where('id','=', $student->group_id)->first();
+        $term = Term::find(Crypt::decrypt($term));
 
         $att_attCode = Attendance::join('attendance_codes', 'attendances.attendance_code_id', '=', 'attendance_codes.id')
-                                    ->where('student_id', '=', $student->id)
+                                    ->where('student_id', '=', Student::where('registration_code', '=', Auth::user()->registration_code)->first()->id)
                                     ->where('term_id', '=', $term->id)
                                     ->orderBy('day', 'desc')
-                                    ->paginate(7);
+                                    ->paginate(30);
 
-
-        return view('/attendances/days', compact('term', 'att_attCode'));
+        
+        return view('attendances.days', compact( 'schoolyear', 'term', 'att_attCode'));
     }
 }

@@ -75,7 +75,7 @@
                             </thead>
                             <tbody>
 
-                             @foreach (@$join_students_regs->where('term_id', $term->id)->where('group_id', \App\StafferRegistration::where('school_year_id', '=', $schoolyear->id)->where('term_id', '=', $term->id)->first()->group_id ) as $key => $reg_students)
+                             @foreach (@$join_students_regs->where('term_id', $term->id)->where('group_id', \App\StafferRegistration::where('school_year_id', '=', $schoolyear->id)->where('term_id', '=', $term->id)->where('staffer_id', \App\Staffer::where('registration_code', '=', Auth::guard('web_admin')->user()->registration_code)->first()->id)->first()->group_id ) as $key => $reg_students)
                                   
 
                                       <tr>
@@ -179,36 +179,38 @@
                                         </td>
                                         <td class="text-center">
                                         @foreach ($grades as $grade)
-                                            @if ($grade->registration_code == $reg_students->student->registration_code)
+
+                                            @if ($grade->student->registration_code == $reg_students->student->registration_code)
                                             
 
-                                            @if ($grade->total < 65)
-                                            F
-                                            @elseif ($grade->total<= 66 && $grade->total >=65)
-                                            D
-                                            @elseif ($grade->total<= 69 && $grade->total >=67)
-                                            D+
-                                            @elseif ($grade->total<= 73 && $grade->total >=70)
-                                            C-
-                                            @elseif ($grade->total<= 76 && $grade->total >=74)
-                                            C
-                                            @elseif ($grade->total<= 79 && $grade->total >=77)
-                                            C+
-                                            @elseif ($grade->total<= 83 && $grade->total >=80)
-                                            B-
-                                            @elseif ($grade->total<= 86 && $grade->total >=84)
-                                            B
-                                            @elseif ($grade->total<= 89 && $grade->total >=87)
-                                            B+
-                                            @elseif ($grade->total<= 93 && $grade->total >=90)
-                                            A-
-                                            @elseif ($grade->total<= 96 && $grade->total >=94)
-                                            A
-                                            @elseif ($grade->total>= 97)
-                                            A+
-                                            @endif
+                                                @if ($grade->total < 65)
+                                                F
+                                                @elseif ($grade->total<= 66 && $grade->total >=65)
+                                                D
+                                                @elseif ($grade->total<= 69 && $grade->total >=67)
+                                                D+
+                                                @elseif ($grade->total<= 73 && $grade->total >=70)
+                                                C-
+                                                @elseif ($grade->total<= 76 && $grade->total >=74)
+                                                C
+                                                @elseif ($grade->total<= 79 && $grade->total >=77)
+                                                C+
+                                                @elseif ($grade->total<= 83 && $grade->total >=80)
+                                                B-
+                                                @elseif ($grade->total<= 86 && $grade->total >=84)
+                                                B
+                                                @elseif ($grade->total<= 89 && $grade->total >=87)
+                                                B+
+                                                @elseif ($grade->total<= 93 && $grade->total >=90)
+                                                A-
+                                                @elseif ($grade->total<= 96 && $grade->total >=94)
+                                                A
+                                                @elseif ($grade->total>= 97)
+                                                A+
+                                                @endif
 
                                             @endif
+
                                         @endforeach
                                            
                                         </td>

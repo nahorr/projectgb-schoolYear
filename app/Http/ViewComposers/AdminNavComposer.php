@@ -103,7 +103,8 @@ Class AdminNavComposer {
                                 //->get();
         $join_students_regs = StudentRegistration::with('student')->with('school_year')->with('term')->with('group')->get();
         
-       
+       //dd($join_students_regs);
+
         ////get Attendance Records
         $attendances = Attendance::join('students', 'attendances.student_id', '=', 'students.id')
                                 ->join('terms', 'attendances.term_id', '=', 'terms.id')

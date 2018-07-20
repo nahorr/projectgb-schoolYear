@@ -16,6 +16,8 @@ use App\Grade;
 use App\Group;
 use \Crypt;
 use Charts;
+use App\StudentRegistration;
+
 class TermController extends Controller
 {
 
@@ -25,94 +27,39 @@ class TermController extends Controller
     }
 
 
-    public function show($id)
+    public function showTermCourses(School_year $schoolyear, $term)
     {
 
-        $user = Auth::user();
 
-        $reg_code = $user->registration_code;
-
-        $student = Student::where('registration_code', '=', $reg_code)->first();
-
-        $student_group = Group::where('id','=', $student->group_id)->first();
-
-
-        //get current date
-        $today = Carbon::today();
-
-        //get events
-        $events = Event::where('group_id', '=', '$student->group_id')->paginate(2);    
-
-        $term = Term::find(Crypt::decrypt($id));
-
-        $term_id = $term->id;
-
-               
-        
-        
-        //get term
-
-        $terms = Term::get();
-
-        foreach ($terms as $t){
-            if ($today->between($t->start_date, $t->end_date )){
-                $current_term =  $t->term;
-
-            }
-                                                         
-        }
+        $term = Term::find(Crypt::decrypt($term));
         
 
-        $term_courses = Course::where('term_id', '=', $term_id)
-                            ->where('group_id', '=', $student->group_id)
+        $term_courses = Course::where('term_id', '=', $term->id)
+                            ->where('group_id', '=', StudentRegistration::where('school_year_id', '=', $schoolyear->id)->where('student_id', '=', Student::where('registration_code', '=', Auth::user()->registration_code)->first()->id)->first()->group_id)
                             ->get();
 
 
-        $count = 0;
-        foreach ($term_courses as $course){
-            
-                $count = $count + 1;
-                   
-        }
-
+    
         //Start of School statistics - current term
       
         //class statistics - current term
-        $class_term_max = Course::join('grades', 'courses.id', '=', 'grades.course_id')
-                ->where('courses.group_id', '=', $student->group_id)
-                ->where('courses.term_id', '=', $term->id)
-                ->max('total');
+        $class_term_max = Grade::where('school_year_id', $schoolyear->id)->where('term_id', $term->id)->where('group_id',StudentRegistration::where('school_year_id', '=', $schoolyear->id)->where('student_id', '=', Student::where('registration_code', '=', Auth::user()->registration_code)->first()->id)->first()->group_id)->max('total');                 
+       
+        $class_term_min = Grade::where('school_year_id', $schoolyear->id)->where('term_id', $term->id)->where('group_id',StudentRegistration::where('school_year_id', '=', $schoolyear->id)->where('student_id', '=', Student::where('registration_code', '=', Auth::user()->registration_code)->first()->id)->first()->group_id)->min('total'); 
 
-        $class_term_min = Course::join('grades', 'courses.id', '=', 'grades.course_id')
-                ->where('courses.group_id', '=', $student->group_id)
-                ->where('courses.term_id', '=', $term->id)
-                ->min('total'); 
-
-        $class_term_avg = Course::join('grades', 'courses.id', '=', 'grades.course_id')
-                ->where('courses.group_id', '=', $student->group_id)
-                ->where('courses.term_id', '=', $term->id)
-                ->avg('total');        
+        $class_term_avg = Grade::where('school_year_id', $schoolyear->id)->where('term_id', $term->id)->where('group_id',StudentRegistration::where('school_year_id', '=', $schoolyear->id)->where('student_id', '=', Student::where('registration_code', '=', Auth::user()->registration_code)->first()->id)->first()->group_id)->avg('total');        
                
         //student statistics - current term
-        $student_term_max = Course::join('grades', 'courses.id', '=', 'grades.course_id')
-                ->where('grades.student_id', '=', $student->id)
-                ->where('courses.term_id', '=', $term->id)
-                ->max('total');
+        $student_term_max = Grade::where('school_year_id', $schoolyear->id)->where('term_id', $term->id)->where('group_id',StudentRegistration::where('school_year_id', '=', $schoolyear->id)->where('student_id', '=', Student::where('registration_code', '=', Auth::user()->registration_code)->first()->id)->first()->group_id)->where('student_id', Student::where('registration_code', '=', Auth::user()->registration_code)->first()->id)->max('total');
 
-        $student_term_min = Course::join('grades', 'courses.id', '=', 'grades.course_id')
-                ->where('grades.student_id', '=', $student->id)
-                ->where('courses.term_id', '=', $term->id)
-                ->min('total'); 
+        $student_term_min = Grade::where('school_year_id', $schoolyear->id)->where('term_id', $term->id)->where('group_id',StudentRegistration::where('school_year_id', '=', $schoolyear->id)->where('student_id', '=', Student::where('registration_code', '=', Auth::user()->registration_code)->first()->id)->first()->group_id)->where('student_id', Student::where('registration_code', '=', Auth::user()->registration_code)->first()->id)->min('total'); 
 
-        $student_term_avg = Course::join('grades', 'courses.id', '=', 'grades.course_id')
-                ->where('grades.student_id', '=', $student->id)
-                ->where('courses.term_id', '=', $term->id)
-                ->avg('total'); 
+        $student_term_avg = Grade::where('school_year_id', $schoolyear->id)->where('term_id', $term->id)->where('group_id',StudentRegistration::where('school_year_id', '=', $schoolyear->id)->where('student_id', '=', Student::where('registration_code', '=', Auth::user()->registration_code)->first()->id)->first()->group_id)->where('student_id', Student::where('registration_code', '=', Auth::user()->registration_code)->first()->id)->avg('total'); 
 
         //School-Student-Class Statistics- current term
         $class_student_term_chart = Charts::multi('bar', 'material')
                 // Setup the chart settings
-                ->title("Student-Class Term Statistics")
+                ->title("Student-Class $term->term $schoolyear->school_year Statistics")
                 // A dimension of 0 means it will take 100% of the space
                 ->dimensions(0, 230) // Width x Height
                 // This defines a preset of colors already done:)
@@ -129,12 +76,9 @@ class TermController extends Controller
        
 
 
-        return view('/showtermcourses', 
-        	compact('term_courses', 
-        			'today', 'term', 'events', 'terms','term_id', 'student_group',
-        			'student', 'grade', 'course', 'count', 'class_student_term_chart',
-                    'student_term_max', 'student_term_avg', 'student_term_min'
-                ));
+        return view('showtermcourses', 
+        	compact( 'schoolyear', 'term_courses', 'term','class_student_term_chart',
+                    'student_term_max', 'student_term_avg', 'student_term_min'));
 
         }
 }

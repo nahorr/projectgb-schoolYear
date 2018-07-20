@@ -13,13 +13,8 @@
                     <div class="col-md-6">
                         <div class="card">
                             <div class="header">
-                                <h4 class="title"><strong>{{Auth::User()->name}}'s Course</strong></h4>
-                                <p class="category"> @foreach ($terms as $term)
-                                                    @if ($today->between($term->start_date, $term->show_until ))
-                                                        {{ $term->term }} Courses
-                                                    @endif
-                                                    
-                                                @endforeach </p>
+                                <h4 class="title"><strong>{{Auth::User()->name}}'s Current Course</strong></h4>
+                                <p class="category"> Current Term: {{ $current_term->term }} </p>
                             </div>
                             <div class="content">
                                 
@@ -30,7 +25,7 @@
                                         
 
                                             
-                                    <li><strong><i class="fa fa-circle text-info"></i>&nbsp;<a href="{{asset('/courses/'.Crypt::encrypt($course->id)) }}" >{{ $course->course_code}}&nbsp;&nbsp;{{ $course->name }}</a></strong></li></br >
+                                    <li><strong><i class="fa fa-circle text-info"></i>&nbsp;<a href="{{asset('/showcourse/'.$current_school_year->id)}}/{{$current_term->id}}/{{Crypt::encrypt($course->id)}}" >{{ $course->course_code}}&nbsp;&nbsp;{{ $course->name }}</a></strong></li></br >
                                            
                                    
                                     
@@ -41,7 +36,7 @@
                                 <div class="footer">
                                     <hr>
                                     <div class="stats">
-                                        <i class="ti-reload"></i> Total # of courses this term : {{ $count }}
+                                        <i class="ti-reload"></i> Total # of courses this term : {{ $current_courses->count() }}
                                     </div>
                                 </div>
                             </div>
@@ -51,9 +46,9 @@
                     <div class="col-md-6">
                         <div class="card">
                             <div class="header">
-                                <h4 class="title"><strong>School Statistics</strong></h4>
+                                <h4 class="title"><strong>School  Statistics</strong></h4>
                                 <p class="category">
-                                    {{@$school_year->school_year}} School Year
+                                    Current School Year: {{@$current_school_year->school_year}} 
                                 </p>
                             </div>
                             <div class="content">
@@ -73,14 +68,8 @@
                                     </div> 
                                     <hr>
                                    <div class="stats">
-                                        <i class="ti-reload"></i> 
-                                        @foreach ($terms as $term)
-                                        @if ($today->between($term->start_date, $term->show_until ))
-                                            Current Term: {{ $term->term }} 
-                                        @endif
-                                        
-                                    @endforeach 
-                                    <p>Above bar charts show the school grades statistics so far for the {{@$school_year->school_year}} School Year. It give an indication on how your schol it doing as a whole. The graph is dynamic - it will change from time to time- when new grades are entered or deleted.</p>
+                                        <i class="ti-reload"></i>Current Term: {{ $current_term->term }}
+                                    <p>Above bar charts show the school grades statistics so far for the {{@$current_school_year->school_year}} School Year. It give an indication on how your schol it doing as a whole. The graph is dynamic - it will change from time to time- when new grades are entered or deleted.</p>
                                     </div>
                                 </div>
                             </div>

@@ -32,8 +32,7 @@ class StudentCoursesGradesController extends Controller
 
         $course = Course::find(Crypt::decrypt($course));
 
-
-               
+   
         $group = Group::where('id', '=', $course->group_id)->first();
 
     
@@ -48,7 +47,9 @@ class StudentCoursesGradesController extends Controller
         ->orderBy('total', 'desc')
         ->get();
 
-   
+        /*$regsss= \App\StudentRegistration::with('student')->with('school_year')->with('term')->with('group')->where('term_id', $term->id)->where('group_id', \App\StafferRegistration::where('school_year_id', '=', $schoolyear->id)->where('term_id', '=', $term->id)->where('staffer_id', \App\Staffer::where('registration_code', '=', Auth::guard('web_admin')->user()->registration_code)->first()->id)->first()->group_id)->get();*/
+
+    //dd($regsss);
               
         $positions= Student::join('grades', 'students.id', '=', 'grades.student_id')
         ->where('grades.course_id', '=', $course->id)

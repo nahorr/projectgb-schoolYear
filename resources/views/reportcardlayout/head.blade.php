@@ -13,11 +13,11 @@
                        
                        	<div class="header text-center">
                        		
-						    <h1>Socidy International School</h1> 
-						    <p>55 Westlynn Spur, Claresholm, Alberta T0L 0T0</p> 
-						    <p>Phone:&nbsp; +1-403-402-2387 &nbsp; Email:&nbsp; nnamdi@socidy.com</p> 
+						    <h1>{{$school->name}}</h1> 
+						    <p>{{$school->address}}, {{$school->city}}, {{$school->state}} {{$school->postal_code}}</p> 
+						    <p>Phone:&nbsp; {{$school->phone}} &nbsp; Email:&nbsp; {{$school->email}}</p> 
 						    <p>END OF TERM REPORT</p> 
-						    <p>{{ $school_year->school_year}} &nbsp; SESSION</p>
+						    <p>{{ $schoolyear->school_year}} &nbsp; SESSION</p>
 						    <p>{{ $term->term }}</p> 
 						   
 					   	</div>

@@ -27,6 +27,8 @@ use App\Attendance;
 use DB;
 use PDF;
 use \Crypt;
+use App\StudentRegistration;
+use App\StafferRegistration;
 
 
 class ReportCardsController extends Controller
@@ -37,25 +39,22 @@ class ReportCardsController extends Controller
         $this->middleware('auth');
     }
 
-    public function index()
+    public function index(School_year $schoolyear)
     {
-                
+        $student_registered_groups = StudentRegistration::with('group')->where('school_year_id', '=', $schoolyear->id)->where('student_id', '=', Student::where('registration_code', '=', Auth::user()->registration_code)->first()->id)->get();
 
-        //get events
-        $events = Event::paginate(2);
+        //dd($student_registered_groups);
 
+        //$student_group = Group::where('id','=', where('group_id', $group->id)->first();
 
-
-        return view('/reportcards', compact('events'));
+        return view('reportcards', compact('schoolyear', 'student_registered_groups'));
     }
 
-    public function show($id)
+    public function showReportCardTerms(School_year $schoolyear, $term)
     {
 
-        //get current date
-        $today = Carbon::today();
 
-        $term = Term::find(Crypt::decrypt($id));
+        $term = Term::find(Crypt::decrypt($term));
 
         $term_id = $term->id;
 
@@ -63,25 +62,20 @@ class ReportCardsController extends Controller
 
         $next_term = Term::find( $next_term_id);
 
-       // dd($next_term);
-               
-        $user = Auth::user();
-
-        $reg_code = $user->registration_code;
-
-        $student = Student::where('registration_code', '=', $reg_code)->first();
+    
+        $student = Student::where('registration_code', '=', Auth::user()->registration_code)->first();
 
 
 
-        $student_group = Group::where('id','=', $student->group_id)->first();
+        $student_group = StudentRegistration::with('group')->where('school_year_id', '=', $schoolyear->id)->where('term_id', '=', $term->id)->where('student_id', '=', Student::where('registration_code', '=', Auth::user()->registration_code)->first()->id)->first();
 
-
-        $next_group = Group::where('id','=', $student->group_id+2)->first();
+        //please change 2 to a ny number that matches your school group pattern
+        //$next_group = Group::where('id','=', $student->group_id+2)->first();
 
         
-        $student_teacher = Staffer::where('group_id', '=', $student_group->id )->first();
+        $student_teacher = StafferRegistration::with('staffer')->where('school_year_id', '=', $schoolyear->id)->where('term_id', '=', $term->id)->where('group_id', '=', StudentRegistration::where('school_year_id', '=', $schoolyear->id)->where('term_id', '=', $term->id)->where('student_id', '=', Student::where('registration_code', '=', Auth::user()->registration_code)->first()->id)->first()->group_id )->first();
 
-        $students_all = Student::where('group_id', '=', $student_group->id)->get();
+       $students_all = StudentRegistration::where('group_id', '=', StudentRegistration::where('school_year_id', '=', $schoolyear->id)->where('term_id', '=', $term->id)->where('student_id', '=', Student::where('registration_code', '=', Auth::user()->registration_code)->first()->id)->first()->group_id)->get();
 
                               
         //get term
@@ -125,8 +119,7 @@ class ReportCardsController extends Controller
 
 
         $course_grade_all_students = Course::join('grades', 'courses.id', '=', 'grades.course_id')
-        ->where('courses.group_id', '=', $student->group_id)
-        ->where('courses.term_id', '=', $term->id)
+        ->where('courses.group_id', '=', StudentRegistration::where('school_year_id', '=', $schoolyear->id)->where('term_id', '=', $term->id)->where('student_id', '=', Student::where('registration_code', '=', Auth::user()->registration_code)->first()->id)->first()->group_id)->where('courses.term_id', '=', $term->id)
         ->get();
 
 
@@ -172,8 +165,8 @@ class ReportCardsController extends Controller
         
                   
         
-        return view('/showtermreportcard', 
-        	compact('today', 'term','terms','term_id', 'student_group',
+        return view('showtermreportcard', 
+        	compact( 'schoolyear', 'today', 'term','terms','term_id', 'student_group',
         			'student', 'grade', 'course', 'course_grade',
                     'mgb', 'mgb_lowest', 'mgb_avg', 
                     'pluck_course_id', 'pluck_course_id_min', 'pluck_course_id_avg',
