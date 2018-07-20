@@ -47,6 +47,9 @@ class GradesCrudController extends Controller
         
     	$this->validate(request(), [
 
+            'school_year_id' => 'required',
+            'term_id' => 'required',
+            'group_id' => 'required',
     		'student_id' => 'required|unique_with:grades,course_id',
             'course_id' => 'required',
             'first_ca'=> 'required|numeric|max:10|min:0',
@@ -60,6 +63,9 @@ class GradesCrudController extends Controller
 
     	Grade::insert([
 
+            'school_year_id' => $r->school_year_id,
+            'term_id' => $r->term_id,
+            'group_id' => $r->group_id,
     		'student_id'=>$r->student_id,
     		'course_id'=>$r->course_id,
     		'first_ca'=>$r->first_ca,

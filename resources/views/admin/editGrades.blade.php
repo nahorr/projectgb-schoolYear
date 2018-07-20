@@ -27,8 +27,20 @@
             	           <div class="content">
 							<form action="{{ url('/postGradeUpdate', [Crypt::encrypt($student_grades->student_id), Crypt::encrypt($course->id), $schoolyear->id, $term->id] )}}" method="POST">
 							{{ csrf_field() }}
-
-                            <div class="row">
+                                       
+                                    <div class="row">
+                                        <div class="col-md-6">    
+                                                <input type="hidden" class="form-control border-input" name="school_year_id" value="{{$schoolyear->id}}">
+                                           
+                                       
+                                                <input type="hidden" class="form-control border-input" name="term_id" value="{{$term->id}}" >
+                                          
+                                                <input type="hidden" class="form-control border-input" name="group_id" value="{{$group->id}}" >
+                                      </div>
+                                      </div>  
+                                                                        
+                                      <div class="row">
+                                                                                  
                                           <div class="col-md-6">
                                               <div class="form-group">
                                                   <label><strong>Student: {{$student->first_name}} {{$student->last_name}} </strong></label>

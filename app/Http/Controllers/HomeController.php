@@ -26,6 +26,7 @@ use App\Grade;
 use App\Course;
 use App\StafferRegistration;
 use App\StudentRegistration;
+use DB;
 
 class HomeController extends Controller
 {
@@ -78,6 +79,12 @@ class HomeController extends Controller
                     //->Where('end_date', '>=', $today)->count();
 
         //$expired_events = Event::where('group_id', '=', $student->group_id)->whereDate('end_date', '<', $today )->count();
+
+        $join_terms_courses = Term::join('courses', 'terms.id', '=', 'courses.term_id')->where('school_year_id', $schoolyear->id)->get();
+
+        $join_grades_courses = Course::join('grades', 'courses.id', '=', 'grades.course_id')->get();
+
+        //dd($join_grades_courses->where())
 
         //Start of School statistics - school year
         //school max, min, total, count, school average

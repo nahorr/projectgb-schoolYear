@@ -10,6 +10,11 @@ class School_year extends Model
 
     protected $dates = ['start_date', 'end_date'];
 
+    public function grades()
+    {
+        return $this->hasMany('App\Grade');
+    }
+    
     public function staffer_registrations()
     {
         return $this->hasMany('App\StafferRegistration');

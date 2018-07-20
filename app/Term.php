@@ -75,4 +75,10 @@ class Term extends Model
     {
         return $this->hasMany('App\StudentRegistration');
     }
+
+
+    public function grades()
+    {
+        return $this->hasMany('App\Grade');
+    }
 }
