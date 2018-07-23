@@ -56,12 +56,12 @@ Class SuperAdminNavComposer {
         //Staffers
         $staffers = Staffer::get();
 
-        $current_staffers_registrations = StafferRegistration::with('staffer')->with('school_year')->with('term')->with('group')->where('staffer_registrations.school_year_id', '=', $current_school_year->id)->where('staffer_registrations.term_id', '=', $current_term->id)->get();
+        $current_staffers_registrations = @StafferRegistration::with('staffer')->with('school_year')->with('term')->with('group')->where('staffer_registrations.school_year_id', '=', $current_school_year->id)->where('staffer_registrations.term_id', '=', $current_term->id)->get();
 
         //Students
         $students = Student::get();
 
-        $current_students_registrations = StudentRegistration::with('student')->with('school_year')->with('term')->with('group')->where('student_registrations.school_year_id', '=', $current_school_year->id)->where('student_registrations.term_id', '=', $current_term->id)->get();
+        $current_students_registrations = @StudentRegistration::with('student')->with('school_year')->with('term')->with('group')->where('student_registrations.school_year_id', '=', $current_school_year->id)->where('student_registrations.term_id', '=', $current_term->id)->get();
 
        // dd($current_students_registrations);
 

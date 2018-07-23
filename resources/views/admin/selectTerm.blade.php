@@ -86,7 +86,7 @@
                               
                               <ul class="dropdown-menu">
 
-                                <li><a href="{{ url('/admin/profile/'.$current_school_year->id) }}/{{$current_term->id}}"><i class="fa fa-btn fa-user"></i>Profile</a></li>
+                                <li><a href="{{ url('/admin/profile/'.@$current_school_year->id) }}/{{@$current_term->id}}"><i class="fa fa-btn fa-user"></i>Profile</a></li>
                                 <li>
                                     <a href="{{ route('logout') }}"
                                         onclick="event.preventDefault();
