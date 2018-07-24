@@ -38,12 +38,12 @@ Class SuperAdminNavComposer {
         $schoolyears = School_year::orderBy('start_date', 'desc')->get();
 
         //get current school year
-        $current_school_year = School_year::where('start_date', '<=', $today)->where('end_date', '>=', $today)->first();
+        $current_school_year = School_year::where('start_date', '<=', $today)->where('show_until', '>=', $today)->first();
         
         //get all terms
         $terms = Term::get();
 
-        $current_term = Term::where([['start_date', '<=', $today], ['end_date', '>=', $today]])->first();
+        $current_term = Term::where([['start_date', '<=', $today], ['show_until', '>=', $today]])->first();
 
         $admin_users = Admin::get();
             

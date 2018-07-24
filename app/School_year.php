@@ -8,7 +8,7 @@ class School_year extends Model
 {
     //protected $dateFormat = 'Y-m-d H:i';
 
-    protected $dates = ['start_date', 'end_date'];
+    protected $dates = ['start_date', 'end_date', 'show_until'];
 
     public function grades()
     {

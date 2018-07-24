@@ -64,12 +64,12 @@ Class NavComposer {
         $school_years = School_year::orderBy('start_date', 'desc')->get();
 
         //get current school year
-        $current_school_year = School_year::where([['start_date', '<=', $today], ['end_date', '>=', $today]])->first();
+        $current_school_year = @School_year::where([['start_date', '<=', $today], ['show_until', '>=', $today]])->first();
 
         //get term
         $terms = Term::get();
 
-        $current_term = Term::where([['start_date', '<=', $today], ['end_date', '>=', $today]])->first();
+        $current_term = @Term::where([['start_date', '<=', $today], ['show_until', '>=', $today]])->first();
 
         //Students, Users and Registrations
         $all_users = User::get();
@@ -93,10 +93,10 @@ Class NavComposer {
         $location = Location::get($ip_address);
 
         //home page defaults to current school_year and current term//
-        $students_teacher_current = StafferRegistration::with('staffer')->with('school_year')->with('term')->with('group')->where('school_year_id', '=', $current_school_year->id)->where('term_id', '=', $current_term->id)->where('group_id', StudentRegistration::where('school_year_id', '=', $current_school_year->id)->where('term_id', '=', $current_term->id)->where('student_id', '=', Student::where('registration_code', '=', Auth::user()->registration_code)->first()->id)->first()->group_id)->first();       
+        $students_teacher_current = @StafferRegistration::with('staffer')->with('school_year')->with('term')->with('group')->where('school_year_id', '=', $current_school_year->id)->where('term_id', '=', $current_term->id)->where('group_id', StudentRegistration::where('school_year_id', '=', $current_school_year->id)->where('term_id', '=', $current_term->id)->where('student_id', '=', Student::where('registration_code', '=', Auth::user()->registration_code)->first()->id)->first()->group_id)->first();       
 
 
-        $class_members_current = StudentRegistration::where('school_year_id', '=', $current_school_year->id)->where('term_id', '=', $current_term->id)->where('group_id', '=', StudentRegistration::where('school_year_id', '=', $current_school_year->id)->where('term_id', '=', $current_term->id)->where('student_id', '=', Student::where('registration_code', '=', Auth::user()->registration_code)->first()->id)->first()->group_id)->get();
+        $class_members_current = @StudentRegistration::where('school_year_id', '=', $current_school_year->id)->where('term_id', '=', $current_term->id)->where('group_id', '=', StudentRegistration::where('school_year_id', '=', $current_school_year->id)->where('term_id', '=', $current_term->id)->where('student_id', '=', Student::where('registration_code', '=', Auth::user()->registration_code)->first()->id)->first()->group_id)->get();
        
         //Attendance
         $attendance_today = Attendance::join('attendance_codes', 'attendances.attendance_code_id', '=', 'attendance_codes.id')
@@ -123,15 +123,15 @@ Class NavComposer {
         $student_avg = Grade::where('student_id', '=', Student::where('registration_code', '=', Auth::user()->registration_code)->first()->id)->avg('total');
 
          //class statistics - school year
-        $student_class_max_current = Course::join('grades', 'courses.id', '=', 'grades.course_id')
+        $student_class_max_current = @Course::join('grades', 'courses.id', '=', 'grades.course_id')
                 ->where('courses.group_id', '=', StudentRegistration::where('school_year_id', '=', $current_school_year->id)->where('term_id', '=', $current_term->id)->where('student_id', '=', Student::where('registration_code', '=', Auth::user()->registration_code)->first()->id)->first()->group_id)
                 ->max('total');
 
-        $student_class_min_current = Course::join('grades', 'courses.id', '=', 'grades.course_id')
+        $student_class_min_current = @Course::join('grades', 'courses.id', '=', 'grades.course_id')
                 ->where('courses.group_id', '=', StudentRegistration::where('school_year_id', '=', $current_school_year->id)->where('term_id', '=', $current_term->id)->where('student_id', '=', Student::where('registration_code', '=', Auth::user()->registration_code)->first()->id)->first()->group_id)
                 ->min('total'); 
 
-        $student_class_avg_current = Course::join('grades', 'courses.id', '=', 'grades.course_id')
+        $student_class_avg_current = @Course::join('grades', 'courses.id', '=', 'grades.course_id')
                 ->where('courses.group_id', '=', StudentRegistration::where('school_year_id', '=', $current_school_year->id)->where('term_id', '=', $current_term->id)->where('student_id', '=', Student::where('registration_code', '=', Auth::user()->registration_code)->first()->id)->first()->group_id)
                 ->avg('total');        
                
@@ -155,7 +155,7 @@ Class NavComposer {
                 ->labels(['Minimum', 'Maximum', 'Average']); 
 
 
-        $current_courses = Course::where('term_id', $current_term->id)->where('group_id', '=', StudentRegistration::where('school_year_id', '=', $current_school_year->id)->where('term_id', '=', $current_term->id)->where('student_id', '=', Student::where('registration_code', '=', Auth::user()->registration_code)->first()->id)->first()->group_id)->get();
+        $current_courses = @Course::where('term_id', $current_term->id)->where('group_id', '=', StudentRegistration::where('school_year_id', '=', $current_school_year->id)->where('term_id', '=', $current_term->id)->where('student_id', '=', Student::where('registration_code', '=', Auth::user()->registration_code)->first()->id)->first()->group_id)->get();
         
         //dd($registrations_teachers);
         

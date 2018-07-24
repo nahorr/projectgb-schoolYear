@@ -80,8 +80,8 @@
                             <hr />
                             <ul>
                             <li><label for="show_until">Show Until (yyyy-mm-dd)</label></li>
-                            <li><label for="show_until">Set this to 1 day before next term's start date if not 3rd term</label></li>
-                            <li><label for="show_until">If term is 3rd Term, set to a day before next 1st term next school year starts</label></li>
+                            <li><label for="show_until">Set this to 1 day before next term's start date</label></li>
+                            <li><label for="show_until">Make sure you add next school year before the current school year ends</label></li>
                             </ul>
                             <div class="row">
                                 <div class="col-xs-8 col-sm-11">

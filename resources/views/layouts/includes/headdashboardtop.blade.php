@@ -44,7 +44,7 @@
                                     <div class="col-xs-7">
                                         <div class="numbers">
                                         
-                                            <p class="pull-left">Term: {{ $current_term->term }}</p>
+                                            <p class="pull-left">Term: {{ @$current_term->term }}</p>
 
                                         
                                         </div>
@@ -55,7 +55,7 @@
                                     <div class="stats">
                                         <i class="ti-calendar"></i>
                                         
-                                            Ends:  {{$current_term->end_date->toFormattedDateString()}}
+                                            Ends:  {{ $current_term ? @$current_term->end_date->toFormattedDateString(): '-' }}
 
                                     </div>
                                 </div>
@@ -99,7 +99,7 @@
                                     <div class="col-xs-7">
                                         <div class="numbers">
                                            
-                                                <p>School Year: {{ $schoolyear->school_year }}</p>
+                                                <p>School Year: {{ @$schoolyear->school_year }}</p>
                                            
                                         </div>
                                     </div>
@@ -109,7 +109,7 @@
                                     <div class="stats">
                                         <i class="ti-pin-alt"></i>
                                        
-                                            Ends: {{ $schoolyear->end_date->toFormattedDateString() }}
+                                            Ends: {{ @$schoolyear->end_date->toFormattedDateString() }}
 
                                     </div>
                                 </div>
@@ -155,7 +155,7 @@
                                     <div class="col-xs-7">
                                         <div class="numbers">
                                            
-                                                <p>School Year: {{ $schoolyear->school_year }}</p>
+                                                <p>School Year: {{ @$schoolyear->school_year }}</p>
                                            
                                         </div>
                                     </div>
@@ -165,7 +165,7 @@
                                     <div class="stats">
                                         <i class="ti-pin-alt"></i>
                                        
-                                            Ended: {{ $schoolyear->end_date->toFormattedDateString() }}
+                                            Ended: {{ @$schoolyear->end_date->toFormattedDateString() }}
 
                                     </div>
                                 </div>

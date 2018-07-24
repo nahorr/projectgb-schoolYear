@@ -45,6 +45,7 @@ class SchoolYearSetUpController extends Controller
             'school_year' => 'required',
             'start_date' => 'required',
             'end_date'=> 'required',
+            'show_until'=> 'required',
             
             ]);
         
@@ -53,6 +54,7 @@ class SchoolYearSetUpController extends Controller
             'school_year'=>$r->school_year,
             'start_date'=>$r->start_date,
             'end_date'=>$r->end_date,
+            'show_until'=>$r->show_until,
             'created_at' => date('Y-m-d H:i:s'),
             'updated_at' => date('Y-m-d H:i:s'),
             
@@ -82,6 +84,7 @@ class SchoolYearSetUpController extends Controller
             'school_year' => 'required',
             'start_date' => 'required',
             'end_date'=> 'required',
+            'show_until'=> 'required',
             
             ]);
 
@@ -93,6 +96,7 @@ class SchoolYearSetUpController extends Controller
         $school_year_edit->school_year= $r->school_year;
         $school_year_edit->start_date= $r->start_date;
         $school_year_edit->end_date= $r->end_date;
+        $school_year_edit->show_until= $r->show_until;
             
         $school_year_edit->save();
 

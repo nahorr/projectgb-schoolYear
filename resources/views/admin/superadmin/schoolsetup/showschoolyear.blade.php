@@ -32,6 +32,7 @@
                                 <th>School Year</th>
                                 <th>Start Date</th>
                                 <th>End Date</th>
+                                <th>Show Until</th>
                                 <th>Edit</th>
                                 <th>Delete</th>
 
@@ -50,6 +51,7 @@
                                     </td>
                                     <td>{{ $schoolyear->start_date->toFormattedDateString() }}</td>
                                     <td>{{ $schoolyear->end_date->toFormattedDateString() }}</td>
+                                    <td>{{ $schoolyear->show_until->toFormattedDateString() }}</td>
                                     <td><strong><a href="{{asset('/schoolsetup/editschoolyear/'.$schoolyear->id) }}"><i class="fa fa-pencil-square-o fa-2x" aria-hidden="true"></i></a></strong>
                                     </td>
                                     <td><strong><a href="{{asset('/schoolsetup/deleteschoolyear/'.$schoolyear->id) }}" onclick="return confirm('Are you sure you want to Delete this record?')"><button type="button" class="btn btn-danger">Delete</button></a></strong>

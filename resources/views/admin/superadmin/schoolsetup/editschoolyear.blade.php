@@ -80,6 +80,24 @@
 
                                                         <hr />
 
+                                                         <ul>
+                                                            <li><label for="show_until">Show Until Date (yyyy-mm-dd)</label></li>
+                                                            <li><label for="show_until">Set this to 1 day before next term's start date</label></li>
+                                                            <li><label for="show_until">Make sure you add next school year before the current school year ends</label></li>
+                                                        </ul>
+                                                        <div class="row">
+                                                            <div class="col-xs-8 col-sm-11">
+                                                                <div class="input-group">
+                                                                    <input class="form-control date-picker" id="id-date-picker-1" type="text" data-date-format="yyyy-mm-dd" name="show_until" value="{{ $school_year_edit->show_until->format('Y-m-d')}}" />
+                                                                    <span class="input-group-addon">
+                                                                        <i class="fa fa-calendar bigger-110"></i>
+                                                                    </span>
+                                                                </div>
+                                                            </div>
+                                                        </div>
+
+                                                        <hr />
+
                                                         <div class="clearfix form-actions">
 															<div class="col-md-offset-3 col-md-9">
 																
