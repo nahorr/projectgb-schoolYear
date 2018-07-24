@@ -28,6 +28,7 @@ use App\StafferRegistration;
 use App\StudentRegistration;
 use App\Attendance;
 use App\AttendanceCode;
+use App\Message;
 
 
 
@@ -113,6 +114,8 @@ Class AdminNavComposer {
                                 ->get();
         $groups = Group::get();
 
+        $messages = Message::get();
+
         //dd($join_students_regs);
 
         //put variables in views
@@ -137,7 +140,8 @@ Class AdminNavComposer {
         ->with('attendances', $attendances)
         ->with('groups', '$groups')
         ->with('join_students_regs', $join_students_regs)
-        ->with('join_teacher_regs', $join_teacher_regs);
+        ->with('join_teacher_regs', $join_teacher_regs)
+        ->with('messages', $messages);
        
     }
 }

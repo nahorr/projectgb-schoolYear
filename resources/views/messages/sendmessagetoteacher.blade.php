@@ -15,20 +15,20 @@
                   	<div class="card">
 	                    <div class="header">
                           <h4 class="title">
-                          	<button type="button" class="btn btn-info">Your Teacher: {{$teacher->first_name}} {{$teacher->last_name}}</button>
-                            <div class="pull-right"><a href="{{asset('/messages/messagetoteacher/')}}"><button type="button" class="btn btn-info">Back</button></a></div>
+                          	<button type="button" class="btn btn-info">Your Teacher: {{$students_teacher_current->staffer->first_name}} {{$students_teacher_current->staffer->last_name}}</button>
+                            <div class="pull-right"><a href="{{asset('/messages/messagetoteacher/'.$schoolyear->id)}}"><button type="button" class="btn btn-info">Back</button></a></div>
                           </h4>
                           
 	                    </div>
 	                    <hr>
 	                    <div class="content">
 	                    
-                         <form class="form-group" action="{{ url('/messages/postsendmessagetoteacher', [$teacher->id]) }}" method="POST"  enctype="multipart/form-data" style="border: 5px solid #5bc2df; border-radius: 4px;">
+                         <form class="form-group" action="{{ url('/messages/postsendmessagetoteacher', [$schoolyear->id, $teacher->id]) }}" method="POST"  enctype="multipart/form-data" style="border: 5px solid #5bc2df; border-radius: 4px;">
                               {{ csrf_field() }}
                             <br>
                             <input type="hidden" class="form-control border-input" name="user_id" value="{{\Auth::user()->id}}" >
                             <input type="hidden" class="form-control border-input" name="staffer_id" value="{{$teacher->id}}" >
-                      	    <input type="hidden" class="form-control border-input" name="sent_student" value="{{\Auth::user()->id}}" >
+                      	    <input type="hidden" class="form-control border-input" name="sent_to_staffer" value="{{$teacher->id}}" >
                         	<div class="row">
                       	
                              

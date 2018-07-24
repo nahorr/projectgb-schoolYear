@@ -156,6 +156,8 @@ Class NavComposer {
 
 
         $current_courses = @Course::where('term_id', $current_term->id)->where('group_id', '=', StudentRegistration::where('school_year_id', '=', $current_school_year->id)->where('term_id', '=', $current_term->id)->where('student_id', '=', Student::where('registration_code', '=', Auth::user()->registration_code)->first()->id)->first()->group_id)->get();
+
+        $staffers = Staffer::get();
         
         //dd($registrations_teachers);
         
@@ -199,7 +201,8 @@ Class NavComposer {
         ->with('student_class_min_current', $student_class_min_current)
         ->with('student_class_avg_current', $student_class_avg_current)
         ->with('school_class_student_chart_current', $school_class_student_chart_current)
-        ->with('current_courses', $current_courses);
+        ->with('current_courses', $current_courses)
+        ->with('staffers', $staffers);
         
 
     }

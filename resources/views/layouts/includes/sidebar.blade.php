@@ -57,7 +57,7 @@
                         <p>Attendance Record</p>
                     </a>
                 </li>
-
+                <!--
                  <li {{{ (Request::is('dailyactivity/activities') ? 'class=active' : '') }}}>
                     <a href="{{ url('/dailyactivity/activities') }}">
                         <i class="fa fa-cubes"></i>
@@ -71,9 +71,9 @@
                         <p>Disciplinary Records</p>
                     </a>
                 </li>
-
+                -->
                 <li {{{ (Request::is('messages/messagetoteacher') ? 'class=active' : '') }}}>
-                    <a href="{{ url('/messages/messagetoteacher') }}">
+                    <a href="{{ url('/messages/messagetoteacher/'.$schoolyear->id) }}">
                         <i class="fa fa-envelope"></i>
                         <p>Messages</p>
                     </a>

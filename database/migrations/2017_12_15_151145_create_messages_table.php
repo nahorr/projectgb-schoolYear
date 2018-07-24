@@ -26,8 +26,8 @@ class CreateMessagesTable extends Migration
             $table->boolean('user_delete')->default(false);
             $table->boolean('staffer_delete')->default(false);
             $table->integer('message_replied')->nullable()->unsigned();
-            $table->integer('sent_student')->nullable()->unsigned();
-            $table->integer('sent_staffer')->nullable()->unsigned();
+            $table->integer('sent_to_student')->nullable()->unsigned();
+            $table->integer('sent_to_staffer')->nullable()->unsigned();
             $table->softDeletes();
             $table->timestamps();
         });

@@ -14,7 +14,7 @@
                   <div class="card">
                       <div class="header">
                           <h4 class="title"><strong>Message Board</strong></h4>
-                          <p class="category">Your Class: {{$group_teacher->name}} </p>
+                          <p class="category">Your Current Class Class: {{ @\App\StafferRegistration::where('school_year_id', '=', $schoolyear->id)->where('term_id', '=', $term->id)->where('staffer_id', '=', $teacher->id)->first()->group->name}} </p>
                       </div>
                       <div class="content">
                        
@@ -30,7 +30,7 @@
                          </thead>
                           <tbody>
 
-                            @foreach ($all_user as $key=>$user)
+                            @foreach ($all_users as $key=> $user)
                               
                                
 

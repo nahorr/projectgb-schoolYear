@@ -8,6 +8,8 @@ use App\Http\Controllers\Controller;
 use App\Message;
 use App\Student;
 use App\Staffer;
+use App\School_year;
+use Auth;
 
 class CrudeController extends Controller
 {
@@ -16,29 +18,31 @@ class CrudeController extends Controller
         $this->middleware('auth');
     }
 
-    public function showMessages()
+    public function showMessages(School_year $schoolyear)
     {
-    	return view('messages.messagetoteacher');
+    	$receivedMessages = Message::where('user_id', Auth::user()->id)->where('sent_to_student', Auth::user()->id)->get();
+
+        return view('messages.messagetoteacher', compact('schoolyear', 'receivedMessages'));
     }
 
-    public function sendMessageToTeacher($teacher_id)
+    public function sendMessageToTeacher(School_year $schoolyear, $teacher)
     {
     	
-    	$teacher = Staffer::find($teacher_id);
+    	$teacher = Staffer::find($teacher);
 
-    	return view('messages.sendmessagetoteacher', compact('teacher'));
+    	return view('messages.sendmessagetoteacher', compact( 'schoolyear', 'teacher'));
     }
 
-    public function postSendMessageToTeacher(Request $r, $teacher_id)
+    public function postSendMessageToTeacher(Request $r, School_year $schoolyear, $teacher)
     {
-        $teacher = Staffer::find($teacher_id);
+        $teacher = Staffer::find($teacher);
 
         $this->validate(request(), [
 
             'user_id' => 'required',
             'staffer_id' => 'required',
             'subject' => 'required',
-            'sent_student' => 'required',
+            'sent_to_staffer' => 'required',
             'body' => 'required',
             'message_file' => 'mimes:pdf,doc,jpeg,bmp,png|max:10000',
             
@@ -58,7 +62,7 @@ class CrudeController extends Controller
 
             'user_id'=>$r->user_id,
             'staffer_id'=>$r->staffer_id,
-            'sent_student'=>$r->sent_student,
+            'sent_to_staffer'=>$r->sent_to_staffer,
             'subject'=>$r->subject,
             'body'=>$r->body,
             'message_file'=>$filename,
@@ -72,6 +76,28 @@ class CrudeController extends Controller
        
         flash('Messages Sent Successfully')->success();
 
+        return back();
+    }
+
+    public function viewSentMessages(School_year $schoolyear)
+    {
+        
+        $sentMessages = Message::where('user_id', Auth::user()->id)->get();
+
+        return view('messages.viewsentmessages', compact( 'schoolyear', 'sentMessages'));
+    }
+
+    public function deleteMessageForStudent(Request $r, Message $message)
+    {
+        
+        $deleteMessage = Message::where('id', $message->id)->first();
+
+        $deleteMessage->user_delete = $r->user_delete;
+
+        $deleteMessage->save();
+
+        flash('Message deleted')->error();
+        
         return back();
     }
 }

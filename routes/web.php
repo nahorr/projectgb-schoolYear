@@ -65,12 +65,13 @@ Route::get('/dailyactivity/activities', 'DailyActivity\CrudeController@showActiv
 //Disciplinary Record Activities
 Route::get('/discipline/records', 'Discipline\CrudeController@showDRecords');
 
-//Messages and replies to Teacher
-Route::get('/messages/messagetoteacher', 'Messages\MessageToTeacher\CrudeController@showMessages');
-Route::get('/messages/viewmessage/{message}', 'Messages\MessageToTeacher\CrudeController@viewMessages');
-Route::get('/messages/sendmessagetoteacher/{teacher}', 'Messages\MessageToTeacher\CrudeController@sendMessageToTeacher');
-Route::post('/messages/postsendmessagetoteacher/{teacher}', 'Messages\MessageToTeacher\CrudeController@postSendMessageToTeacher');
-
+//Messages Sstudent
+Route::get('/messages/messagetoteacher/{schoolyear}', 'Messages\MessageToTeacher\CrudeController@showMessages');
+Route::get('/messages/readmessage/{schoolyear}/{message}', 'Messages\MessageToTeacher\CrudeController@readMessage');
+Route::get('/messages/viewsentmessages/{schoolyear}', 'Messages\MessageToTeacher\CrudeController@viewSentMessages');
+Route::get('/messages/sendmessagetoteacher/{schoolyear}/{teacher}', 'Messages\MessageToTeacher\CrudeController@sendMessageToTeacher');
+Route::post('/messages/postsendmessagetoteacher/{schoolyear}/{teacher}', 'Messages\MessageToTeacher\CrudeController@postSendMessageToTeacher');
+Route::post('/messages/deleteMessageForStudent/{message}', 'Messages\MessageToTeacher\CrudeController@deleteMessageForStudent');
 
 
 //Admin/staff Registeration and login
@@ -231,7 +232,7 @@ Route::group(['middleware' => 'admin_auth'], function(){
     Route::get('/students/discipline/deletedrecord/{drecord}', 'AdminAuth\Students\Discipline\CrudeController@deleteDRecord');
 
     //messages from students
-    Route::get('/students/messages/allstudents', 'AdminAuth\Students\Messages\CrudeController@allStudents')->name('messages_allstudents');
+    Route::get('/students/messages/allstudents/{schoolyear}/{term}', 'AdminAuth\Students\Messages\CrudeController@allStudents')->name('messages_allstudents');
     Route::get('/students/messages/studentmessages/{user}', 'AdminAuth\Students\Messages\CrudeController@studentMessages')->name('messages_student');
     Route::get('/students/messages/viewstudentmessage/{message}', 'AdminAuth\Students\Messages\CrudeController@viewStudentMessages');
     Route::post('/students/messages/deletemessageforstaffer/{message}/{user}', 'AdminAuth\Students\Messages\CrudeController@deleteMessageForStaffer');

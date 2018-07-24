@@ -100,7 +100,7 @@
                 </li>
 
                 <li {{{ (Request::is('students/messages/allstudents') ? 'class=active' : '') }}}>
-                    <a href="{{ url('/students/messages/allstudents') }}">
+                    <a href="{{ url('/students/messages/allstudents/'.$schoolyear->id) }}/{{ $term->id}}">
                         <i class="fa fa-envelope"></i>
                         <p>Messages</p>
                     </a>

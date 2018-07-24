@@ -38,6 +38,7 @@
             'discipline/records',
             'messages/messagetoteacher',
             'messages/sendmessagetoteacher',
+            'messages.viewsentmessages',
 
             ], 
             

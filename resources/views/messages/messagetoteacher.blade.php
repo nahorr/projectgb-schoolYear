@@ -13,13 +13,14 @@
                       <div class="col-md-12">
                           <div class="card">
                               <div class="header">
-                                  <h4 class="title">My Messages
+                                  <h4 class="title">Recieved Messages
                                     <div class="pull-right">
-                              <a href="{{asset('/messages/sendmessagetoteacher/'.$student_teacher->id)}}"><button type="button" class="btn btn-success">Send Message To Your Teacher</button></a>
+                                    <a href="{{asset('/messages/viewsentmessages/'.$schoolyear->id)}}"><button type="button" class="btn btn-info">View Sent Messages</button></a>&nbsp;&nbsp;
+                              <a href="{{asset('/messages/sendmessagetoteacher/'.$schoolyear->id)}}/{{$students_teacher_current->id}}"><button type="button" class="btn btn-success">Send Message To Your Teacher</button></a>
                               
                             </div>
                                   </h4>
-                                  <p class="category">Total Messages: 1 , Read: 1, Unread: 0 </p>
+                                  <p class="category">Total Messages: {{$receivedMessages->count()}} , Read: 0, Unread: 0 </p>
                               </div>
                               <div class="content">
                                
@@ -33,6 +34,24 @@
                                       <th><strong>View</strong></th>
                                       <th><strong>Delete</strong></th>
                                   </thead>
+
+                                  <tbody>
+                                        @foreach ($receivedMessages as $key => $receivedMessage)
+
+                                        <tr>
+                                            <td>{{ $key+1 }}</td>
+                                            <td>{{ $receivedMessage->subject }}</td>
+                                            <td>{{ $receivedMessage->sent_to_staffer}}</td>
+                                            <td>{{ $receivedMessage->file }}</td>
+                                            <td>{{ $receivedMessage->created_at->toFormattedDateString() }}</td>
+                                            <td>
+                                              <a href="{{asset('/messages/readmessage/'.$receivedMessage->id)}}"><button type="button" class="btn btn-info">View Message</button>
+                                              </a>
+                                            </td>
+                                        </tr>
+                                     @endforeach
+                                        
+                                    </tbody>
                                   
                                 </table>
 

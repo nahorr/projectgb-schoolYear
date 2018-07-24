@@ -32,51 +32,10 @@ use App\Notifications\DisciplinaryRecordPosted;
 
 class CrudeController extends Controller
 {
-    public function allStudents()
+    public function allStudents(School_year $schoolyear, Term $term)
     {
 
-    	//get current date
-        $today = Carbon::today();
-
-        //get teacher's section and group
-        $teacher_admin = Auth::guard('web_admin')->user();
-
-        $reg_code = $teacher_admin->registration_code;
-
-        $teacher = Staffer::where('registration_code', '=', $reg_code)->first();
-
-        //get students in group_section
-        $students_in_group = Student::where('group_id', '=', $teacher->group_id)
-        ->get();
-
-        $all_user = \DB::table('users')
-                      ->join('students', 'users.registration_code', '=', 'students.registration_code')
-                      ->where('students.group_id', '=', $teacher->group_id)
-                      ->get();
-
-                
-        $count = 0;
-        foreach ($students_in_group as $students) {
-        	$count = $count+1;
-        }
-
-        $group_teacher = Group::where('id', '=', $teacher->group_id)->first();
-        
-
-        //get terms
-        $terms = Term::get();
-
-
-        //get school school
-        $schoolyear = School_year::first();
-
-        //get drecords
-        $messages = Message::get();
-
-
-
-    	return view('admin.students.messages.allstudents', compact('today', 'teacher', 'count', 'group_teacher', 'current_term', 
-            'schoolyear', 'students_in_group', 'all_user', 'st_user',  'terms', 'student_activities', 'messages'));
+    	return view('admin.students.messages.allstudents', compact('schoolyear', 'term'));
     	
     }
 
