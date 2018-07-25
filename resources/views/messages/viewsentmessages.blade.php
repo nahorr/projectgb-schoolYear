@@ -38,8 +38,8 @@
                                   </thead>
 
                                     <tbody>
-                                        @foreach ($sentMessages as $key => $sentMessage)
-                                          @if($sentMessage->user_delete != \Auth::user()->id)
+                                        @foreach ($sentMessages->where('sent_to_staffer', !null) as $key => $sentMessage)
+                                          @if($sentMessage->user_delete == 0)
                                         <tr>
                                             <td>{{ $key+1 }}</td>
                                             <td>{{ $sentMessage->subject }}</td>

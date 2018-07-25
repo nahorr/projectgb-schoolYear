@@ -20,7 +20,7 @@ class CrudeController extends Controller
 
     public function showMessages(School_year $schoolyear)
     {
-    	$receivedMessages = Message::where('user_id', Auth::user()->id)->where('sent_to_student', Auth::user()->id)->get();
+    	$receivedMessages = Message::with('staffer')->where('user_id', Auth::user()->id)->where('sent_to_student', Auth::user()->id)->get();
 
         return view('messages.messagetoteacher', compact('schoolyear', 'receivedMessages'));
     }

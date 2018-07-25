@@ -114,7 +114,7 @@ Class AdminNavComposer {
                                 ->get();
         $groups = Group::get();
 
-        $messages = Message::get();
+        $messages = Message::with('user')->with('staffer')->get();
 
         //dd($join_students_regs);
 

@@ -40,65 +40,41 @@ class CrudeController extends Controller
     }
 
 
-    public function studentMessages($user_id)
+    public function viewStudentMessage(School_year $schoolyear, Term $term, $message)
     {
-    	$student_user = User::find($user_id);
+    	$message = Message::find($message);
+      
 
-    	//get current date
-        $today = Carbon::today();
-
-        //get teacher's section and group
-        $teacher = Auth::guard('web_admin')->user();
-
-        $reg_code = $teacher->registration_code;
-
-        $teacher = Staffer::where('registration_code', '=', $reg_code)->first();
-
-
-        //get students in group_section
-        $students_in_group = Student::where('group_id', '=', $teacher->group_id)
-        ->get();
-
-        $all_user = User::get();
-
-             
-        
-        $count = 0;
-        foreach ($students_in_group as $students) {
-        	$count = $count+1;
-        }
-
-        $group_teacher = Group::where('id', '=', $teacher->group_id)->first();
-        
-
-        //get terms
-        $terms = Term::get();
-
-
-        //get school school
-        $schoolyear = School_year::first();
-
-        //get drecords
-        $messages = Message::get();
-
-
-
-    	return view('admin.students.messages.studentmessages', compact('today', 'count', 'group_teacher', 'current_term', 
-            'schoolyear', 'students_in_group', 'all_user', 'st_user',  'terms', 'student_activities', 'messages', 'student_user'));
+    	return view('admin.students.messages.viewstudentmessage', compact('schoolyear', 'term', 'message'));
     	
     }
 
-    public function viewStudentMessages($message_id)
-    {
-    	$message = Message::find($message_id);
+    public function deleteMessageForStaffer(Request $r, School_year $schoolyear, Term $term, $message)
+     {
+        $message = Message::find($message);
 
-    	//get current date
+        $message_to_delete = Message::where('id', '=', $message->id)->first();
+     
+        $message_to_delete->staffer_delete= $r->staffer_delete;
+            
+        $message_to_delete->save();
+
+
+        flash('Message has been deleted')->error();
+
+        return redirect()->route('messages_allstudents', [$schoolyear->id, $term->id]);
+     }
+
+    public function sendMessageToStudent($user_id)
+    {
+        $user = User::find($user_id);
+
+        //get current date
         $today = Carbon::today();
 
         //get teacher's section and group
-        $teacher = Auth::guard('web_admin')->user();
 
-        $reg_code = $teacher->registration_code;
+        $reg_code = Auth::guard('web_admin')->user()->registration_code;
 
         $teacher = Staffer::where('registration_code', '=', $reg_code)->first();
 
@@ -113,7 +89,7 @@ class CrudeController extends Controller
         
         $count = 0;
         foreach ($students_in_group as $students) {
-        	$count = $count+1;
+            $count = $count+1;
         }
 
         $group_teacher = Group::where('id', '=', $teacher->group_id)->first();
@@ -128,71 +104,10 @@ class CrudeController extends Controller
 
        
 
-    	return view('admin.students.messages.viewstudentmessage', compact('today', 'count', 'group_teacher', 'current_term', 
-            'schoolyear', 'students_in_group', 'all_user', 'st_user',  'terms', 'student_activities', 'message'));
-    	
+        return view('admin.students.messages.sendmessagetostudent', compact('today', 'count', 'group_teacher', 'current_term', 
+            'schoolyear', 'students_in_group', 'all_user', 'st_user',  'terms', 'student_activities', 'user'));
+        
     }
-
-    public function deleteMessageForStaffer(Request $r, $message_id, $user_id)
-         {
-            $message = Message::find($message_id);
-            $studenet_user = User::find($user_id);
-
-            $message_to_delete = Message::where('id', '=', $message->id)->first();
-         
-            $message_to_delete->staffer_delete= $r->staffer_delete;
-                
-            $message_to_delete->save();
-
-
-            flash('Message has been deleted')->error();
-
-            return redirect()->route('messages_student', [$studenet_user->id]);
-         }
-
-        public function sendMessageToStudent($user_id)
-            {
-                $user = User::find($user_id);
-
-                //get current date
-                $today = Carbon::today();
-
-                //get teacher's section and group
-
-                $reg_code = Auth::guard('web_admin')->user()->registration_code;
-
-                $teacher = Staffer::where('registration_code', '=', $reg_code)->first();
-
-
-                //get students in group_section
-                $students_in_group = Student::where('group_id', '=', $teacher->group_id)
-                ->get();
-
-                $all_user = User::get();
-
-                     
-                
-                $count = 0;
-                foreach ($students_in_group as $students) {
-                    $count = $count+1;
-                }
-
-                $group_teacher = Group::where('id', '=', $teacher->group_id)->first();
-                
-
-                //get terms
-                $terms = Term::get();
-
-
-                //get school school
-                $schoolyear = School_year::first();
-
-               
-
-                return view('admin.students.messages.sendmessagetostudent', compact('today', 'count', 'group_teacher', 'current_term', 
-                    'schoolyear', 'students_in_group', 'all_user', 'st_user',  'terms', 'student_activities', 'user'));
-                
-            }
 
           public function postSendMessageToStudent(Request $r, $user_id)
             {
@@ -240,98 +155,63 @@ class CrudeController extends Controller
                 return back();
             }
 
-            public function replyStudentMessage($message_id)
-            {
-                $message = Message::find($message_id);
+    public function replyStudentMessage(School_year $schoolyear, Term $term, $message)
+    {
+        $message = Message::find($message);
 
-                $message_replied_with_same_id = Message::where('message_replied', '=', $message->id)->get();
+        $message_replied_with_same_id = Message::where('message_replied', '=', $message->id)->get();
 
-                //get current date
-                $today = Carbon::today();
+       
 
-                //get teacher's section and group
+        return view('admin.students.messages.replystudentmessage', compact('schoolyear', 'term', 'message', 'message_replied_with_same_id'));
+        
+    }
 
-                $reg_code = Auth::guard('web_admin')->user()->registration_code;
+     public function postReplyStudentMessage(Request $r, $message)
+    {
+        $message = Message::find($message);
 
-                $teacher = Staffer::where('registration_code', '=', $reg_code)->first();
+        $this->validate(request(), [
+
+            'user_id' => 'required',
+            'staffer_id' => 'required',
+            'message_replied' => 'required',
+            'subject' => 'required',
+            'sent_to_student' => 'required',
+            'body' => 'required',
+            'message_file' => 'mimes:pdf,doc,jpeg,bmp,png|max:10000',
+            
+           ]);
+
+        if($r->hasFile('message_file')){
+            $message_file = $r->file('message_file');
+            $filename = time() . '.' . $message_file->getClientOriginalExtension();
+            $destinationPath = public_path().'/messages/' ;
+            $message_file->move($destinationPath,$filename);
+            
+        } else {
+            $filename = $r->message_file;
+        }
+
+        Message::insert([
+
+            'user_id'=>$r->user_id,
+            'staffer_id'=>$r->staffer_id,
+            'message_replied'=>$r->message_replied,
+            'sent_to_student'=>$r->sent_to_student,
+            'subject'=>$r->subject,
+            'body'=>$r->body,
+            'message_file'=>$filename,
+            'created_at' => date('Y-m-d H:i:s'),
+            'updated_at' => date('Y-m-d H:i:s'),
+                       
+        ]);
 
 
-                //get students in group_section
-                $students_in_group = Student::where('group_id', '=', $teacher->group_id)
-                ->get();
+       
+        flash('Messages Sent Successfully')->success();
 
-                $all_user = User::get();
-
-                     
-                
-                $count = 0;
-                foreach ($students_in_group as $students) {
-                    $count = $count+1;
-                }
-
-                $group_teacher = Group::where('id', '=', $teacher->group_id)->first();
-                
-
-                //get terms
-                $terms = Term::get();
-
-
-                //get school school
-                $schoolyear = School_year::first();
-
-               
-
-                return view('admin.students.messages.replystudentmessage', compact('today', 'count', 'group_teacher', 'current_term', 
-                    'schoolyear', 'students_in_group', 'all_user', 'st_user',  'terms', 'student_activities', 'message', 'message_replied_with_same_id'));
-                
-            }
-
-             public function postReplyStudentMessage(Request $r, $message_id)
-            {
-                $message = Message::find($message_id);
-
-                $this->validate(request(), [
-
-                    'user_id' => 'required',
-                    'staffer_id' => 'required',
-                    'message_replied' => 'required',
-                    'subject' => 'required',
-                    'sent_staffer' => 'required',
-                    'body' => 'required',
-                    'message_file' => 'mimes:pdf,doc,jpeg,bmp,png|max:10000',
-                    
-                   ]);
-
-                if($r->hasFile('message_file')){
-                    $message_file = $r->file('message_file');
-                    $filename = time() . '.' . $message_file->getClientOriginalExtension();
-                    $destinationPath = public_path().'/messages/' ;
-                    $message_file->move($destinationPath,$filename);
-                    
-                } else {
-                    $filename = $r->message_file;
-                }
-
-                Message::insert([
-
-                    'user_id'=>$r->user_id,
-                    'staffer_id'=>$r->staffer_id,
-                    'message_replied'=>$r->message_replied,
-                    'sent_staffer'=>$r->sent_staffer,
-                    'subject'=>$r->subject,
-                    'body'=>$r->body,
-                    'message_file'=>$filename,
-                    'created_at' => date('Y-m-d H:i:s'),
-                    'updated_at' => date('Y-m-d H:i:s'),
-                               
-                ]);
-
-           
-                //$student->notify(new DisciplinaryRecordPosted("A new Disciplinary Record has been posted."));
-               
-                flash('Messages Sent Successfully')->success();
-
-                return back();
-            }
+        return back();
+    }
 
 }

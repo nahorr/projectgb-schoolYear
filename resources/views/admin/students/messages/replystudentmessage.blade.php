@@ -15,11 +15,11 @@
                       <div class="header">
                           <h4 class="title">
                             <button type="button" class="btn btn-warning">
-                            @foreach($all_user->where('id', '=', $message->user_id) as $user)
-                              <strong>Replying Message by {{$user->name}}</strong>
-                            @endforeach
+                           
+                              <strong>Replying Message From {{$message->user->name}}</strong>
+                       
                             </button>
-                            <div class="pull-right"><a href="{{asset('/students/messages/allstudents/')}}"><button type="button" class="btn btn-info">Back</button></a></div>
+                            <div class="pull-right"><a href="{{asset('/students/messages/viewstudentmessage/'.$schoolyear->id)}}/{{$term->id}}/{{$message->id}}"><button type="button" class="btn btn-info">Back</button></a></div>
                           </h4>
                           
                       </div>
@@ -31,8 +31,9 @@
                             <br>
                             <input type="hidden" class="form-control border-input" name="user_id" value="{{$message->user_id}}" >
                             <input type="hidden" class="form-control border-input" name="staffer_id" value="{{Auth::guard('web_admin')->user()->id}}" >
-                            <input type="hidden" class="form-control border-input" name="sent_staffer" value="{{Auth::guard('web_admin')->user()->id}}" >
+                            {{--<input type="hidden" class="form-control border-input" name="sent_to_staffer" value="{{Auth::guard('web_admin')->user()->id}}" >--}}
                             <input type="hidden" class="form-control border-input" name="message_replied" value="{{$message->id}}" >
+                            <input type="hidden" class="form-control border-input" name="sent_to_student" value="{{$message->user_id}}" >
                           <div class="row">
                         
                              
@@ -48,20 +49,14 @@
                               <div class="col-md-9 col-md-offset-1">
                                 @if($message_replied_with_same_id->count() == 0)
                                 <div class="well">
-                                    <p style="color: #f0ad4e; font-style: italic;">Message sent on {{$message->created_at}} by
-                                     @foreach($all_user->where('id', '=', $message->user_id) as $user)
-                                      {{$user->name}}:
-                                     @endforeach 
-                                    </p>
+                                    <p style="color: #f0ad4e; font-style: italic;">Message sent on {{$message->created_at}} by {{$message->user->name}}:</p>
                                     <p>{{$message->body}}</p>
                                   </div>
                                 @endif
                                 @foreach($message_replied_with_same_id as $messages_replied_wsi)
                                   <div class="well">
                                     <p style="color: #f0ad4e; font-style: italic;">Message sent on {{$message->created_at}} by
-                                     @foreach($all_user->where('id', '=', $message->user_id) as $user)
-                                      {{$user->name}}:
-                                     @endforeach 
+                                     {{$message->user->name}}: 
                                     </p>
                                     <p>{{$message->body}}</p>
                                   </div>

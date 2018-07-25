@@ -28,11 +28,11 @@
                                 <table class="table table-bordered table-hover">
                                   <thead>
                                       <th><strong>#</strong></th>
-                                      <th><strong>Subject</strong></th>
                                       <th><strong>From</strong></th>
-                                      <th><strong>File</strong></th>
-                                      <th><strong>View</strong></th>
-                                      <th><strong>Delete</strong></th>
+                                      <th><strong>Subject</strong></th> 
+                                      <th><strong>Date Received</strong></th>
+                                      <th><strong>View Message</strong></th>
+                                      <th><strong>Delete Message</strong></th>
                                   </thead>
 
                                   <tbody>
@@ -40,12 +40,15 @@
 
                                         <tr>
                                             <td>{{ $key+1 }}</td>
-                                            <td>{{ $receivedMessage->subject }}</td>
-                                            <td>{{ $receivedMessage->sent_to_staffer}}</td>
-                                            <td>{{ $receivedMessage->file }}</td>
+                                            <td>{{ $receivedMessage->staffer->first_name}} {{ $receivedMessage->staffer->last_name}}</td>
+                                            <td>{{ $receivedMessage->subject }}</td> 
                                             <td>{{ $receivedMessage->created_at->toFormattedDateString() }}</td>
                                             <td>
                                               <a href="{{asset('/messages/readmessage/'.$receivedMessage->id)}}"><button type="button" class="btn btn-info">View Message</button>
+                                              </a>
+                                            </td>
+                                            <td>
+                                              <a href="{{asset('/messages/readmessage/'.$receivedMessage->id)}}"><button type="button" class="btn btn-info">Delete Message</button>
                                               </a>
                                             </td>
                                         </tr>
