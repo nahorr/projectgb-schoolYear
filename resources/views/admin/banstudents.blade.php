@@ -65,14 +65,14 @@
                                                                                 
                                       <td>
                                       @if($st_user->status == 1)
-                                      <form class="form-group" action="{{ url('/admin/posteditban', [Crypt::encrypt($st_user->id)] )}}" method="POST">
+                                      <form class="form-group" action="{{ url('/admin/posteditban', [$schoolyear->id, $term->id, Crypt::encrypt($st_user->id)] )}}" method="POST">
                                       {{ csrf_field() }}
                                       <input id="status" name="status" type="hidden" value="0">
                                       <input type="submit" value="Ban {{$st_user->name}}" style="color: red">
                                       </form>
 
                                       @else
-                                      <form class="form-group" action="{{ url('/admin/posteditunban', [Crypt::encrypt($st_user->id)] )}}" method="POST">
+                                      <form class="form-group" action="{{ url('/admin/posteditunban', [$schoolyear->id, $term->id, Crypt::encrypt($st_user->id)] )}}" method="POST">
                                       {{ csrf_field() }}
                                       <input id="status" name="status" type="hidden" value="1">
                                       <input type="submit" value="unBan {{$st_user->name}}" style="color: green">

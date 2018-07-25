@@ -49,6 +49,26 @@ class CrudeController extends Controller
     	
     }
 
+    public function postViewStudentMessage(Request $r, School_year $schoolyear, Term $term, $message)
+    {
+        $message = Message::find($message);
+
+        $message_to_view = Message::where('id', '=', $message->id)->first();
+     
+        $message_to_view->status= $r->status;
+            
+        $message_to_view->save();
+
+
+        flash('Message Viewed')->error();
+
+        return redirect()->route('viewMessage', [$schoolyear->id, $term->id, $message->id]);
+      
+
+        return view('admin.students.messages.viewstudentmessage', compact('schoolyear', 'term', 'message'));
+        
+    }
+
     public function deleteMessageForStaffer(Request $r, School_year $schoolyear, Term $term, $message)
      {
         $message = Message::find($message);
@@ -65,60 +85,31 @@ class CrudeController extends Controller
         return redirect()->route('messages_allstudents', [$schoolyear->id, $term->id]);
      }
 
-    public function sendMessageToStudent($user_id)
+    public function showStudents(School_year $schoolyear, Term $term)
     {
-        $user = User::find($user_id);
 
-        //get current date
-        $today = Carbon::today();
-
-        //get teacher's section and group
-
-        $reg_code = Auth::guard('web_admin')->user()->registration_code;
-
-        $teacher = Staffer::where('registration_code', '=', $reg_code)->first();
-
-
-        //get students in group_section
-        $students_in_group = Student::where('group_id', '=', $teacher->group_id)
-        ->get();
-
-        $all_user = User::get();
-
-             
-        
-        $count = 0;
-        foreach ($students_in_group as $students) {
-            $count = $count+1;
-        }
-
-        $group_teacher = Group::where('id', '=', $teacher->group_id)->first();
-        
-
-        //get terms
-        $terms = Term::get();
-
-
-        //get school school
-        $schoolyear = School_year::first();
-
-       
-
-        return view('admin.students.messages.sendmessagetostudent', compact('today', 'count', 'group_teacher', 'current_term', 
-            'schoolyear', 'students_in_group', 'all_user', 'st_user',  'terms', 'student_activities', 'user'));
+        return view('admin.students.messages.showstudents', compact('schoolyear', 'term'));
         
     }
 
-          public function postSendMessageToStudent(Request $r, $user_id)
+    public function sendMessageToStudent(School_year $schoolyear, Term $term, $user)
+    {
+        $user = User::find($user);       
+
+        return view('admin.students.messages.sendmessagetostudent', compact('schoolyear', 'term', 'user'));
+        
+    }
+
+          public function postSendMessageToStudent(Request $r, School_year $schoolyear, Term $term , $user)
             {
-                $user = User::find($user_id);
+                $user = User::find($user);
 
                 $this->validate(request(), [
 
                     'user_id' => 'required',
                     'staffer_id' => 'required',
                     'subject' => 'required',
-                    'sent_staffer' => 'required',
+                    'sent_to_student' => 'required',
                     'body' => 'required',
                     'message_file' => 'mimes:pdf,doc,jpeg,bmp,png|max:10000',
                     
@@ -138,7 +129,7 @@ class CrudeController extends Controller
 
                     'user_id'=>$r->user_id,
                     'staffer_id'=>$r->staffer_id,
-                    'sent_staffer'=>$r->sent_staffer,
+                    'sent_to_student'=>$r->sent_to_student,
                     'subject'=>$r->subject,
                     'body'=>$r->body,
                     'message_file'=>$filename,

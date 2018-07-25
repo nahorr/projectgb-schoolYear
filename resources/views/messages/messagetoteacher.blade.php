@@ -20,7 +20,7 @@
                               
                             </div>
                                   </h4>
-                                  <p class="category">Total Messages: {{$receivedMessages->count()}} , Read: 0, Unread: 0 </p>
+                                  <p class="category">Total Messages: {{$receivedMessages->count()}}</p>
                               </div>
                               <div class="content">
                                

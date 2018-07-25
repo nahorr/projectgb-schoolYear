@@ -59,6 +59,8 @@
             'admin.students.messages.allstudents',
             'admin.students.messages.viewstudentmessage',
             'admin.students.messages.replystudentmessage',
+            'admin.students.messages.showstudents',
+            'admin.students.messages.sendmessagetostudent',
             ], 
             
             'App\Http\ViewComposers\AdminNavComposer'

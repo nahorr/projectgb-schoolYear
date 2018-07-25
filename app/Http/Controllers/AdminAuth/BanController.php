@@ -28,12 +28,12 @@ class BanController extends Controller
         return view('admin/banstudents', compact('schoolyear','term'));
     }
 
-    public function posteditBan(Request $r, $user_id)
+    public function posteditBan(Request $r, School_year $schoolyear, Term $term, $user)
 
     {
          
 
-         $user = User::find(Crypt::decrypt($user_id));
+         $user = User::find(Crypt::decrypt($user));
 
          $ban_student = User::where('id', '=', $user->id)->first();
 		 
@@ -47,12 +47,12 @@ class BanController extends Controller
 
      }
 
-      public function posteditUnBan(Request $r, $user_id)
+      public function posteditUnBan(Request $r, School_year $schoolyear, Term $term, $user)
 
     {
          
 
-         $user = User::find(Crypt::decrypt($user_id));
+         $user = User::find(Crypt::decrypt($user));
 
          $unban_student = User::where('id', '=', $user->id)->first();
 		 

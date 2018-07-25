@@ -125,8 +125,8 @@ Route::group(['middleware' => 'admin_auth'], function(){
 
     //Ban and UnBan Students
     Route::get('/admin/banstudents/{schoolyear}/{term}', 'AdminAuth\BanController@banStudents');
-    Route::post('/admin/posteditban/{schoolyear}/{term}/{student}', 'AdminAuth\BanController@posteditBan');
-    Route::post('/admin/posteditunban/{schoolyear}/{term}/{student}', 'AdminAuth\BanController@posteditUnBan');
+    Route::post('/admin/posteditban/{schoolyear}/{term}/{user}', 'AdminAuth\BanController@posteditBan');
+    Route::post('/admin/posteditunban/{schoolyear}/{term}/{user}', 'AdminAuth\BanController@posteditUnBan');
 
     //for staffer profile avatar
 
@@ -234,12 +234,14 @@ Route::group(['middleware' => 'admin_auth'], function(){
     //messages from students
     Route::get('/students/messages/allstudents/{schoolyear}/{term}', 'AdminAuth\Students\Messages\CrudeController@allStudents')->name('messages_allstudents');
     //Route::get('/students/messages/studentmessages/{user}', 'AdminAuth\Students\Messages\CrudeController@studentMessages')->name('messages_student');
-    Route::get('/students/messages/viewstudentmessage/{schoolyear}/{term}/{message}', 'AdminAuth\Students\Messages\CrudeController@viewStudentMessage');
+    Route::get('/students/messages/viewstudentmessage/{schoolyear}/{term}/{message}', 'AdminAuth\Students\Messages\CrudeController@viewStudentMessage')->name('viewMessage');
+    Route::post('/students/messages/postviewstudentmessage/{schoolyear}/{term}/{message}', 'AdminAuth\Students\Messages\CrudeController@postViewStudentMessage');
     Route::post('/students/messages/deletemessageforstaffer/{schoolyear}/{term}/{message}', 'AdminAuth\Students\Messages\CrudeController@deleteMessageForStaffer');
 
     //messages and replies to students
-    Route::get('/students/messages/sendmessagetostudent/{user}', 'AdminAuth\Students\Messages\CrudeController@sendMessageToStudent');
-    Route::post('/students/messages/postsendmessagetostudent/{user}', 'AdminAuth\Students\Messages\CrudeController@postSendMessageToStudent');
+    Route::get('/students/messages/showstudents/{schoolyear}/{term}', 'AdminAuth\Students\Messages\CrudeController@showStudents');
+    Route::get('/students/messages/sendmessagetostudent/{schoolyear}/{term}/{user}', 'AdminAuth\Students\Messages\CrudeController@sendMessageToStudent');
+    Route::post('/students/messages/postsendmessagetostudent/{schoolyear}/{term}/{user}', 'AdminAuth\Students\Messages\CrudeController@postSendMessageToStudent');
     Route::get('/students/messages/replystudentmessage/{schoolyear}/{term}/{message}', 'AdminAuth\Students\Messages\CrudeController@replyStudentMessage');
     Route::post('/students/messages/postreplystudentmessage/{message}', 'AdminAuth\Students\Messages\CrudeController@postReplyStudentMessage');
 
