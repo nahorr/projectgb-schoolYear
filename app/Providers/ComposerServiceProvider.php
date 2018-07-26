@@ -39,6 +39,8 @@
             'messages/messagetoteacher',
             'messages/sendmessagetoteacher',
             'messages.viewsentmessages',
+            'messages.readstaffermessage',
+            'messages.replystaffermessage',
 
             ], 
             

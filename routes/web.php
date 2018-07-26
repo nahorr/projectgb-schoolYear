@@ -66,12 +66,14 @@ Route::get('/dailyactivity/activities', 'DailyActivity\CrudeController@showActiv
 Route::get('/discipline/records', 'Discipline\CrudeController@showDRecords');
 
 //Messages Sstudent
-Route::get('/messages/messagetoteacher/{schoolyear}', 'Messages\MessageToTeacher\CrudeController@showMessages');
-Route::get('/messages/readmessage/{schoolyear}/{message}', 'Messages\MessageToTeacher\CrudeController@readMessage');
-Route::get('/messages/viewsentmessages/{schoolyear}', 'Messages\MessageToTeacher\CrudeController@viewSentMessages');
+Route::get('/messages/messagetoteacher/{schoolyear}', 'Messages\MessageToTeacher\CrudeController@showMessages')->name('messagetoteacher');
+    Route::get('/messages/readstaffermessage/{schoolyear}/{message}', 'Messages\MessageToTeacher\CrudeController@readStafferMessage');
+    Route::get('/messages/replystaffermessage/{schoolyear}/{message}', 'Messages\MessageToTeacher\CrudeController@replyStafferMessage');
+    Route::post('/messages/postreplystaffermessage/{schoolyear}/{message}', 'Messages\MessageToTeacher\CrudeController@postReplyStafferMessage');
+Route::get('/messages/viewsentmessages/{schoolyear}', 'Messages\MessageToTeacher\CrudeController@viewSentMessages')->name('viewsentmessages');
 Route::get('/messages/sendmessagetoteacher/{schoolyear}/{teacher}', 'Messages\MessageToTeacher\CrudeController@sendMessageToTeacher');
 Route::post('/messages/postsendmessagetoteacher/{schoolyear}/{teacher}', 'Messages\MessageToTeacher\CrudeController@postSendMessageToTeacher');
-Route::post('/messages/deleteMessageForStudent/{message}', 'Messages\MessageToTeacher\CrudeController@deleteMessageForStudent');
+Route::post('/messages/deleteMessageForStudent/{schoolyear}/{message}', 'Messages\MessageToTeacher\CrudeController@deleteMessageForStudent');
 
 
 //Admin/staff Registeration and login

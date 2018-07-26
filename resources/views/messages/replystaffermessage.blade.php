@@ -1,12 +1,10 @@
-@extends('admin.dashboard')
+@extends('layouts.dashboard')
 
 @section('content')
 
         <div class="content">
           <div class="container-fluid">
-            <div class="row">
-                 @include('admin.includes.headdashboardtop')
-            </div>
+            
             @include('flash::message')
             <hr>
 
@@ -16,24 +14,23 @@
                           <h4 class="title">
                             <button type="button" class="btn btn-warning">
                            
-                              <strong>Replying Message From {{$message->user->name}}</strong>
+                              <strong>Replying Message From {{$message->staffer->first_name}} {{$message->staffer->last_name}}</strong>
                        
                             </button>
-                            <div class="pull-right"><a href="{{asset('/students/messages/viewstudentmessage/'.$schoolyear->id)}}/{{$term->id}}/{{$message->id}}"><button type="button" class="btn btn-info">Back</button></a></div>
+                            <div class="pull-right"><a href="{{asset('/messages/readstaffermessage/'.$schoolyear->id)}}/{{$message->id}}"><button type="button" class="btn btn-info">Back</button></a></div>
                           </h4>
                           
                       </div>
                       <hr>
                       <div class="content">
                                                
-                         <form class="form-group" action="{{ url('/students/messages/postreplystudentmessage', [$message->id]) }}" method="POST"  enctype="multipart/form-data" style="border: 5px solid #5bc2df; border-radius: 4px;">
+                         <form class="form-group" action="{{ url('/messages/postreplystaffermessage', [$schoolyear->id, $message->id]) }}" method="POST"  enctype="multipart/form-data" style="border: 5px solid #5bc2df; border-radius: 4px;">
                               {{ csrf_field() }}
                             <br>
                             <input type="hidden" class="form-control border-input" name="user_id" value="{{$message->user_id}}" >
-                            <input type="hidden" class="form-control border-input" name="staffer_id" value="{{Auth::guard('web_admin')->user()->id}}" >
-                            {{--<input type="hidden" class="form-control border-input" name="sent_to_staffer" value="{{Auth::guard('web_admin')->user()->id}}" >--}}
+                            <input type="hidden" class="form-control border-input" name="staffer_id" value="{{$message->staffer_id}}" >
                             <input type="hidden" class="form-control border-input" name="message_replied" value="{{$message->id}}" >
-                            <input type="hidden" class="form-control border-input" name="sent_to_student" value="{{$message->user_id}}" >
+                            <input type="hidden" class="form-control border-input" name="sent_to_staffer" value="{{$message->staffer_id}}" >
                           <div class="row">
                         
                              
@@ -49,14 +46,14 @@
                               <div class="col-md-9 col-md-offset-1">
                                 @if($message_replied_with_same_id->count() == 0)
                                 <div class="well">
-                                    <p style="color: #f0ad4e; font-style: italic;">Message sent on {{$message->created_at}} by {{$message->user->name}}:</p>
+                                    <p style="color: #f0ad4e; font-style: italic;">Message sent on {{$message->created_at}} by {{$message->staffer->first_name}} {{$message->staffer->last_name}}:</p>
                                     <p>{{$message->body}}</p>
                                   </div>
                                 @endif
-                                @foreach($message_replied_with_same_id->where('staffer_delete', 0) as $messages_replied_wsi)
+                                @foreach($message_replied_with_same_id->where('user_delete', 0) as $messages_replied_wsi)
                                   <div class="well">
                                     <p style="color: #f0ad4e; font-style: italic;">Message sent on {{$message->created_at}} by
-                                     {{$message->user->name}}: 
+                                     {{$message->staffer->first_name}} {{$message->staffer->last_name}}: 
                                     </p>
                                     <p>{{$message->body}}</p>
                                   </div>

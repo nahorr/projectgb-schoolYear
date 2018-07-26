@@ -4,9 +4,7 @@
 
         <div class="content">
             <div class="container-fluid">
-                <div class="row">
-                     @include('layouts.includes.headdashboardtop')
-                </div>
+               
 
                     <div class="row">
 
@@ -36,7 +34,7 @@
                                   </thead>
 
                                   <tbody>
-                                        @foreach ($receivedMessages as $key => $receivedMessage)
+                                        @foreach ($receivedMessages->where('user_delete', 0) as $key => $receivedMessage)
 
                                         <tr>
                                             <td>{{ $key+1 }}</td>
@@ -44,12 +42,17 @@
                                             <td>{{ $receivedMessage->subject }}</td> 
                                             <td>{{ $receivedMessage->created_at->toFormattedDateString() }}</td>
                                             <td>
-                                              <a href="{{asset('/messages/readmessage/'.$receivedMessage->id)}}"><button type="button" class="btn btn-info">View Message</button>
+                                              <a href="{{asset('/messages/readstaffermessage/'.$schoolyear->id)}}/{{$receivedMessage->id}}"><button type="button" class="btn btn-info">View Message</button>
                                               </a>
                                             </td>
                                             <td>
-                                              <a href="{{asset('/messages/readmessage/'.$receivedMessage->id)}}"><button type="button" class="btn btn-info">Delete Message</button>
-                                              </a>
+
+                                              <form action="{{ url('messages/deleteMessageForStudent', [$receivedMessage->id]) }}" method="POST">
+                                                  {{ csrf_field() }}
+                                                  <input type="hidden" name="user_delete" value="1" >
+                                                  <button type="submit" class="btn btn-danger" onclick="return confirm('Are you sure you want to Delete this record?')">DELETE MESSAGE</button>
+                                              </form>
+                                              
                                             </td>
                                         </tr>
                                      @endforeach

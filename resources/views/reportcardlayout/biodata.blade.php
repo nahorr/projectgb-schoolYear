@@ -42,11 +42,11 @@
                        	<ul class="list-group">
 						  <li class="list-group-item justify-content-between">
 						    Teacher:&nbsp;&nbsp;
-						    <span class="label label-primary pull-right">{{ $student_teacher->staffer->first_name }}&nbsp;&nbsp;{{ $student_teacher->staffer->last_name }}</span>
+						    <span class="label label-primary pull-right">{{ @$student_teacher->staffer->first_name }}&nbsp;&nbsp;{{ @$student_teacher->staffer->last_name }}</span>
 						  </li>
 						  <li class="list-group-item justify-content-between">
 						    Class:
-						    <span class="label label-primary pull-right">{{ $student_group->group->name }}</span>
+						    <span class="label label-primary pull-right">{{ @$student_group->group->name }}</span>
 						  </li>
 						  @if($course_grade->count() != null)
 						  <li class="list-group-item justify-content-between">

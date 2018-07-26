@@ -64,7 +64,7 @@ class CourseController extends Controller
 
         $student = Student::where('registration_code', '=', Auth::user()->registration_code)->first();
 
-        $class_members = StudentRegistration::where('school_year_id', '=', $schoolyear->id)->where('term_id', $term->id)->where('group_id', '=', StudentRegistration::where('school_year_id', '=', $schoolyear->id)->where('term_id', '=', $term->id)->where('student_id', '=', Student::where('registration_code', '=', Auth::user()->registration_code)->first()->id)->first()->group_id)->get();
+        $class_members = @StudentRegistration::where('school_year_id', '=', $schoolyear->id)->where('term_id', $term->id)->where('group_id', '=', StudentRegistration::where('school_year_id', '=', $schoolyear->id)->where('term_id', '=', $term->id)->where('student_id', '=', Student::where('registration_code', '=', Auth::user()->registration_code)->first()->id)->first()->group_id)->get();
  
         $student_grades= Student::join('grades', 'students.id', '=', 'grades.student_id')->where('grades.course_id', '=', $course->id)->orderBy('total', 'desc')->get();
       

@@ -4,10 +4,7 @@
 
         <div class="content">
             <div class="container-fluid">
-                <div class="row">
-                     @include('layouts.includes.headdashboardtop')
-                </div>
-
+                
                     <div class="row">
 
                       <div class="col-md-12">
@@ -41,7 +38,7 @@
                                         @foreach ($sentMessages->where('sent_to_staffer', !null) as $key => $sentMessage)
                                           @if($sentMessage->user_delete == 0)
                                         <tr>
-                                            <td>{{ $key+1 }}</td>
+                                            <td>{{ $number_init++ }}</td>
                                             <td>{{ $sentMessage->subject }}</td>
                                             <td>
                                               @foreach($staffers as $staffer)
@@ -59,14 +56,14 @@
                                             <td>{{ $sentMessage->created_at->toFormattedDateString() }}</td>
                                             <td>
 
-                                              <a href="{{asset('/messages/readmessage/'.$sentMessage->id)}}"><button type="button" class="btn btn-info">View Message</button>
+                                              <a href="{{asset('/messages/readmessage/'.$schoolyear->id)}}/{{$sentMessage->id}}"><button type="button" class="btn btn-info">VIEW MESSAGE</button>
                                               </a>
                                               <hr>
                                               
-                                              <form class="form-group" action="{{ url('/messages/deleteMessageForStudent', [$sentMessage->id] )}}" method="POST">
-                                                {{ csrf_field() }}
-                                                <input id="user_delete" name="user_delete" type="hidden" value="1">
-                                                <button type="submit" class="btn btn-danger">Delete Message</button>
+                                              <form action="{{ url('messages/deleteMessageForStudent', [ $schoolyear->id, $sentMessage->id]) }}" method="POST">
+                                                  {{ csrf_field() }}
+                                                  <input type="hidden" name="user_delete" value="1" >
+                                                  <button type="submit" class="btn btn-danger" onclick="return confirm('Are you sure you want to Delete this record?')">DELETE MESSAGE</button>
                                               </form>
                                               
                                             

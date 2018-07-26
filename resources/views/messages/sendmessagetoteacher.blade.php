@@ -4,9 +4,7 @@
 
         <div class="content">
             <div class="container-fluid">
-                <div class="row">
-                     @include('layouts.includes.headdashboardtop')
-                </div>
+                
                 @include('flash::message')
             	<hr>
 

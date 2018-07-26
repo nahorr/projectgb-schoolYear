@@ -28,7 +28,7 @@
 	                       
 	                      <div class="well"><strong>Report Card reviewed by:</strong>
 
-	                      <i><u>{{$student_teacher->first_name }}&nbsp;&nbsp;{{ $student_teacher->last_name }}</u></i>
+	                      <i><u>{{@$student_teacher->first_name }}&nbsp;&nbsp;{{ @$student_teacher->last_name }}</u></i>
 
 	                      </div>
 
