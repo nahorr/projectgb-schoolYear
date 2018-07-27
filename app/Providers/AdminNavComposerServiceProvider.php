@@ -18,6 +18,7 @@
 
             'admin.selectSchoolyear',
             'admin.selectTerm',
+            'admin.selectTermModal',
             'admin/includes/headdashboardtop',
             'admin/home',
             'admin/addComment',

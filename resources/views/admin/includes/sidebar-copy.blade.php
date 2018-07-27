@@ -11,24 +11,10 @@
                     <img src="{{asset('/assets/img/logo/logo.jpg')}}" style="width: 120px; height: 120px; border-radius: 50%; margin-right: 25px;">
                 </a>
             </div>
-            <br>
-            <div class="row">
-                <div class="col-md-6  col-md-offset-3">
-                  <button type="button" class="btn btn-info" id="selectTermModal">Select Term</button>
-                </div>
-                  @include('admin.selectTermModal')
 
-                  <script type="text/javascript">
-                    $('#selectTermModal').on('click', function(){
-                      $('#termSelectionModal').modal('show');
-                    })
-                  </script>
-
-            </div>
             
 
             <ul class="nav">
-    
 
                 <li {{{ (Request::is('admin_home') ? 'class=active' : '') }}}>
                     <a href="{{ url('/admin_home') }}">

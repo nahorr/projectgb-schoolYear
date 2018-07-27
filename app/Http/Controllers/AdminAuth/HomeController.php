@@ -36,6 +36,12 @@ class HomeController extends Controller
         return view('admin.selectTerm');
     }
 
+    public function selectTermMolal()
+    {
+       
+        return view('admin.selectTermModal');
+    }
+
     public function index(School_year $schoolyear, Term $term)
     {
 
