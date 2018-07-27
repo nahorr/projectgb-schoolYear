@@ -29,14 +29,14 @@
 
             <ul class="nav">
     
-
+                <!--
                 <li {{{ (Request::is('admin_home') ? 'class=active' : '') }}}>
                     <a href="{{ url('/admin_home') }}">
                         <i class="ti-panel"></i>
                         <p>Select Term</p>
                     </a>
                 </li>
-
+                -->
                 <li {{{ (Request::is('admin_home') ? 'class=active' : '') }}}>
                     <a href="{{ url('/admin_home/'.$schoolyear->id) }}/{{$term->id}}">
                         <i class="ti-dashboard"></i>
