@@ -116,7 +116,7 @@
                     <div class="card">
                         <div class="content">
                             <div class="row">
-                                <div class="col-xs-5">
+                                <div class="col-xs-4">
                                   @if( $schoolyear->id == $current_school_year->id)
                                     <div class="icon-big icon-success text-center">
                                         <i class="fa fa-university" aria-hidden="true"></i>
@@ -127,10 +127,10 @@
                                     </div>
                                     @endif
                                 </div>
-                                <div class="col-xs-7">
+                                <div class="col-xs-8">
                                     <div class="numbers">
                                       @if( $schoolyear->id == $current_school_year->id)
-                                        <p class="text-success">Current School Year</p>
+                                        <p class="text-success"><small>Current School Year</small></p>
                                         <p class="text-success">{{$schoolyear->school_year}}</p>
                                         @else
                                         <p>School Year</p>

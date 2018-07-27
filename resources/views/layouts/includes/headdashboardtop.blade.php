@@ -12,8 +12,8 @@
                                     <div class="col-xs-7">
                                         <div class="numbers">
                                                                                
-                                            <p>
-                                                {{ @\App\StudentRegistration::where('school_year_id', '=', $current_school_year->id)->where('term_id', '=', $current_term->id)->where('student_id', '=', $student->id)->first()->group->name }}
+                                            <p>Current Class:
+                                                <strong style="color: red;">{{ @\App\StudentRegistration::where('school_year_id', '=', $current_school_year->id)->where('term_id', '=', $current_term->id)->where('student_id', '=', $student->id)->first()->group->name }}</strong>
                                             </p>
                                         
                                        
@@ -23,9 +23,9 @@
                                 <div class="footer">
                                     <hr />
                                     <div class="stats">
-                                        <i class="fa fa-user-plus" aria-hidden="true"></i>
+                                        <i class="fa fa-user-plus" aria-hidden="true"></i>Your Teacher this term:
                                         
-                                            {{ @$students_teacher_current->staffer->first_name }} {{ @$students_teacher_current->staffer->last_name }}
+                                            <strong style="color: red;">{{ @$students_teacher_current->staffer->first_name }} {{ @$students_teacher_current->staffer->last_name }}</strong>
 
                                     </div>
                                 </div>
@@ -44,7 +44,7 @@
                                     <div class="col-xs-7">
                                         <div class="numbers">
                                         
-                                            <p class="pull-left">Term: {{ @$current_term->term }}</p>
+                                            <p class="pull-left">Current Term: <strong style="color: red;">{{ @$current_term->term }}</strong></p>
 
                                         
                                         </div>
@@ -55,7 +55,7 @@
                                     <div class="stats">
                                         <i class="ti-calendar"></i>
                                         
-                                            Ends:  {{ $current_term ? @$current_term->end_date->toFormattedDateString(): '-' }}
+                                            Current Term Ends:  {{ $current_term ? @$current_term->end_date->toFormattedDateString(): '-' }}
 
                                     </div>
                                 </div>
@@ -99,7 +99,7 @@
                                     <div class="col-xs-7">
                                         <div class="numbers">
                                            
-                                                <p>School Year: {{ @$schoolyear->school_year }}</p>
+                                                <p>Current School Year: <strong style="color: red;">{{ @$schoolyear->school_year }}</strong></p>
                                            
                                         </div>
                                     </div>
@@ -109,7 +109,7 @@
                                     <div class="stats">
                                         <i class="ti-pin-alt"></i>
                                        
-                                            Ends: {{ @$schoolyear->end_date->toFormattedDateString() }}
+                                            Current School Year Ends: {{ @$schoolyear->end_date->toFormattedDateString() }}
 
                                     </div>
                                 </div>
@@ -165,7 +165,7 @@
                                     <div class="stats">
                                         <i class="ti-pin-alt"></i>
                                        
-                                            Ended: {{ @$schoolyear->end_date->toFormattedDateString() }}
+                                            This School Year Ended: {{ @$schoolyear->end_date->toFormattedDateString() }}
 
                                     </div>
                                 </div>
