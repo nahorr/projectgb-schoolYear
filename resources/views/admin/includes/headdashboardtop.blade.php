@@ -25,7 +25,7 @@
                                         <i class="fa fa-users"></i>
                                           {{ @\App\StudentRegistration::where('school_year_id', '=', $schoolyear->id)->where('term_id', '=', $term->id)->where('group_id', \App\StafferRegistration::where('school_year_id', '=', $schoolyear->id)->where('term_id', '=', $term->id)->first()->group_id)->count() }}
 
-                                          student(s) in your class this term
+                                          student(s)
                                     </div>
                                 </div>
                             </div>
