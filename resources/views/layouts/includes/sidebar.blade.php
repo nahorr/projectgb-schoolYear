@@ -36,14 +36,14 @@
                     </a>
                 </li>
                 -->
-                <li {{{ (Request::is('home') ? 'class=active' : '') }}}>
+                <li {{{ (Request::is('home/*') ? 'class=active' : '') }}}>
                     <a href="{{ url('/home/'.$schoolyear->id) }}">
                         <i class="ti-dashboard"></i>
                         <p>Dashboard</p>
                     </a>
                 </li>
 
-                <li {{{ (Request::is('profile') ? 'class=active' : '') }}}>
+                <li {{{ (Request::is('profile/*') ? 'class=active' : '') }}}>
                     <a href="{{ url('/profile/'.$schoolyear->id) }}">
                         <i class="ti-user"></i>
                         <p>Student Profile</p>
@@ -51,21 +51,21 @@
                 </li>
 
                 
-                <li {{{ (Request::is('currentcourses') ? 'class=active' : '') }}}>
+                <li {{{ (Request::is('currentcourses/*') ? 'class=active' : '') }}}>
                     <a href="{{ url('/currentcourses/'.$schoolyear->id) }}">
                         <i class="ti-view-list-alt"></i>
                         <p>Current Courses</p>
                     </a>
                 </li>
 
-                <li {{{ (Request::is('reportcards') ? 'class=active' : '') }}}>
+                <li {{{ (Request::is('reportcards/*') ? 'class=active' : '') }}}>
                     <a href="{{ url('/reportcards/'.$schoolyear->id) }}">
                         <i class="ti-check-box"></i>
                         <p>Report Cards</p>
                     </a>
                 </li>
 
-                <li {{{ (Request::is('attendances') ? 'class=active' : '') }}}>
+                <li {{{ (Request::is('attendances/*') ? 'class=active' : '') }}}>
                     <a href="{{ url('/attendances/'.$schoolyear->id) }}">
                         <i class="ti-calendar"></i>
                         <p>Attendance Record</p>
@@ -86,7 +86,7 @@
                     </a>
                 </li>
                 -->
-                <li {{{ (Request::is('messages/messagetoteacher') ? 'class=active' : '') }}}>
+                <li {{{ (Request::is('messages/messagetoteacher/*') ? 'class=active' : '') }}}>
                     <a href="{{ url('/messages/messagetoteacher/'.$schoolyear->id) }}">
                         <i class="fa fa-envelope"></i>
                         <p>Messages</p>

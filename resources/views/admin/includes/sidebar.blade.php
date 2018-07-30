@@ -39,14 +39,14 @@
                         </a>
                     </li>
                     -->
-                    <li {{{ (Request::is('admin_home') ? 'class=active' : '') }}}>
+                    <li {{{ (Request::is('admin_home/*') ? 'class=active' : '') }}}>
                         <a href="{{ url('/admin_home/'.$schoolyear->id) }}/{{$term->id}}">
                             <i class="ti-dashboard"></i>
                             <p>Term Dashboard</p>
                         </a>
                     </li>
      
-                    <li {{{ (Request::is('admin/profile') ? 'class=active' : '') }}} >
+                    <li {{{ (Request::is('admin/profile/*') ? 'class=active' : '') }}} >
                         <a href="{{ url('/admin/profile/'.$schoolyear->id) }}/{{$term->id}}">
                             <i class="ti-user"></i>
                             <p>Profile</p>
@@ -54,28 +54,28 @@
                     </li>
 
 
-                    <li {{{ (Request::is('attendances/showstudents') ? 'class=active' : '') }}}>
+                    <li {{{ (Request::is('attendances/showstudents/*') ? 'class=active' : '') }}}>
                         <a href="{{ url('/attendances/showstudents/'.$schoolyear->id) }}/{{$term->id}}">
                             <i class="fa fa-calendar-check-o"></i>
                             <p>Attendance</p>
                         </a>
                     </li>
 
-                    <li {{{ (Request::is('admincourses') ? 'class=active' : '') }}}>
+                    <li {{{ (Request::is('admincourses/*') ? 'class=active' : '') }}}>
                         <a href="{{ url('/admincourses/'.$schoolyear->id) }}/{{$term->id}}">
                             <i class="fa fa-font"></i>
                             <p>Enter Grades</p>
                         </a>
                     </li>
 
-                    <li {{{ (Request::is('admin/reportcards/students') ? 'class=active' : '') }}}>
+                    <li {{{ (Request::is('admin/reportcards/students/*') ? 'class=active' : '') }}}>
                         <a href="{{ url('/admin/reportcards/students/'.$schoolyear->id) }}/{{$term->id}}">
                             <i class="fa fa-print"></i>
                             <p>Report Cards</p>
                         </a>
                     </li>
 
-                    <li {{{ (Request::is('admin/observationsonconduct') ? 'class=active' : '') }}}>
+                    <li {{{ (Request::is('admin/observationsonconduct/*') ? 'class=active' : '') }}}>
                         <a href="{{ url('/admin/observationsonconduct/'.$schoolyear->id) }}/{{ $term->id }}">
                             <i class="ti-check-box"></i>
                             <p>Observations</p>
@@ -83,7 +83,7 @@
                     </li>
 
             
-                    <li {{{ (Request::is('healthrecords/showstudents') ? 'class=active' : '') }}}>
+                    <li {{{ (Request::is('healthrecords/showstudents/*') ? 'class=active' : '') }}}>
                         <a href="{{ url('/healthrecords/showstudents/'.$schoolyear->id) }}/{{ $term->id}}">
                             <i class="fa fa-medkit"></i>
                             <p>Health Records</p>
@@ -108,14 +108,14 @@
                     </li>
                     -->
 
-                    <li {{{ (Request::is('admin/banstudents') ? 'class=active' : '') }}}>
+                    <li {{{ (Request::is('admin/banstudents/*') ? 'class=active' : '') }}}>
                         <a href="{{ url('/admin/banstudents/'.$schoolyear->id) }}/{{ $term->id}}">
                             <i class="fa fa-users"></i>
                             <p>Ban Students</p>
                         </a>
                     </li>
 
-                    <li {{{ (Request::is('students/messages/allstudents') ? 'class=active' : '') }}}>
+                    <li {{{ (Request::is('students/messages/allstudents/*') ? 'class=active' : '') }}}>
                         <a href="{{ url('/students/messages/allstudents/'.$schoolyear->id) }}/{{ $term->id}}">
                             <i class="fa fa-envelope"></i>
                             <p>Messages</p>
@@ -150,14 +150,14 @@
                <ul class="nav">
        
 
-                   <li {{{ (Request::is('admin_home') ? 'class=active' : '') }}}>
+                   <li {{{ (Request::is('admin_home/*') ? 'class=active' : '') }}}>
                        <a href="{{ url('/admin_home/'.$schoolyear->id) }}/{{$term->id}}">
                            <i class="ti-dashboard"></i>
                            <p>Term Dashboard</p>
                        </a>
                    </li>
     
-                   <li {{{ (Request::is('admin/profile') ? 'class=active' : '') }}} >
+                   <li {{{ (Request::is('admin/profile/*') ? 'class=active' : '') }}} >
                        <a href="{{ url('/admin/profile/'.$schoolyear->id) }}/{{$term->id}}">
                            <i class="ti-user"></i>
                            <p>Profile</p>
@@ -165,14 +165,14 @@
                    </li>
 
 
-                   <li {{{ (Request::is('admincourses') ? 'class=active' : '') }}}>
+                   <li {{{ (Request::is('admincourses/*') ? 'class=active' : '') }}}>
                        <a href="{{ url('/admincourses/'.$schoolyear->id) }}/{{$term->id}}">
                            <i class="fa fa-font"></i>
                            <p>Past Courses</p>
                        </a>
                    </li>
 
-                   <li {{{ (Request::is('admin/reportcards/students') ? 'class=active' : '') }}}>
+                   <li {{{ (Request::is('admin/reportcards/students/*') ? 'class=active' : '') }}}>
                        <a href="{{ url('/admin/reportcards/students/'.$schoolyear->id) }}/{{$term->id}}">
                            <i class="fa fa-print"></i>
                            <p>Report Cards</p>
