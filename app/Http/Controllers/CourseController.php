@@ -33,7 +33,7 @@ class CourseController extends Controller
     public function index(School_year $schoolyear)
     {
          //get current school year
-        $current_school_year = School_year::where([['start_date', '<=', Carbon::today()], ['end_date', '>=', Carbon::today()]])->first();
+        $current_school_year = School_year::where([['start_date', '<=', Carbon::today()], ['show_until', '>=', Carbon::today()]])->first();
 
         //Start of School statistics
         //school max, min, total, count, school average

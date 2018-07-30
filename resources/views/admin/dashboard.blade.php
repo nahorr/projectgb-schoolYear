@@ -90,8 +90,8 @@
                               <ul class="dropdown-menu">
 
                                 <li><a href="{{ url('/admin/profile/'. $current_school_year->id) }}/{{$current_term->id}}"><i class="fa fa-btn fa-user"></i>Profile</a></li>
-                                <li><a href="{{ url('/admincourses') }}"><i class="fa fa-list-ul"></i>My Courses</a></li>
-                                <li><a href="{{ url('/admin/reportcards/terms') }}"><i class="fa fa-check-square-o"></i>Report card</a></li>
+                                <li><a href="{{ url('/admincourses/'.$schoolyear->id) }}/{{$term->id}}"><i class="fa fa-list-ul"></i>My Courses</a></li>
+                                <li><a href="{{ url('/admin/reportcards/students/'.$schoolyear->id) }}/{{$term->id}}"><i class="fa fa-check-square-o"></i>Report card</a></li>
                                 <li>
                                     <a href="{{ route('logout') }}"
                                         onclick="event.preventDefault();
@@ -108,14 +108,7 @@
                                 
                               </ul>
                         </li>
-                        <!--
-                        <li>
-                            <a href="#">
-                                <i class="ti-settings"></i>
-                                <p>Settings</p>
-                            </a>
-                        </li>
-                        -->
+
                     </ul>
 
                 </div>
@@ -135,8 +128,10 @@
 </body>
 
     <!--   Core JS Files   -->
-    <script src="{{asset('assets/js/jquery-1.10.2.js')}}" type="text/javascript"></script>
-    <script src="{{asset('assets/js/bootstrap.min.js')}}" type="text/javascript"></script>
+    <!-- 
+        <script src="{{asset('assets/js/jquery-1.10.2.js')}}" type="text/javascript"></script>
+        <script src="{{asset('assets/js/bootstrap.min.js')}}" type="text/javascript"></script>
+    -->
 
     <!--  Checkbox, Radio & Switch Plugins -->
     <script src="{{asset('assets/js/bootstrap-checkbox-radio.js')}}"></script>

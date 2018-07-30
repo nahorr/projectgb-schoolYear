@@ -101,15 +101,6 @@
                                 
 
                                 <li>
-                                    <a href="{{url('/admin/profile')}}">
-                                        <i class="ace-icon fa fa-user"></i>
-                                        Profile
-                                    </a>
-                                </li>
-
-                                <li class="divider"></li>
-
-                                <li>
                                     <a href="{{ route('logout') }}"
                                         onclick="event.preventDefault();
                                             document.getElementById('logout-form').submit();">
