@@ -25,123 +25,175 @@
                   </script>
 
             </div>
+
+            @if($schoolyear->id == $current_school_year->id && $term->id == $current_term->id)
             
 
-            <ul class="nav">
-    
-                <!--
-                <li {{{ (Request::is('admin_home') ? 'class=active' : '') }}}>
-                    <a href="{{ url('/admin_home') }}">
-                        <i class="ti-panel"></i>
-                        <p>Select Term</p>
-                    </a>
-                </li>
-                -->
-                <li {{{ (Request::is('admin_home') ? 'class=active' : '') }}}>
-                    <a href="{{ url('/admin_home/'.$schoolyear->id) }}/{{$term->id}}">
-                        <i class="ti-dashboard"></i>
-                        <p>Term Dashboard</p>
-                    </a>
-                </li>
- 
-                <li {{{ (Request::is('admin/profile') ? 'class=active' : '') }}} >
-                    <a href="{{ url('/admin/profile/'.$schoolyear->id) }}/{{$term->id}}">
-                        <i class="ti-user"></i>
-                        <p>Profile</p>
-                    </a>
-                </li>
-
-
-                <li {{{ (Request::is('attendances/showstudents') ? 'class=active' : '') }}}>
-                    <a href="{{ url('/attendances/showstudents/'.$schoolyear->id) }}/{{$term->id}}">
-                        <i class="fa fa-calendar-check-o"></i>
-                        <p>Attendance</p>
-                    </a>
-                </li>
-
-                <li {{{ (Request::is('admincourses') ? 'class=active' : '') }}}>
-                    <a href="{{ url('/admincourses/'.$schoolyear->id) }}/{{$term->id}}">
-                        <i class="fa fa-font"></i>
-                        <p>Enter Grades</p>
-                    </a>
-                </li>
-
-                <li {{{ (Request::is('admin/reportcards/students') ? 'class=active' : '') }}}>
-                    <a href="{{ url('/admin/reportcards/students/'.$schoolyear->id) }}/{{$term->id}}">
-                        <i class="fa fa-print"></i>
-                        <p>Report Cards</p>
-                    </a>
-                </li>
-
-                <li {{{ (Request::is('admin/observationsonconduct') ? 'class=active' : '') }}}>
-                    <a href="{{ url('/admin/observationsonconduct/'.$schoolyear->id) }}/{{ $term->id }}">
-                        <i class="ti-check-box"></i>
-                        <p>Observations</p>
-                    </a>
-                </li>
-
+                <ul class="nav">
         
-                <li {{{ (Request::is('healthrecords/showstudents') ? 'class=active' : '') }}}>
-                    <a href="{{ url('/healthrecords/showstudents/'.$schoolyear->id) }}/{{ $term->id}}">
-                        <i class="fa fa-medkit"></i>
-                        <p>Health Records</p>
-                    </a>
-                </li>
-                
-                <!--
-                <li {{{ (Request::is('groupevents/showgroupevents') ? 'class=active' : '') }}}>
-                    <a href="{{ url('/groupevents/showgroupevents') }}">
-                        <i class="fa fa-calendar-plus-o"></i>
-                        <p>Group Events</p>
-                    </a>
-                </li>
+                    <!--
+                    <li {{{ (Request::is('admin_home') ? 'class=active' : '') }}}>
+                        <a href="{{ url('/admin_home') }}">
+                            <i class="ti-panel"></i>
+                            <p>Select Term</p>
+                        </a>
+                    </li>
+                    -->
+                    <li {{{ (Request::is('admin_home') ? 'class=active' : '') }}}>
+                        <a href="{{ url('/admin_home/'.$schoolyear->id) }}/{{$term->id}}">
+                            <i class="ti-dashboard"></i>
+                            <p>Term Dashboard</p>
+                        </a>
+                    </li>
+     
+                    <li {{{ (Request::is('admin/profile') ? 'class=active' : '') }}} >
+                        <a href="{{ url('/admin/profile/'.$schoolyear->id) }}/{{$term->id}}">
+                            <i class="ti-user"></i>
+                            <p>Profile</p>
+                        </a>
+                    </li>
 
-                <li {{{ (Request::is('students/activities/showstudentsactivitytypes') ? 'class=active' : '') }}}>
-                    <a href="{{ url('/students/activities/showstudentsactivitytypes') }}">
-                        <i class="fa fa-cog fa-spin fa-3x fa-fw"></i>
-                        <span class="sr-only">Loading...</span>
 
-                        <p>Activities - Students</p>
-                    </a>
-                </li>
-                -->
+                    <li {{{ (Request::is('attendances/showstudents') ? 'class=active' : '') }}}>
+                        <a href="{{ url('/attendances/showstudents/'.$schoolyear->id) }}/{{$term->id}}">
+                            <i class="fa fa-calendar-check-o"></i>
+                            <p>Attendance</p>
+                        </a>
+                    </li>
 
-                <li {{{ (Request::is('admin/banstudents') ? 'class=active' : '') }}}>
-                    <a href="{{ url('/admin/banstudents/'.$schoolyear->id) }}/{{ $term->id}}">
-                        <i class="fa fa-users"></i>
-                        <p>Ban Students</p>
-                    </a>
-                </li>
+                    <li {{{ (Request::is('admincourses') ? 'class=active' : '') }}}>
+                        <a href="{{ url('/admincourses/'.$schoolyear->id) }}/{{$term->id}}">
+                            <i class="fa fa-font"></i>
+                            <p>Enter Grades</p>
+                        </a>
+                    </li>
 
-                <li {{{ (Request::is('students/messages/allstudents') ? 'class=active' : '') }}}>
-                    <a href="{{ url('/students/messages/allstudents/'.$schoolyear->id) }}/{{ $term->id}}">
-                        <i class="fa fa-envelope"></i>
-                        <p>Messages</p>
-                    </a>
-                </li>
+                    <li {{{ (Request::is('admin/reportcards/students') ? 'class=active' : '') }}}>
+                        <a href="{{ url('/admin/reportcards/students/'.$schoolyear->id) }}/{{$term->id}}">
+                            <i class="fa fa-print"></i>
+                            <p>Report Cards</p>
+                        </a>
+                    </li>
 
-                <!-- <li {{{ (Request::is('admin/stats/showstatstypes') ? 'class=active' : '') }}}>
-                    <a href="{{ url('/admin/stats/showstatstypes') }}">
-                        <i class="fa fa-line-chart"></i>
-                        <p>Statistics</p>
-                    </a>
-                </li>
+                    <li {{{ (Request::is('admin/observationsonconduct') ? 'class=active' : '') }}}>
+                        <a href="{{ url('/admin/observationsonconduct/'.$schoolyear->id) }}/{{ $term->id }}">
+                            <i class="ti-check-box"></i>
+                            <p>Observations</p>
+                        </a>
+                    </li>
 
- -->
-                
-                <li >
-                    <a href="#{{ route('logout') }}"
-                            onclick="event.preventDefault();
-                                    document.getElementById('logout-form').submit();">
-                                            <i class="ti-power-off"></i><p>Logout</p>
-                    </a>
+            
+                    <li {{{ (Request::is('healthrecords/showstudents') ? 'class=active' : '') }}}>
+                        <a href="{{ url('/healthrecords/showstudents/'.$schoolyear->id) }}/{{ $term->id}}">
+                            <i class="fa fa-medkit"></i>
+                            <p>Health Records</p>
+                        </a>
+                    </li>
+                    
+                    <!--
+                    <li {{{ (Request::is('groupevents/showgroupevents') ? 'class=active' : '') }}}>
+                        <a href="{{ url('/groupevents/showgroupevents') }}">
+                            <i class="fa fa-calendar-plus-o"></i>
+                            <p>Group Events</p>
+                        </a>
+                    </li>
 
-                    <form id="logout-form" action="{{ route('logout') }}" method="POST" style="display: none;">
-                                        {{ csrf_field() }}
-                    </form>
-                </li>
-                
-                
-            </ul>
+                    <li {{{ (Request::is('students/activities/showstudentsactivitytypes') ? 'class=active' : '') }}}>
+                        <a href="{{ url('/students/activities/showstudentsactivitytypes') }}">
+                            <i class="fa fa-cog fa-spin fa-3x fa-fw"></i>
+                            <span class="sr-only">Loading...</span>
+
+                            <p>Activities - Students</p>
+                        </a>
+                    </li>
+                    -->
+
+                    <li {{{ (Request::is('admin/banstudents') ? 'class=active' : '') }}}>
+                        <a href="{{ url('/admin/banstudents/'.$schoolyear->id) }}/{{ $term->id}}">
+                            <i class="fa fa-users"></i>
+                            <p>Ban Students</p>
+                        </a>
+                    </li>
+
+                    <li {{{ (Request::is('students/messages/allstudents') ? 'class=active' : '') }}}>
+                        <a href="{{ url('/students/messages/allstudents/'.$schoolyear->id) }}/{{ $term->id}}">
+                            <i class="fa fa-envelope"></i>
+                            <p>Messages</p>
+                        </a>
+                    </li>
+
+                    <!-- <li {{{ (Request::is('admin/stats/showstatstypes') ? 'class=active' : '') }}}>
+                        <a href="{{ url('/admin/stats/showstatstypes') }}">
+                            <i class="fa fa-line-chart"></i>
+                            <p>Statistics</p>
+                        </a>
+                    </li>
+
+     -->
+                    
+                    <li >
+                        <a href="#{{ route('logout') }}"
+                                onclick="event.preventDefault();
+                                        document.getElementById('logout-form').submit();">
+                                                <i class="ti-power-off"></i><p>Logout</p>
+                        </a>
+
+                        <form id="logout-form" action="{{ route('logout') }}" method="POST" style="display: none;">
+                                            {{ csrf_field() }}
+                        </form>
+                    </li>
+                    
+                    
+                </ul>
+            @else
+
+               <ul class="nav">
+       
+
+                   <li {{{ (Request::is('admin_home') ? 'class=active' : '') }}}>
+                       <a href="{{ url('/admin_home/'.$schoolyear->id) }}/{{$term->id}}">
+                           <i class="ti-dashboard"></i>
+                           <p>Term Dashboard</p>
+                       </a>
+                   </li>
+    
+                   <li {{{ (Request::is('admin/profile') ? 'class=active' : '') }}} >
+                       <a href="{{ url('/admin/profile/'.$schoolyear->id) }}/{{$term->id}}">
+                           <i class="ti-user"></i>
+                           <p>Profile</p>
+                       </a>
+                   </li>
+
+
+                   <li {{{ (Request::is('admincourses') ? 'class=active' : '') }}}>
+                       <a href="{{ url('/admincourses/'.$schoolyear->id) }}/{{$term->id}}">
+                           <i class="fa fa-font"></i>
+                           <p>Past Courses</p>
+                       </a>
+                   </li>
+
+                   <li {{{ (Request::is('admin/reportcards/students') ? 'class=active' : '') }}}>
+                       <a href="{{ url('/admin/reportcards/students/'.$schoolyear->id) }}/{{$term->id}}">
+                           <i class="fa fa-print"></i>
+                           <p>Report Cards</p>
+                       </a>
+                   </li>
+
+                                   
+                   <li >
+                       <a href="#{{ route('logout') }}"
+                               onclick="event.preventDefault();
+                                       document.getElementById('logout-form').submit();">
+                                               <i class="ti-power-off"></i><p>Logout</p>
+                       </a>
+
+                       <form id="logout-form" action="{{ route('logout') }}" method="POST" style="display: none;">
+                                           {{ csrf_field() }}
+                       </form>
+                   </li>
+                   
+                   
+               </ul>
+            @endif
         </div>
     </div>

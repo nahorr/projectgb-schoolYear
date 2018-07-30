@@ -7,6 +7,8 @@
                 <div class="row">
                      @include('admin.includes.headdashboardtop')
                 </div>
+
+              @if($schoolyear->id == $current_school_year->id && $term->id == $current_term->id)
                 <div class="row">
                   <div class="col-md-12">
                   <div class="alert alert-info">
@@ -23,21 +25,22 @@
                   </div>
                 </div>
                 <div class="row">
+              @endif
 
                     <div class="col-md-12">
                         <div class="card">
                             <div class="header">
                                 <h4 class="title">Students in Your class</h4>
-                                <p class="category">You have 
+                                <h4 class=" title pull-right">
+                                  <span style="color: red;">Your Class: {{ @\App\StafferRegistration::where('school_year_id', '=', $schoolyear->id)->where('term_id', '=', $term->id)->where('staffer_id', '=', $teacher->id)->first()->group->name }}</span></h4>
+                                <p class="category">You @if($schoolyear->id == $current_school_year->id && $term->id == $current_term->id) have @else had @endif
 
                              
                                {{ @\App\StudentRegistration::where('school_year_id', '=', $schoolyear->id)->where('term_id', '=', $term->id)->where('group_id', \App\StafferRegistration::where('school_year_id', '=', $schoolyear->id)->where('term_id', '=', $term->id)->first()->group_id)->count() }}
                              
 
                                 students in your class this term</p>
-                                <p>School Year: {{$schoolyear->school_year}}</p>
-                                <p>Term: {{$term->term}}</p>
-                                <p>Class: {{ @\App\StafferRegistration::where('school_year_id', '=', $schoolyear->id)->where('term_id', '=', $term->id)->where('staffer_id', '=', $teacher->id)->first()->group->name }}</p>
+                                
                             </div>
                             <div class="content">
                             <div class="table-responsive">
@@ -49,9 +52,10 @@
                                 <th>First Name</th>
                                 <th>Last Name</th>
                                 <th>Teacher's Comment - {{ @$term->term }}</th>
-                                <th>Add/Edit/Delete</th>
-                                <th>Reg Code <a href="{{asset('/admin/printallregcode/'.$schoolyear->id)}}/{{$term->id}}" target="_blank" ><br><i class="fa fa-print" aria-hidden="true"></i>Print All</a> </th>
-                               
+                                @if($schoolyear->id == $current_school_year->id && $term->id == $current_term->id)
+                                  <th>Add/Edit/Delete</th>
+                                  <th>Reg Code <a href="{{asset('/admin/printallregcode/'.$schoolyear->id)}}/{{$term->id}}" target="_blank" ><br><i class="fa fa-print" aria-hidden="true"></i>Print All</a> </th>
+                                @endif
                                 
 
                               </tr>
@@ -93,30 +97,31 @@
                                         @endforeach 
                                            
                                       </td>
-                                                                              
-                                    <td>
-                                    
-                                    <strong>
-                                      <a href="{{asset('/addComment/'.Crypt::encrypt($reg_student->student->id)) }}/{{$schoolyear->id}}/{{$term->id}}"><i class="fa fa-plus fa-2x" aria-hidden="true"></i>{{$term->id}}</a>&nbsp;
-
+                                    @if($schoolyear->id == $current_school_year->id && $term->id == $current_term->id)                                          
+                                      <td>
                                       
-                                      @foreach ($comments as $comment)                                       
-                                           
-                                        @if (@$comment->student_id == @$reg_student->student->id && @$comment->term_id == @$term->id)
+                                      <strong>
+                                        <a href="{{asset('/addComment/'.Crypt::encrypt($reg_student->student->id)) }}/{{$schoolyear->id}}/{{$term->id}}"><i class="fa fa-plus fa-2x" aria-hidden="true"></i>{{$term->id}}</a>&nbsp;
 
-                                          <a href="{{asset('/editComment/'.Crypt::encrypt($comment->id))}}/{{$reg_student->student->id}}/{{$schoolyear->id}}/{{$term->id}}">
-                                            <i class="fa fa-pencil-square-o fa-2x" aria-hidden="true"></i>
-                                          </a>&nbsp;
+                                        
+                                        @foreach ($comments as $comment)                                       
+                                             
+                                          @if (@$comment->student_id == @$reg_student->student->id && @$comment->term_id == @$term->id)
 
-                                          <a href="{{asset('/postcommentdelete/'.Crypt::encrypt($comment->id)) }}" onclick="return confirm('Are you sure you want to Delete this record?')"><i class="fa fa-trash-o fa-2x" aria-hidden="true"></i>
-                                          </a>&nbsp;
-                                          @endif
-                                      @endforeach
+                                            <a href="{{asset('/editComment/'.Crypt::encrypt($comment->id))}}/{{$reg_student->student->id}}/{{$schoolyear->id}}/{{$term->id}}">
+                                              <i class="fa fa-pencil-square-o fa-2x" aria-hidden="true"></i>
+                                            </a>&nbsp;
 
-                                    </strong>
-                                    </td>
-                                    <td>{{@$reg_student->student->registration_code}} <a href="{{asset('/admin/printregcode/'.@$reg_student->student->id)}}/{{$schoolyear->id}}/{{$term->id}}" target="_blank" ><i class="fa fa-print" aria-hidden="true"></i>print</a>
-                                    </td>   
+                                            <a href="{{asset('/postcommentdelete/'.Crypt::encrypt($comment->id)) }}" onclick="return confirm('Are you sure you want to Delete this record?')"><i class="fa fa-trash-o fa-2x" aria-hidden="true"></i>
+                                            </a>&nbsp;
+                                            @endif
+                                        @endforeach
+
+                                      </strong>
+                                      </td>
+                                      <td>{{@$reg_student->student->registration_code}} <a href="{{asset('/admin/printregcode/'.@$reg_student->student->id)}}/{{$schoolyear->id}}/{{$term->id}}" target="_blank" ><i class="fa fa-print" aria-hidden="true"></i>print</a>
+                                      </td>
+                                    @endif   
                         
                             @endforeach
                           

@@ -43,7 +43,7 @@
                                 <tr>
                                     <td>{{$key+1}}</td>
                                     <td>
-                                        @if ($today->between($schoolyear->start_date, $schoolyear->end_date ))
+                                        @if ($today->between($schoolyear->start_date, $schoolyear->show_until ))
                                             <span style="color: green; font-weight: bold;">Current Year:</span> {{ $schoolyear->school_year }}
                                         @else
                                             {{ $schoolyear->school_year }}

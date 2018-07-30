@@ -5,7 +5,10 @@
         <div class="content">
             <div class="container-fluid">
              @include('flash::message')
-             <div class="row">
+
+            @if($schoolyear->id == $current_school_year->id && $term->id == $current_term->id)
+
+                <div class="row">
                   <div class="col-md-12">
                   <div class="alert alert-info">
                     <h5><strong>Registration Alert!</strong> If student's face does not display, It means that the student is yet to register. Please remind the student to register.</h5>
@@ -13,6 +16,7 @@
                   </div>
                 </div>
 
+               
                 <div class="row">
                   <div class="col-md-12">
                   <div class="alert alert-warning">
@@ -20,7 +24,8 @@
                   </div>
                   </div>
                 </div>
-                
+            @endif
+
                 <div class="row">
 
                 	<div class="col-md-12">
@@ -49,8 +54,9 @@
                                 <th colspan="3" class="text-center">Class Statistics</th>
                                 <th colspan="1" class="text-center">Student</th>
                                 <th colspan="1" class="text-center">Letter</th>
-                                <th colspan="3" class="text-center">Action</th>
-                                
+                                @if($schoolyear->id == $current_school_year->id && $term->id == $current_term->id)
+                                    <th colspan="3" class="text-center">Action</th>
+                                @endif
                               </tr>
                               <tr class="info">
                                 <th class="text-center">#</th>
@@ -212,7 +218,7 @@
                                             @endif
 
                                         @endforeach
-                                           
+                                    @if($schoolyear->id == $current_school_year->id && $term->id == $current_term->id)   
                                         </td>
                                         <td class="text-center">
                                        
@@ -239,6 +245,7 @@
                                         </td>
                                       
                                       </tr>
+                                    @endif
                                  
                                 @endforeach
                            
