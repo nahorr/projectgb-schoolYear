@@ -52,6 +52,12 @@ class HomeController extends Controller
         return view('home');
     }
 
+    public function selectYearModal()
+    {
+
+        return view('selectYearModal');
+    }
+
     public function homeSchoolYear(School_year $schoolyear)
     {
         

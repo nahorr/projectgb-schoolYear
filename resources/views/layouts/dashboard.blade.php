@@ -70,8 +70,8 @@
                               
                               <ul class="dropdown-menu">
 
-                                <li><a href="{{ url('/profile') }}"><i class="fa fa-btn fa-user"></i>Profile</a></li>
-                                <li><a href="{{ url('/courses') }}"><i class="fa fa-list-ul"></i>My Courses</a></li>
+                                <li><a href="{{ url('/profile/'.$schoolyear->id) }}"><i class="fa fa-btn fa-user"></i>Profile</a></li>
+                                <li><a href="{{ url('/currentcourses/'.$schoolyear->id) }}"><i class="fa fa-list-ul"></i>My Current Courses</a></li>
                                 <!--<li><a href="{{ url('/currentreportcard') }}"><i class="fa fa-check-square-o"></i>Report card</a></li>-->
                                 <li>
                                     <a href="{{ route('logout') }}"

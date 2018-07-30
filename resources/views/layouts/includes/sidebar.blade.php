@@ -11,17 +11,31 @@
                     <img src="{{asset('/assets/img/logo/logo.jpg')}}" style="width: 120px; height: 120px; border-radius: 50%; margin-right: 25px;">
                 </a>
             </div>
+            <br>
+            <div class="row">
+                <div class="col-md-6  col-md-offset-3">
+                  <button type="button" class="btn btn-info" id="selectYearModal">Select School Year</button>
+                </div>
+                  @include('selectYearModal')
+
+                  <script type="text/javascript">
+                    $('#selectYearModal').on('click', function(){
+                      $('#yearSelectionModal').modal('show');
+                    })
+                  </script>
+
+            </div>
 
 
             <ul class="nav">
-
+                <!--
                 <li {{{ (Request::is('home') ? 'class=active' : '') }}}>
                     <a href="{{ url('/home') }}">
                         <i class="fa fa-university"></i>
                         <p>School Years</p>
                     </a>
                 </li>
-                
+                -->
                 <li {{{ (Request::is('home') ? 'class=active' : '') }}}>
                     <a href="{{ url('/home/'.$schoolyear->id) }}">
                         <i class="ti-dashboard"></i>

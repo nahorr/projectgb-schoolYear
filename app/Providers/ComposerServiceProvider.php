@@ -22,6 +22,7 @@
             'layouts.includes.sidebar',
             'home',
             'homeSchoolYear',
+            'selectYearModal',
             'profile', 
             'showcourse',  
             '/show', 
